@@ -1,0 +1,1 @@
+DEL *.~* *.dcu *.ddp *.log *.exe *.identcache *.tvsconfig *.o *.apk *.dex /S

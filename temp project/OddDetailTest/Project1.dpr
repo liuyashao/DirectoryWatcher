@@ -2,8 +2,8 @@ program Project1;
 
 uses
   Vcl.Forms,
-  Unit1 in 'C:\Users\Ð¡ÐÂ15\Documents\Embarcadero\Studio\Projects\Unit1.pas' {Form1},
-  uOddDetailUtils in 'uOddDetailUtils.pas';
+  Unit1 in 'Unit1.pas' {Form1},
+  uOddDetailUtils in '..\utils\uOddDetailUtils.pas';
 
 {$R *.res}
 
