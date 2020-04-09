@@ -68,7 +68,7 @@ begin
   od.Append(ParseOD('3*30', ouMetre)).Merge;
   Memo1.Lines.Add('--Merge--');
   Memo1.Lines.Add(od.ToString);
-
+  Memo1.Lines.Add(od.ToString(ouYard));
 end;
 
 end.

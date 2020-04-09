@@ -336,38 +336,34 @@ end;
 
 function TOddDetails.Merge(Decimals: Integer): IOddDetails;
 var
-  Dic: TObjectDictionary<string, TList<TOdd>>;
-  I: Integer;
+  List: TArray<TOdd>;
+  Dic: TObjectDictionary<string, Integer>;
+  Index: Integer;
   Item: TOdd;
   SpecStr: string;
   fs: string;
-  List: TList<TOdd>;
   TotalPiece: Integer;
   TotalQty: Double;
 begin
   if Count = 1 then
     Exit(Self);
-  Dic := TObjectDictionary<string, TList<TOdd>>.Create([doOwnsValues]);
+  List := FItems.ToArray;
+  fs := '%.' + Decimals.ToString + 'f';
+  Dic := TObjectDictionary<string, Integer>.Create;
   try
-    fs := '%.' + Decimals.ToString + 'f';
-    for I := 0 to Count - 1 do begin
-      Item := Items[I];
+    FItems.Clear;
+    for Item in List do begin
       SpecStr := Format(fs, [Item.Spec]);
-      if not Dic.TryGetValue(SpecStr, List) then begin
-        List := TList<TOdd>.Create;
-        Dic.Add(SpecStr, List);
+      if Dic.TryGetValue(SpecStr, Index) then begin
+        TotalPiece := Item.Piece + Items[Index].Piece;
+        TotalQty := Item.Piece*Item.Spec + Items[Index].Piece*Items[Index].Spec;
+        FItems.Delete(Index);
+        FItems.Insert(Index, TOdd.Create(TotalPiece, TotalQty/TotalPiece));
+      end
+      else begin
+        FItems.Add(Item);
+        Dic.Add(SpecStr, FItems.Count-1);
       end;
-      List.Add(Item);
-    end;
-    Clear;
-    for SpecStr in Dic.Keys do begin
-      TotalPiece := 0;
-      TotalQty := 0;
-      for Item in Dic[SpecStr] do begin
-        TotalPiece := TotalPiece + Item.Piece;
-        TotalQty := TotalQty + Item.Piece*Item.Spec;
-      end;
-      Add(TotalPiece, TotalQty/TotalPiece);
     end;
   finally
     Dic.Free;
