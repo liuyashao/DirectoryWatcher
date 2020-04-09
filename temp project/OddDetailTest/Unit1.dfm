@@ -12,7 +12,7 @@ object Form1: TForm1
   Font.Style = []
   OldCreateOrder = False
   PixelsPerInch = 96
-  TextHeight = 17
+  TextHeight = 16
   object Memo1: TMemo
     Left = 41
     Top = 59

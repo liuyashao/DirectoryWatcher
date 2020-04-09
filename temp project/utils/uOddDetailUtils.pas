@@ -32,10 +32,14 @@ type
     function ToString(AUnit: TOddUnit; Decimals: Integer = 2): string; overload;
     function ToStringWithUnit: string; overload;
     function ToStringWithUnit(AUnit: TOddUnit; Decimals: Integer = 2): string; overload;
-    function Add(Value: TOdd): Integer; overload;
-    function Add(APiece: Integer; ASpec: Double): Integer; overload;
+    function Add(Value: TOdd): IOddDetails; overload;
+    function Add(APiece: Integer; ASpec: Double): IOddDetails; overload;
     function Delete(Index: Integer): TOdd;
-    procedure ConvertTo(AUnit: TOddUnit);
+    function Clear: IOddDetails;
+    function ConvertTo(AUnit: TOddUnit): IOddDetails;
+    function Merge(Decimals: Integer = 4): IOddDetails;
+    function Append(OddDetails: IOddDetails): IOddDetails;
+    function GetEnumerator: TEnumerator<TOdd>;
     property Count: Integer read GetCount;
     property TotalPieces: Integer read GetTotalPieces;
     property TotalQty: Double read GetTotalQty;
@@ -63,7 +67,7 @@ type
     procedure CalcTotal;
   protected
     { IOddDetails }
-	function GetUnit: TOddUnit;
+	  function GetUnit: TOddUnit;
     function GetCount: Integer;
     function GetTotalPieces: Integer;
     function GetTotalQty: Double;
@@ -74,10 +78,14 @@ type
     function ToString(AUnit: TOddUnit; Decimals: Integer = 2): string; overload;
     function ToStringWithUnit: string; overload;
     function ToStringWithUnit(AUnit: TOddUnit; Decimals: Integer = 2): string; overload;
-    function Add(value: TOdd): Integer; overload; inline;
-    function Add(APiece: Integer; ASpec: Double): Integer; overload; inline;
+    function Add(value: TOdd): IOddDetails; overload; inline;
+    function Add(APiece: Integer; ASpec: Double): IOddDetails; overload; inline;
     function Delete(Index: Integer): TOdd;
-    procedure ConvertTo(AUnit: TOddUnit);
+    function Clear: IOddDetails;
+    function ConvertTo(AUnit: TOddUnit): IOddDetails;
+    function Merge(Decimals: Integer = 4): IOddDetails;
+    function Append(OddDetails: IOddDetails): IOddDetails;
+    function GetEnumerator: TEnumerator<TOdd>;
     property Count: Integer read GetCount;
     property TotalPieces: Integer read GetTotalPieces;
     property TotalQty: Double read GetTotalQty;
@@ -204,6 +212,12 @@ begin
   end;
 end;
 
+function TOddDetails.Clear: IOddDetails;
+begin
+  FItems.Clear;
+  Result := Self;
+end;
+
 function TOddDetails.TotalQtyConvertTo(AUnit: TOddUnit): Double;
 begin
   Result := GetTotalQty * GetConvertRate(AUnit);
@@ -221,14 +235,15 @@ begin
     Result := 1.0;
 end;
 
-function TOddDetails.Add(APiece: Integer; ASpec: Double): Integer;
+function TOddDetails.Add(APiece: Integer; ASpec: Double): IOddDetails;
 begin
   Result := Add(TOdd.Create(APiece, ASpec));
 end;
 
-function TOddDetails.Add(Value: TOdd): Integer;
+function TOddDetails.Add(Value: TOdd): IOddDetails;
 begin
-  Result := FItems.Add(Value);
+  FItems.Add(Value);
+  Result := Self;
 end;
 
 function TOddDetails.Delete(Index: Integer): TOdd;
@@ -240,6 +255,11 @@ end;
 function TOddDetails.GetCount: Integer;
 begin
   Result := FItems.Count;
+end;
+
+function TOddDetails.GetEnumerator: TEnumerator<TOdd>;
+begin
+  Result := FItems.GetEnumerator;
 end;
 
 function TOddDetails.GetItem(Index: Integer): TOdd;
@@ -300,7 +320,7 @@ begin
     Result := Copy(Result, 1, Length(Result) - 1);
 end;
 
-procedure TOddDetails.ConvertTo(AUnit: TOddUnit);
+function TOddDetails.ConvertTo(AUnit: TOddUnit): IOddDetails;
 var
   Rate: Double;
   I: Integer;
@@ -311,7 +331,61 @@ begin
       Items[I] := TOdd.Create(Items[I].Piece, Items[I].Spec*Rate);
     FUnit := AUnit;
   end;
+  Result := Self;
 end;
+
+function TOddDetails.Merge(Decimals: Integer): IOddDetails;
+var
+  Dic: TObjectDictionary<string, TList<TOdd>>;
+  I: Integer;
+  Item: TOdd;
+  SpecStr: string;
+  fs: string;
+  List: TList<TOdd>;
+  TotalPiece: Integer;
+  TotalQty: Double;
+begin
+  if Count = 1 then
+    Exit(Self);
+  Dic := TObjectDictionary<string, TList<TOdd>>.Create([doOwnsValues]);
+  try
+    fs := '%.' + Decimals.ToString + 'f';
+    for I := 0 to Count - 1 do begin
+      Item := Items[I];
+      SpecStr := Format(fs, [Item.Spec]);
+      if not Dic.TryGetValue(SpecStr, List) then begin
+        List := TList<TOdd>.Create;
+        Dic.Add(SpecStr, List);
+      end;
+      List.Add(Item);
+    end;
+    Clear;
+    for SpecStr in Dic.Keys do begin
+      TotalPiece := 0;
+      TotalQty := 0;
+      for Item in Dic[SpecStr] do begin
+        TotalPiece := TotalPiece + Item.Piece;
+        TotalQty := TotalQty + Item.Piece*Item.Spec;
+      end;
+      Add(TotalPiece, TotalQty/TotalPiece);
+    end;
+  finally
+    Dic.Free;
+  end;
+  Result := Self;
+end;
+
+function TOddDetails.Append(OddDetails: IOddDetails): IOddDetails;
+var
+  Rate: Double;
+  I: TOdd;
+begin
+  Rate := 1.0/GetConvertRate(OddDetails._Unit);
+  for I in OddDetails do
+    Add(I.Piece, I.Spec*Rate);
+  Result := Self;
+end;
+
 
 { TOddUnitHelper }
 
