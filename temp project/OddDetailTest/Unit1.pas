@@ -29,7 +29,7 @@ uses uOddDetailUtils;
 
 procedure TForm1.Button1Click(Sender: TObject);
 var
-  od: IOddDetails;
+  od: IOddDetail;
   I: Integer;
 begin
   for I := 1 to 10000 do begin

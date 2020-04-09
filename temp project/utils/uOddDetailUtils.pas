@@ -3,7 +3,7 @@ unit uOddDetailUtils;
 interface
 
 uses
-  SysUtils, Classes, System.Generics.Defaults, System.Generics.Collections;
+  SysUtils, Classes, System.Generics.Collections;
 
 type
   TOddUnit = (ouYard, ouMetre);
@@ -20,7 +20,7 @@ type
     constructor Create(APiece: Integer; ASpec: Double);
   end;
 
-  IOddDetails = interface
+  IOddDetail = interface
     function GetUnit: TOddUnit;
     function GetCount: Integer;
     function GetTotalPieces: Integer;
@@ -32,13 +32,13 @@ type
     function ToString(AUnit: TOddUnit; Decimals: Integer = 2): string; overload;
     function ToStringWithUnit: string; overload;
     function ToStringWithUnit(AUnit: TOddUnit; Decimals: Integer = 2): string; overload;
-    function Add(Value: TOdd): IOddDetails; overload;
-    function Add(APiece: Integer; ASpec: Double): IOddDetails; overload;
+    function Add(Value: TOdd): IOddDetail; overload;
+    function Add(APiece: Integer; ASpec: Double): IOddDetail; overload;
     function Delete(Index: Integer): TOdd;
-    function Clear: IOddDetails;
-    function ConvertTo(AUnit: TOddUnit): IOddDetails;
-    function Merge(Decimals: Integer = 4): IOddDetails;
-    function Append(OddDetails: IOddDetails): IOddDetails;
+    function Clear: IOddDetail;
+    function ConvertTo(AUnit: TOddUnit): IOddDetail;
+    function Merge(Decimals: Integer = 4): IOddDetail;
+    function Append(OddDetail: IOddDetail): IOddDetail;
     function GetEnumerator: TEnumerator<TOdd>;
     property Count: Integer read GetCount;
     property TotalPieces: Integer read GetTotalPieces;
@@ -47,12 +47,30 @@ type
     property Items[Index: Integer]: TOdd read GetItem write SetItem; default;
   end;
 
-function ParseOD(const OddStr: string = ''; AUnit: TOddUnit = ouYard): IOddDetails;
+function ParseOD(const OddStr: string = ''; AUnit: TOddUnit = ouYard): IOddDetail;
 
 implementation
 
+{ TOddUnitHelper }
+
+function TOddUnitHelper.Parse(const Str: string): TOddUnit;
+begin
+  if SameText(Str, '米') or SameText(Str, 'M') or SameText(Str, 'Metre') then
+    Result := ouMetre
+  else
+    Result := ouYard;
+end;
+
+function TOddUnitHelper.ToString: string;
+begin
+  case Self of
+    ouYard: Result := '码';
+    ouMetre: Result := '米';
+  end;
+end;
+
 type
-  TOddDetails = class(TInterfacedObject, IOddDetails)
+  TOddDetail = class(TInterfacedObject, IOddDetail)
   private
     FItems: TList<TOdd>;
     FNeedReCalc: Boolean;
@@ -66,7 +84,7 @@ type
     function GetConvertRate(AUnit: TOddUnit): Double; inline;
     procedure CalcTotal;
   protected
-    { IOddDetails }
+    { IOddDetail }
 	  function GetUnit: TOddUnit;
     function GetCount: Integer;
     function GetTotalPieces: Integer;
@@ -78,13 +96,13 @@ type
     function ToString(AUnit: TOddUnit; Decimals: Integer = 2): string; overload;
     function ToStringWithUnit: string; overload;
     function ToStringWithUnit(AUnit: TOddUnit; Decimals: Integer = 2): string; overload;
-    function Add(value: TOdd): IOddDetails; overload; inline;
-    function Add(APiece: Integer; ASpec: Double): IOddDetails; overload; inline;
+    function Add(value: TOdd): IOddDetail; overload; inline;
+    function Add(APiece: Integer; ASpec: Double): IOddDetail; overload; inline;
     function Delete(Index: Integer): TOdd;
-    function Clear: IOddDetails;
-    function ConvertTo(AUnit: TOddUnit): IOddDetails;
-    function Merge(Decimals: Integer = 4): IOddDetails;
-    function Append(OddDetails: IOddDetails): IOddDetails;
+    function Clear: IOddDetail;
+    function ConvertTo(AUnit: TOddUnit): IOddDetail;
+    function Merge(Decimals: Integer = 4): IOddDetail;
+    function Append(OddDetail: IOddDetail): IOddDetail;
     function GetEnumerator: TEnumerator<TOdd>;
     property Count: Integer read GetCount;
     property TotalPieces: Integer read GetTotalPieces;
@@ -96,11 +114,6 @@ type
     destructor Destroy; override;
   end;
 
-function ParseOD(const OddStr: string = ''; AUnit: TOddUnit = ouYard): IOddDetails;
-begin
-  Result := TOddDetails.Create(OddStr, AUnit);
-end;
-
 { TOdd }
 
 constructor TOdd.Create(APiece: Integer; ASpec: Double);
@@ -111,7 +124,7 @@ end;
 
 { TOddDetails }
 
-constructor TOddDetails.Create(const OddStr: string; AUnit: TOddUnit);
+constructor TOddDetail.Create(const OddStr: string; AUnit: TOddUnit);
 begin
   FUnit := AUnit;
   FItems := TList<TOdd>.Create;
@@ -122,13 +135,13 @@ begin
   FTotalQty := 0;
 end;
 
-destructor TOddDetails.Destroy;
+destructor TOddDetail.Destroy;
 begin
   FItems.Free;
   inherited;
 end;
 
-procedure TOddDetails.DoParseOddStr(const OddStr: string);
+procedure TOddDetail.DoParseOddStr(const OddStr: string);
 var
   sl: TStringList;
   I: Integer;
@@ -174,30 +187,30 @@ begin
   end;
 end;
 
-procedure TOddDetails.OnItemsNotify(Sender: TObject; const Item: TOdd;
+procedure TOddDetail.OnItemsNotify(Sender: TObject; const Item: TOdd;
   Action: TCollectionNotification);
 begin
   FNeedReCalc := True;
 end;
 
-function TOddDetails.GetUnit: TOddUnit;
+function TOddDetail.GetUnit: TOddUnit;
 begin
   Result := FUnit;
 end;
 
-function TOddDetails.GetTotalPieces: Integer;
+function TOddDetail.GetTotalPieces: Integer;
 begin
   CalcTotal;
   Result := FTotalPieces;
 end;
 
-function TOddDetails.GetTotalQty: Double;
+function TOddDetail.GetTotalQty: Double;
 begin
   CalcTotal;
   Result := FTotalQty;
 end;
 
-procedure TOddDetails.CalcTotal;
+procedure TOddDetail.CalcTotal;
 var
   I: TOdd;
 begin
@@ -212,18 +225,18 @@ begin
   end;
 end;
 
-function TOddDetails.Clear: IOddDetails;
+function TOddDetail.Clear: IOddDetail;
 begin
   FItems.Clear;
   Result := Self;
 end;
 
-function TOddDetails.TotalQtyConvertTo(AUnit: TOddUnit): Double;
+function TOddDetail.TotalQtyConvertTo(AUnit: TOddUnit): Double;
 begin
   Result := GetTotalQty * GetConvertRate(AUnit);
 end;
 
-function TOddDetails.GetConvertRate(AUnit: TOddUnit): Double;
+function TOddDetail.GetConvertRate(AUnit: TOddUnit): Double;
 begin
   if AUnit = FUnit then
     Result := 1.0 else
@@ -235,49 +248,49 @@ begin
     Result := 1.0;
 end;
 
-function TOddDetails.Add(APiece: Integer; ASpec: Double): IOddDetails;
+function TOddDetail.Add(APiece: Integer; ASpec: Double): IOddDetail;
 begin
   Result := Add(TOdd.Create(APiece, ASpec));
 end;
 
-function TOddDetails.Add(Value: TOdd): IOddDetails;
+function TOddDetail.Add(Value: TOdd): IOddDetail;
 begin
   FItems.Add(Value);
   Result := Self;
 end;
 
-function TOddDetails.Delete(Index: Integer): TOdd;
+function TOddDetail.Delete(Index: Integer): TOdd;
 begin
   Result := GetItem(Index);
   FItems.Delete(Index);
 end;
 
-function TOddDetails.GetCount: Integer;
+function TOddDetail.GetCount: Integer;
 begin
   Result := FItems.Count;
 end;
 
-function TOddDetails.GetEnumerator: TEnumerator<TOdd>;
+function TOddDetail.GetEnumerator: TEnumerator<TOdd>;
 begin
   Result := FItems.GetEnumerator;
 end;
 
-function TOddDetails.GetItem(Index: Integer): TOdd;
+function TOddDetail.GetItem(Index: Integer): TOdd;
 begin
   Result := FItems[Index];
 end;
 
-procedure TOddDetails.SetItem(Index: Integer; const Value: TOdd);
+procedure TOddDetail.SetItem(Index: Integer; const Value: TOdd);
 begin
   FItems[Index] := Value;
 end;
 
-function TOddDetails.ToString: string;
+function TOddDetail.ToString: string;
 begin
   Result := ToString(FUnit);
 end;
 
-function TOddDetails.ToString(AUnit: TOddUnit; Decimals: Integer): string;
+function TOddDetail.ToString(AUnit: TOddUnit; Decimals: Integer): string;
 var
   Rate: Double;
   I: TOdd;
@@ -296,19 +309,19 @@ begin
     Result := Result.Substring(1);
 end;
 
-function TOddDetails.ToStringWithUnit: string;
+function TOddDetail.ToStringWithUnit: string;
 begin
   Result := ToStringWithUnit(FUnit);
 end;
 
-function TOddDetails.ToStringWithUnit(AUnit: TOddUnit; Decimals: Integer = 2): string;
+function TOddDetail.ToStringWithUnit(AUnit: TOddUnit; Decimals: Integer = 2): string;
 begin
   Result := ToString(AUnit, Decimals);
   if not Result.IsEmpty then
     Result := Format('(%s)%s', [Result, AUnit.ToString]);
 end;
 
-function TOddDetails.DoFloatToStr(Value: Double; Decimals: Integer): string;
+function TOddDetail.DoFloatToStr(Value: Double; Decimals: Integer): string;
 var
   fs: string;
 begin
@@ -320,7 +333,7 @@ begin
     Result := Copy(Result, 1, Length(Result) - 1);
 end;
 
-function TOddDetails.ConvertTo(AUnit: TOddUnit): IOddDetails;
+function TOddDetail.ConvertTo(AUnit: TOddUnit): IOddDetail;
 var
   Rate: Double;
   I: Integer;
@@ -334,10 +347,10 @@ begin
   Result := Self;
 end;
 
-function TOddDetails.Merge(Decimals: Integer): IOddDetails;
+function TOddDetail.Merge(Decimals: Integer): IOddDetail;
 var
   List: TArray<TOdd>;
-  Dic: TObjectDictionary<string, Integer>;
+  SpecIndexMap: TDictionary<string, Integer>;
   Index: Integer;
   Item: TOdd;
   SpecStr: string;
@@ -345,16 +358,16 @@ var
   TotalPiece: Integer;
   TotalQty: Double;
 begin
-  if Count = 1 then
+  if (Count = 1) or (Count = 0) then
     Exit(Self);
   List := FItems.ToArray;
   fs := '%.' + Decimals.ToString + 'f';
-  Dic := TObjectDictionary<string, Integer>.Create;
+  SpecIndexMap := TDictionary<string, Integer>.Create;
   try
     FItems.Clear;
     for Item in List do begin
       SpecStr := Format(fs, [Item.Spec]);
-      if Dic.TryGetValue(SpecStr, Index) then begin
+      if SpecIndexMap.TryGetValue(SpecStr, Index) then begin
         TotalPiece := Item.Piece + Items[Index].Piece;
         TotalQty := Item.Piece*Item.Spec + Items[Index].Piece*Items[Index].Spec;
         FItems.Delete(Index);
@@ -362,43 +375,29 @@ begin
       end
       else begin
         FItems.Add(Item);
-        Dic.Add(SpecStr, FItems.Count-1);
+        SpecIndexMap.Add(SpecStr, FItems.Count-1);
       end;
     end;
   finally
-    Dic.Free;
+    SpecIndexMap.Free;
   end;
   Result := Self;
 end;
 
-function TOddDetails.Append(OddDetails: IOddDetails): IOddDetails;
+function TOddDetail.Append(OddDetail: IOddDetail): IOddDetail;
 var
   Rate: Double;
   I: TOdd;
 begin
-  Rate := 1.0/GetConvertRate(OddDetails._Unit);
-  for I in OddDetails do
+  Rate := 1.0/GetConvertRate(OddDetail._Unit);
+  for I in OddDetail do
     Add(I.Piece, I.Spec*Rate);
   Result := Self;
 end;
 
-
-{ TOddUnitHelper }
-
-function TOddUnitHelper.Parse(const Str: string): TOddUnit;
+function ParseOD(const OddStr: string = ''; AUnit: TOddUnit = ouYard): IOddDetail;
 begin
-  if SameText(Str, '米') or SameText(Str, 'M') or SameText(Str, 'Metre') then
-    Result := ouMetre
-  else
-    Result := ouYard;
-end;
-
-function TOddUnitHelper.ToString: string;
-begin
-  case Self of
-    ouYard: Result := '码';
-    ouMetre: Result := '米';
-  end;
+  Result := TOddDetail.Create(OddStr, AUnit);
 end;
 
 end.
