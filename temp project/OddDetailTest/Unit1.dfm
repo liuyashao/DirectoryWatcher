@@ -2,22 +2,22 @@ object Form1: TForm1
   Left = 0
   Top = 0
   Caption = 'Form1'
-  ClientHeight = 341
+  ClientHeight = 422
   ClientWidth = 845
   Color = clBtnFace
-  Font.Charset = DEFAULT_CHARSET
+  Font.Charset = ANSI_CHARSET
   Font.Color = clWindowText
-  Font.Height = -11
-  Font.Name = 'Tahoma'
+  Font.Height = -16
+  Font.Name = #23435#20307
   Font.Style = []
   OldCreateOrder = False
   PixelsPerInch = 96
-  TextHeight = 14
+  TextHeight = 17
   object Memo1: TMemo
-    Left = 136
-    Top = 56
-    Width = 345
-    Height = 201
+    Left = 41
+    Top = 59
+    Width = 752
+    Height = 355
     Lines.Strings = (
       'Memo1')
     TabOrder = 0
@@ -32,10 +32,10 @@ object Form1: TForm1
     OnClick = Button1Click
   end
   object edt1: TEdit
-    Left = 136
+    Left = 39
     Top = 29
-    Width = 345
-    Height = 21
+    Width = 440
+    Height = 24
     TabOrder = 2
     Text = '3*36+56+1*36+20'
   end

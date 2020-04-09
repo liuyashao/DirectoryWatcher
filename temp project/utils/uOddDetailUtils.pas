@@ -21,6 +21,7 @@ type
   end;
 
   IOddDetails = interface
+    function GetUnit: TOddUnit;
     function GetCount: Integer;
     function GetTotalPieces: Integer;
     function GetTotalQty: Double;
@@ -34,10 +35,12 @@ type
     function Add(Value: TOdd): Integer; overload;
     function Add(APiece: Integer; ASpec: Double): Integer; overload;
     function Delete(Index: Integer): TOdd;
+    procedure ConvertTo(AUnit: TOddUnit);
     property Count: Integer read GetCount;
     property TotalPieces: Integer read GetTotalPieces;
     property TotalQty: Double read GetTotalQty;
-    property Items[Index: Integer]: TOdd read GetItem write SetItem;
+	  property _Unit: TOddUnit read GetUnit;
+    property Items[Index: Integer]: TOdd read GetItem write SetItem; default;
   end;
 
 function ParseOD(const OddStr: string = ''; AUnit: TOddUnit = ouYard): IOddDetails;
@@ -54,12 +57,13 @@ type
     FUnit: TOddUnit;
     procedure OnItemsNotify(Sender: TObject; const Item: TOdd;
       Action: TCollectionNotification);
-    procedure DoReCalc; inline;
     function DoFloatToStr(Value: Double; Decimals: Integer): string; inline;
     procedure DoParseOddStr(const OddStr: string);
-    function DoGetRate(AUnit: TOddUnit): Double; inline;
+    function GetConvertRate(AUnit: TOddUnit): Double; inline;
+    procedure CalcTotal;
   protected
     { IOddDetails }
+	function GetUnit: TOddUnit;
     function GetCount: Integer;
     function GetTotalPieces: Integer;
     function GetTotalQty: Double;
@@ -73,9 +77,11 @@ type
     function Add(value: TOdd): Integer; overload; inline;
     function Add(APiece: Integer; ASpec: Double): Integer; overload; inline;
     function Delete(Index: Integer): TOdd;
+    procedure ConvertTo(AUnit: TOddUnit);
     property Count: Integer read GetCount;
     property TotalPieces: Integer read GetTotalPieces;
     property TotalQty: Double read GetTotalQty;
+	  property _Unit: TOddUnit read GetUnit;
     property Items[Index: Integer]: TOdd read GetItem write SetItem;
   public
     constructor Create(const OddStr: string = ''; AUnit: TOddUnit = ouYard);
@@ -166,30 +172,44 @@ begin
   FNeedReCalc := True;
 end;
 
+function TOddDetails.GetUnit: TOddUnit;
+begin
+  Result := FUnit;
+end;
+
 function TOddDetails.GetTotalPieces: Integer;
 begin
-  if FNeedReCalc then begin
-    DoReCalc;
-    FNeedReCalc := False;
-  end;
+  CalcTotal;
   Result := FTotalPieces;
 end;
 
 function TOddDetails.GetTotalQty: Double;
 begin
+  CalcTotal;
+  Result := FTotalQty;
+end;
+
+procedure TOddDetails.CalcTotal;
+var
+  I: TOdd;
+begin
   if FNeedReCalc then begin
-    DoReCalc;
+    FTotalPieces := 0;
+    FTotalQty := 0;
+    for I in FItems do begin
+      FTotalPieces := FTotalPieces + I.Piece;
+      FTotalQty := FTotalQty + I.Piece*I.Spec;
+    end;
     FNeedReCalc := False;
   end;
-  Result := FTotalQty;
 end;
 
 function TOddDetails.TotalQtyConvertTo(AUnit: TOddUnit): Double;
 begin
-  Result := GetTotalQty * DoGetRate(AUnit);
+  Result := GetTotalQty * GetConvertRate(AUnit);
 end;
 
-function TOddDetails.DoGetRate(AUnit: TOddUnit): Double;
+function TOddDetails.GetConvertRate(AUnit: TOddUnit): Double;
 begin
   if AUnit = FUnit then
     Result := 1.0 else
@@ -199,18 +219,6 @@ begin
     Result := 0.9144
   else
     Result := 1.0;
-end;
-
-procedure TOddDetails.DoReCalc;
-var
-  I: TOdd;
-begin
-  FTotalPieces := 0;
-  FTotalQty := 0;
-  for I in FItems do begin
-    FTotalPieces := FTotalPieces + I.Piece;
-    FTotalQty := FTotalQty + I.Piece*I.Spec;
-  end;
 end;
 
 function TOddDetails.Add(APiece: Integer; ASpec: Double): Integer;
@@ -242,7 +250,6 @@ end;
 procedure TOddDetails.SetItem(Index: Integer; const Value: TOdd);
 begin
   FItems[Index] := Value;
-  FNeedReCalc := True;
 end;
 
 function TOddDetails.ToString: string;
@@ -257,7 +264,7 @@ var
 begin
   if Count = 0 then
     Exit('');
-  Rate := DoGetRate(AUnit);
+  Rate := GetConvertRate(AUnit);
   Result := '';
   for I in FItems do begin
     if I.Piece = 1 then
@@ -283,14 +290,27 @@ end;
 
 function TOddDetails.DoFloatToStr(Value: Double; Decimals: Integer): string;
 var
-  d: string;
+  fs: string;
 begin
-  d := '%.' + Decimals.ToString + 'f';
-  Result := Format(d, [Value]);
+  fs := '%.' + Decimals.ToString + 'f';
+  Result := Format(fs, [Value]);
   while (0 < Length(Result)) and (Result[Length(Result)] in ['0']) do
     Result := Copy(Result, 1, Length(Result) - 1);
   if (0 < Length(Result)) and (Result[Length(Result)] in ['.']) then
     Result := Copy(Result, 1, Length(Result) - 1);
+end;
+
+procedure TOddDetails.ConvertTo(AUnit: TOddUnit);
+var
+  Rate: Double;
+  I: Integer;
+begin
+  if AUnit <> FUnit then begin
+    Rate := GetConvertRate(AUnit);
+    for I := 0 to Count - 1 do
+      Items[I] := TOdd.Create(Items[I].Piece, Items[I].Spec*Rate);
+    FUnit := AUnit;
+  end;
 end;
 
 { TOddUnitHelper }

@@ -46,6 +46,30 @@ begin
   Memo1.Lines.Add(od.TotalPieces.ToString);
   Memo1.Lines.Add(od.TotalQty.ToString);
   Memo1.Lines.Add(od.TotalQtyConvertTo(ouMetre).ToString);
+
+  od[0] := TOdd.Create(2, 50.36);
+
+  Memo1.Lines.Add(od.ToString);
+  Memo1.Lines.Add(od.ToString(ouMetre));
+
+  Memo1.Lines.Add(od.ToStringWithUnit);
+  Memo1.Lines.Add(od.ToStringWithUnit(ouMetre));
+
+  Memo1.Lines.Add(od.TotalPieces.ToString);
+  Memo1.Lines.Add(od.TotalQty.ToString);
+  Memo1.Lines.Add(od.TotalQtyConvertTo(ouMetre).ToString);
+
+  od.ConvertTo(ouMetre);
+
+  Memo1.Lines.Add(od.ToString);
+  Memo1.Lines.Add(od.ToString(ouMetre));
+
+  Memo1.Lines.Add(od.ToStringWithUnit);
+  Memo1.Lines.Add(od.ToStringWithUnit(ouMetre));
+
+  Memo1.Lines.Add(od.TotalPieces.ToString);
+  Memo1.Lines.Add(od.TotalQty.ToString);
+  Memo1.Lines.Add(od.TotalQtyConvertTo(ouYard).ToString);
 end;
 
 end.
