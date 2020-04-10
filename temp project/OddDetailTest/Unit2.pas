@@ -9,7 +9,8 @@ uses
   cxStyles, cxCustomData, cxFilter, cxData, cxDataStorage, cxNavigator,
   cxDataControllerConditionalFormattingRulesManagerDialog, Data.DB, cxDBData,
   cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGridLevel,
-  cxClasses, cxGridCustomView, cxGrid, Datasnap.DBClient, cxFontNameComboBox;
+  cxClasses, cxGridCustomView, cxGrid, Datasnap.DBClient, cxFontNameComboBox,
+  dxCore, cxMaskEdit, cxDropDownEdit, dxColorEdit;
 
 type
   TForm2 = class(TForm)
@@ -23,7 +24,9 @@ type
     cxGrid1DBTableView1str: TcxGridDBColumn;
     cxStyleRepository1: TcxStyleRepository;
     cxStyle1: TcxStyle;
+    dxColorEdit1: TdxColorEdit;
     procedure FormCreate(Sender: TObject);
+    procedure dxColorEdit1PropertiesChange(Sender: TObject);
   private
     { Private declarations }
   protected
@@ -67,6 +70,12 @@ type
 
 { TForm2 }
 
+procedure TForm2.dxColorEdit1PropertiesChange(Sender: TObject);
+begin
+  cxGrid1DBTableView1.Invalidate;
+  Caption := ColorToString(dxColorEdit1.ColorValue);
+end;
+
 procedure TForm2.FormCreate(Sender: TObject);
 var
   TextEdit: TmyTextEdit;
@@ -86,8 +95,8 @@ end;
 procedure TForm2.UpdateActions;
 begin
   inherited;
-  if ActiveControl <> nil then
-    Caption := ActiveControl.ClassName;
+//  if ActiveControl <> nil then
+//    Caption := ActiveControl.ClassName;
 end;
 
 { TmyTextEdit }
@@ -206,7 +215,7 @@ begin
     tw := ACanvas.TextWidth(c);
     if c in ['0'..'9', '*', '.'] then begin
       R := Rect(Left, Top+3, Left+tw, Bottom-3);
-      ACanvas.FillRect(R, cl3DLight);
+      ACanvas.FillRect(R, clAqua{Form2.dxColorEdit1.ColorValue});;
     end;
     Left := Left + tw;
   end;

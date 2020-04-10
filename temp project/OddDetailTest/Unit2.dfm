@@ -47,6 +47,13 @@ object Form2: TForm2
       GridView = cxGrid1DBTableView1
     end
   end
+  object dxColorEdit1: TdxColorEdit
+    Left = 128
+    Top = 40
+    Properties.OnChange = dxColorEdit1PropertiesChange
+    TabOrder = 2
+    Width = 145
+  end
   object DataSource1: TDataSource
     DataSet = ClientDataSet1
     Left = 512
