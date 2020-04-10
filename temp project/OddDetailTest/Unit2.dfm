@@ -13,7 +13,7 @@ object Form2: TForm2
   OldCreateOrder = False
   OnCreate = FormCreate
   PixelsPerInch = 96
-  TextHeight = 17
+  TextHeight = 16
   object Edit1: TEdit
     Left = 200
     Top = 128
@@ -25,13 +25,14 @@ object Form2: TForm2
   object cxGrid1: TcxGrid
     Left = 327
     Top = 128
-    Width = 250
-    Height = 200
+    Width = 434
+    Height = 273
     TabOrder = 1
     LookAndFeel.Kind = lfOffice11
     LookAndFeel.NativeStyle = False
     object cxGrid1DBTableView1: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
+      OnEditKeyPress = cxGrid1DBTableView1EditKeyPress
       DataController.DataSource = DataSource1
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
@@ -62,14 +63,23 @@ object Form2: TForm2
   object ClientDataSet1: TClientDataSet
     PersistDataPacket.Data = {
       320000009619E0BD010000001800000001000000000003000000320003737472
-      01004900000001000557494454480200020014000000}
+      01004900000001000557494454480200020064000000}
     Active = True
     Aggregates = <>
+    FieldDefs = <
+      item
+        Name = 'str'
+        DataType = ftString
+        Size = 100
+      end>
+    IndexDefs = <>
     Params = <>
+    StoreDefs = True
     Left = 592
     Top = 72
     object ClientDataSet1str: TStringField
       FieldName = 'str'
+      Size = 100
     end
   end
   object cxStyleRepository1: TcxStyleRepository

@@ -27,6 +27,8 @@ type
     dxColorEdit1: TdxColorEdit;
     procedure FormCreate(Sender: TObject);
     procedure dxColorEdit1PropertiesChange(Sender: TObject);
+    procedure cxGrid1DBTableView1EditKeyPress(Sender: TcxCustomGridTableView;
+      AItem: TcxCustomGridTableItem; AEdit: TcxCustomEdit; var Key: Char);
   private
     { Private declarations }
   protected
@@ -39,6 +41,8 @@ var
   Form2: TForm2;
 
 implementation
+
+uses uOddTextEditProperties;
 
 {$R *.dfm}
 
@@ -55,23 +59,17 @@ type
     procedure InternalPaint(ADC: THandle);
   end;
 
-  TOddTextEditProperties = class(TcxTextEditProperties)
-  public
-    class function GetViewInfoClass: TcxContainerViewInfoClass; override;
-  end;
-
-  TOddCustomTextEditViewInfo = class(TcxCustomTextEditViewInfo)
-  private
-    procedure DrawOddBackground(ACanvas: TcxCanvas);
-  protected
-    procedure DrawText(ACanvas: TcxCanvas); override;
-  end;
-
-
 { TForm2 }
+
+procedure TForm2.cxGrid1DBTableView1EditKeyPress(Sender: TcxCustomGridTableView;
+  AItem: TcxCustomGridTableItem; AEdit: TcxCustomEdit; var Key: Char);
+begin
+  Caption := AEdit.ClassName;
+end;
 
 procedure TForm2.dxColorEdit1PropertiesChange(Sender: TObject);
 begin
+  OddBackgroudColor := dxColorEdit1.ColorValue;
   cxGrid1DBTableView1.Invalidate;
   Caption := ColorToString(dxColorEdit1.ColorValue);
 end;
@@ -83,13 +81,13 @@ begin
   TextEdit := TmyTextEdit.Create(Self);
   TextEdit.Parent := Self;
   TextEdit.SetBounds(10, 10, 100, 25);
-  cxGrid1DBTableView1str.PropertiesClass := TOddTextEditProperties;
+  cxGrid1DBTableView1str.PropertiesClass := TcxOddTextEditProperties;
   ClientDataSet1.Append;
-  ClientDataSet1['str'] := '3*36.25+36+69.58';
+  ClientDataSet1['str'] := '4*32.92+51.21+18.29+2*33.39+5*30';
   ClientDataSet1.Append;
   ClientDataSet1['str'] := '69.25';
   ClientDataSet1.Append;
-  ClientDataSet1['str'] := '2*26.36+68+48.3+3*20';
+  ClientDataSet1['str'] := '(2*26.36+68+48.3+3*20)Ты';
 end;
 
 procedure TForm2.UpdateActions;
@@ -177,47 +175,6 @@ begin
     end;
   finally
     ACanvas.Free;
-  end;
-end;
-
-{ TOddTextEditProperties }
-
-class function TOddTextEditProperties.GetViewInfoClass: TcxContainerViewInfoClass;
-begin
-  Result := TOddCustomTextEditViewInfo;
-end;
-
-{ TOddCustomTextEditViewInfo }
-
-procedure TOddCustomTextEditViewInfo.DrawText(ACanvas: TcxCanvas);
-begin
-//  if Text.Contains('+') then
-    DrawOddBackground(ACanvas);
-  inherited DrawText(ACanvas);
-end;
-
-procedure TOddCustomTextEditViewInfo.DrawOddBackground(ACanvas: TcxCanvas);
-var
-  s: string;
-  c: Char;
-  Left: Integer;
-  R: TRect;
-  Top: Integer;
-  Bottom: Integer;
-  tw: Integer;
-begin
-  ACanvas.Font := Font;
-  s := Text;
-  Left := TextRect.Left;
-  Top := TextRect.Top + (TextRect.Height - ACanvas.TextHeight('0')) div 2;
-  Bottom := Top + ACanvas.TextHeight('0');
-  for c in s do begin
-    tw := ACanvas.TextWidth(c);
-    if c in ['0'..'9', '*', '.'] then begin
-      R := Rect(Left, Top+3, Left+tw, Bottom-3);
-      ACanvas.FillRect(R, clAqua{Form2.dxColorEdit1.ColorValue});;
-    end;
-    Left := Left + tw;
   end;
 end;
 

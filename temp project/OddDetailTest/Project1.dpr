@@ -4,7 +4,8 @@ uses
   Vcl.Forms,
   Unit1 in 'Unit1.pas' {Form1},
   uOddDetailUtils in '..\utils\uOddDetailUtils.pas',
-  Unit2 in 'Unit2.pas' {Form2};
+  Unit2 in 'Unit2.pas' {Form2},
+  uOddTextEditProperties in '..\utils\uOddTextEditProperties.pas';
 
 {$R *.res}
 
