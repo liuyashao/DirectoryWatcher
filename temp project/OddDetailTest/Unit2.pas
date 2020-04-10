@@ -58,6 +58,8 @@ type
   end;
 
   TOddCustomTextEditViewInfo = class(TcxCustomTextEditViewInfo)
+  private
+    procedure DrawOddBackground(ACanvas: TcxCanvas);
   protected
     procedure DrawText(ACanvas: TcxCanvas); override;
   end;
@@ -73,6 +75,12 @@ begin
   TextEdit.Parent := Self;
   TextEdit.SetBounds(10, 10, 100, 25);
   cxGrid1DBTableView1str.PropertiesClass := TOddTextEditProperties;
+  ClientDataSet1.Append;
+  ClientDataSet1['str'] := '3*36.25+36+69.58';
+  ClientDataSet1.Append;
+  ClientDataSet1['str'] := '69.25';
+  ClientDataSet1.Append;
+  ClientDataSet1['str'] := '2*26.36+68+48.3+3*20';
 end;
 
 procedure TForm2.UpdateActions;
@@ -173,31 +181,35 @@ end;
 { TOddCustomTextEditViewInfo }
 
 procedure TOddCustomTextEditViewInfo.DrawText(ACanvas: TcxCanvas);
+begin
+//  if Text.Contains('+') then
+    DrawOddBackground(ACanvas);
+  inherited DrawText(ACanvas);
+end;
+
+procedure TOddCustomTextEditViewInfo.DrawOddBackground(ACanvas: TcxCanvas);
 var
   s: string;
   c: Char;
   Left: Integer;
   R: TRect;
+  Top: Integer;
+  Bottom: Integer;
   tw: Integer;
-  I: Integer;
 begin
-  Self.TextColor := clRed;
-//  ACanvas.FillRect(TextRect, clLime);
   ACanvas.Font := Font;
   s := Text;
   Left := TextRect.Left;
-  I := 0;
+  Top := TextRect.Top + (TextRect.Height - ACanvas.TextHeight('0')) div 2;
+  Bottom := Top + ACanvas.TextHeight('0');
   for c in s do begin
     tw := ACanvas.TextWidth(c);
-    R := Rect(Left, TextRect.Top, Left+tw, TextRect.Bottom);
-    if I mod 2 = 0 then
-      ACanvas.FillRect(R, clLtGray)
-    else
-      ACanvas.FillRect(R, clLime);
+    if c in ['0'..'9', '*', '.'] then begin
+      R := Rect(Left, Top+3, Left+tw, Bottom-3);
+      ACanvas.FillRect(R, cl3DLight);
+    end;
     Left := Left + tw;
-    Inc(I);
   end;
-  inherited DrawText(ACanvas);
 end;
 
 end.

@@ -28,6 +28,8 @@ object Form2: TForm2
     Width = 250
     Height = 200
     TabOrder = 1
+    LookAndFeel.Kind = lfOffice11
+    LookAndFeel.NativeStyle = False
     object cxGrid1DBTableView1: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       DataController.DataSource = DataSource1
