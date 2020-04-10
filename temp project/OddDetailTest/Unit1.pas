@@ -44,8 +44,8 @@ begin
   Memo1.Lines.Add(od.ToStringWithUnit(ouMetre, 4));
 
   Memo1.Lines.Add(od.TotalPieces.ToString);
-  Memo1.Lines.Add(od.TotalQty.ToString+'码');
-  Memo1.Lines.Add(od.TotalQtyConvertTo(ouMetre).ToString+'米');
+  Memo1.Lines.Add(od.TotalQty[ouYard].ToString+'码');
+  Memo1.Lines.Add(od.TotalQty[ouMetre].ToString+'米');
 
   Memo1.Lines.Add('--Begin Append--');
   od.Append(ParseOD('2*30', ouMetre));
@@ -61,14 +61,15 @@ begin
   Memo1.Lines.Add(od.ToStringWithUnit(ouYard));
 
   Memo1.Lines.Add(od.TotalPieces.ToString);
-  Memo1.Lines.Add(od.TotalQty.ToString+'米');
-  Memo1.Lines.Add(od.TotalQtyConvertTo(ouYard).ToString+'码');
+  Memo1.Lines.Add(od.TotalQty[ouMetre].ToString+'米');
+  Memo1.Lines.Add(od.TotalQty[ouYard].ToString+'码');
 
 
   od.Append(ParseOD('3*30', ouMetre)).Merge;
   Memo1.Lines.Add('--Merge--');
   Memo1.Lines.Add(od.ToString);
   Memo1.Lines.Add(od.ToString(ouYard));
+  Memo1.Lines.Add(od.TotalQty[ouYard].ToString+'码');
 end;
 
 end.

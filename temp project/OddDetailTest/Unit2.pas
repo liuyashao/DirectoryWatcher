@@ -10,25 +10,29 @@ uses
   cxDataControllerConditionalFormattingRulesManagerDialog, Data.DB, cxDBData,
   cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGridLevel,
   cxClasses, cxGridCustomView, cxGrid, Datasnap.DBClient, cxFontNameComboBox,
-  dxCore, cxMaskEdit, cxDropDownEdit, dxColorEdit;
+  dxCore, cxMaskEdit, cxDropDownEdit, dxColorEdit, spGridDBTableView,
+  spClientDataSet;
 
 type
   TForm2 = class(TForm)
-    Edit1: TEdit;
     DataSource1: TDataSource;
-    ClientDataSet1: TClientDataSet;
-    ClientDataSet1str: TStringField;
-    cxGrid1DBTableView1: TcxGridDBTableView;
+    ClientDataSet1: TspClientDataSet;
+    ClientDataSet1str: TspStringField;
     cxGrid1Level1: TcxGridLevel;
     cxGrid1: TcxGrid;
-    cxGrid1DBTableView1str: TcxGridDBColumn;
     cxStyleRepository1: TcxStyleRepository;
     cxStyle1: TcxStyle;
     dxColorEdit1: TdxColorEdit;
+    ClientDataSet1Y: TspFloatField;
+    cxGrid1spGridDBTableView1: TspGridDBTableView;
+    cxGrid1spGridDBTableView1OddStr: TspGridDBColumn;
+    cxGrid1spGridDBTableView1Y: TspGridDBColumn;
+    cxGrid1spGridDBTableView1Column1: TspGridDBColumn;
     procedure FormCreate(Sender: TObject);
     procedure dxColorEdit1PropertiesChange(Sender: TObject);
     procedure cxGrid1DBTableView1EditKeyPress(Sender: TcxCustomGridTableView;
       AItem: TcxCustomGridTableItem; AEdit: TcxCustomEdit; var Key: Char);
+    procedure ClientDataSet1FieldChange(DataSet: TDataSet; Field: TField);
   private
     { Private declarations }
   protected
@@ -42,7 +46,7 @@ var
 
 implementation
 
-uses uOddTextEditProperties;
+uses uOddTextEditProperties, uOddDetailUtils, Math;
 
 {$R *.dfm}
 
@@ -61,6 +65,15 @@ type
 
 { TForm2 }
 
+procedure TForm2.ClientDataSet1FieldChange(DataSet: TDataSet; Field: TField);
+begin
+  if SameText(Field.FullName, 'OddStr') then
+  with ParseOD(Field.AsString) do begin
+    DataSet['Y'] := RoundTo(TotalQty[ouYard], -2);
+    DataSet['M'] := RoundTo(TotalQty[ouMetre], -2);
+  end;
+end;
+
 procedure TForm2.cxGrid1DBTableView1EditKeyPress(Sender: TcxCustomGridTableView;
   AItem: TcxCustomGridTableItem; AEdit: TcxCustomEdit; var Key: Char);
 begin
@@ -70,7 +83,7 @@ end;
 procedure TForm2.dxColorEdit1PropertiesChange(Sender: TObject);
 begin
   OddBackgroudColor := dxColorEdit1.ColorValue;
-  cxGrid1DBTableView1.Invalidate;
+  cxGrid1spGridDBTableView1.Invalidate;
   Caption := ColorToString(dxColorEdit1.ColorValue);
 end;
 
@@ -78,16 +91,19 @@ procedure TForm2.FormCreate(Sender: TObject);
 var
   TextEdit: TmyTextEdit;
 begin
-  TextEdit := TmyTextEdit.Create(Self);
-  TextEdit.Parent := Self;
-  TextEdit.SetBounds(10, 10, 100, 25);
-  cxGrid1DBTableView1str.PropertiesClass := TcxOddTextEditProperties;
+//  TextEdit := TmyTextEdit.Create(Self);
+//  TextEdit.Parent := Self;
+//  TextEdit.SetBounds(10, 10, 100, 25);
+  cxGrid1spGridDBTableView1OddStr.PropertiesClass := TcxOddTextEditProperties;
   ClientDataSet1.Append;
-  ClientDataSet1['str'] := '4*32.92+51.21+18.29+2*33.39+5*30';
+  ClientDataSet1['OddStr'] := '4*32.92+51.21+18.29+2*33.39+5*30';
+  ClientDataSet1.Post;
   ClientDataSet1.Append;
-  ClientDataSet1['str'] := '69.25';
+  ClientDataSet1['OddStr'] := '69.25';
+  ClientDataSet1.Post;
   ClientDataSet1.Append;
-  ClientDataSet1['str'] := '(2*26.36+68+48.3+3*20)Ты';
+  ClientDataSet1['OddStr'] := '2*26.36+68+48.3+5*20';
+  ClientDataSet1.Post;
 end;
 
 procedure TForm2.UpdateActions;

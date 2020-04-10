@@ -62,7 +62,7 @@ begin
   ACanvas.Font := Font;
   Left := TextRect.Left;
   Top := TextRect.Top + (TextRect.Height - ACanvas.TextHeight('0')) div 2 + 2;
-  Bottom := Top + ACanvas.TextHeight('0') - 4;
+  Bottom := Top + ACanvas.TextHeight('0') - 3;
   for C in Text do begin
     TextWidth := ACanvas.TextWidth(C);
     if C in ['0'..'9', '*', '.'] then begin

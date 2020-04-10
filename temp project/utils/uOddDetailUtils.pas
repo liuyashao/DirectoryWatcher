@@ -24,8 +24,7 @@ type
     function GetUnit: TOddUnit;
     function GetCount: Integer;
     function GetTotalPieces: Integer;
-    function GetTotalQty: Double;
-    function TotalQtyConvertTo(AUnit: TOddUnit): Double;
+    function GetTotalQty(AUnit: TOddUnit): Double;
     function GetItem(Index: Integer): TOdd;
     procedure SetItem(Index: Integer; const Value: TOdd);
     function ToString: string; overload;
@@ -42,7 +41,7 @@ type
     function GetEnumerator: TEnumerator<TOdd>;
     property Count: Integer read GetCount;
     property TotalPieces: Integer read GetTotalPieces;
-    property TotalQty: Double read GetTotalQty;
+    property TotalQty[AUnit: TOddUnit]: Double read GetTotalQty;
 	  property _Unit: TOddUnit read GetUnit;
     property Items[Index: Integer]: TOdd read GetItem write SetItem; default;
   end;
@@ -88,8 +87,7 @@ type
 	  function GetUnit: TOddUnit;
     function GetCount: Integer;
     function GetTotalPieces: Integer;
-    function GetTotalQty: Double;
-    function TotalQtyConvertTo(AUnit: TOddUnit): Double;
+    function GetTotalQty(AUnit: TOddUnit): Double;
     function GetItem(Index: Integer): TOdd;
     procedure SetItem(Index: Integer; const Value: TOdd);
     function ToString: string; overload;
@@ -106,7 +104,7 @@ type
     function GetEnumerator: TEnumerator<TOdd>;
     property Count: Integer read GetCount;
     property TotalPieces: Integer read GetTotalPieces;
-    property TotalQty: Double read GetTotalQty;
+    property TotalQty[AUnit: TOddUnit]: Double read GetTotalQty;
 	  property _Unit: TOddUnit read GetUnit;
     property Items[Index: Integer]: TOdd read GetItem write SetItem;
   public
@@ -169,7 +167,7 @@ var
       if Result then
         Piece := 1;
     end;
-    Result := 0 < Piece * Spec;
+    Result := Result and (0 < Piece * Spec);
     if Result then
       Odd := TOdd.Create(Piece, Spec);
   end;
@@ -204,10 +202,10 @@ begin
   Result := FTotalPieces;
 end;
 
-function TOddDetail.GetTotalQty: Double;
+function TOddDetail.GetTotalQty(AUnit: TOddUnit): Double;
 begin
   CalcTotal;
-  Result := FTotalQty;
+  Result := FTotalQty*GetConvertRate(AUnit);
 end;
 
 procedure TOddDetail.CalcTotal;
@@ -229,11 +227,6 @@ function TOddDetail.Clear: IOddDetail;
 begin
   FItems.Clear;
   Result := Self;
-end;
-
-function TOddDetail.TotalQtyConvertTo(AUnit: TOddUnit): Double;
-begin
-  Result := GetTotalQty * GetConvertRate(AUnit);
 end;
 
 function TOddDetail.GetConvertRate(AUnit: TOddUnit): Double;
