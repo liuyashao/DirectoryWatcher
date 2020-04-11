@@ -2,8 +2,8 @@ object Form2: TForm2
   Left = 0
   Top = 0
   Caption = 'Form2'
-  ClientHeight = 430
-  ClientWidth = 955
+  ClientHeight = 504
+  ClientWidth = 1019
   Color = clBtnFace
   Font.Charset = ANSI_CHARSET
   Font.Color = clWindowText
@@ -13,12 +13,12 @@ object Form2: TForm2
   OldCreateOrder = False
   OnCreate = FormCreate
   PixelsPerInch = 96
-  TextHeight = 16
+  TextHeight = 17
   object cxGrid1: TcxGrid
     Left = 0
-    Top = 56
-    Width = 955
-    Height = 374
+    Top = 72
+    Width = 1019
+    Height = 432
     Align = alBottom
     TabOrder = 0
     LookAndFeel.Kind = lfOffice11
@@ -29,23 +29,46 @@ object Form2: TForm2
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
+      Styles.Content = cxStyle1
       DisplayTemplate = <>
       StateOptions.Font.Charset = DEFAULT_CHARSET
       StateOptions.Font.Color = clWindowText
       StateOptions.Font.Height = -11
       StateOptions.Font.Name = 'Tahoma'
       StateOptions.Font.Style = []
-      object cxGrid1spGridDBTableView1OddStr: TspGridDBColumn
-        DataBinding.FieldName = 'OddStr'
-        Width = 377
+      object cxGrid1spGridDBTableView1Unit: TspGridDBColumn
+        DataBinding.FieldName = 'Unit'
+        PropertiesClassName = 'TcxComboBoxProperties'
+        Properties.DropDownListStyle = lsEditFixedList
+        Properties.Items.Strings = (
+          #30721
+          #31859)
       end
-      object cxGrid1spGridDBTableView1Y: TspGridDBColumn
-        DataBinding.FieldName = 'Y'
+      object cxGrid1spGridDBTableView1YOdd: TspGridDBColumn
+        DataBinding.FieldName = 'YOdd'
         PropertiesClassName = 'TcxTextEditProperties'
-        Properties.ReadOnly = True
+        Properties.HideSelection = False
+        Width = 161
       end
-      object cxGrid1spGridDBTableView1Column1: TspGridDBColumn
-        DataBinding.FieldName = 'M'
+      object cxGrid1spGridDBTableView1MOdd: TspGridDBColumn
+        DataBinding.FieldName = 'MOdd'
+        Width = 150
+      end
+      object cxGrid1spGridDBTableView1SumOdd: TspGridDBColumn
+        DataBinding.FieldName = 'SumOdd'
+        Width = 150
+      end
+      object cxGrid1spGridDBTableView1YQty: TspGridDBColumn
+        DataBinding.FieldName = 'YQty'
+      end
+      object cxGrid1spGridDBTableView1MQty: TspGridDBColumn
+        DataBinding.FieldName = 'MQty'
+      end
+      object cxGrid1spGridDBTableView1Price: TspGridDBColumn
+        DataBinding.FieldName = 'Price'
+      end
+      object cxGrid1spGridDBTableView1Amount: TspGridDBColumn
+        DataBinding.FieldName = 'Amount'
       end
     end
     object cxGrid1Level1: TcxGridLevel
@@ -66,23 +89,49 @@ object Form2: TForm2
   end
   object ClientDataSet1: TspClientDataSet
     PersistDataPacket.Data = {
-      490000009619E0BD0100000018000000030000000000030000004900064F6464
-      5374720100490000000100055749445448020002006400015908000400000000
-      00014D08000400000000000000}
+      B70000009619E0BD010000001800000008000000000003000000B70004556E69
+      740100490000000100055749445448020002000A0004594F6464010049000000
+      010005574944544802000200C800044D4F646401004900000001000557494454
+      4802000200C8000653756D4F6464010049000000010005574944544802000200
+      C80004595174790800040000000000044D517479080004000000000005507269
+      6365080004000000000006416D6F756E7408000400000000000000}
     Active = True
     Aggregates = <>
     FieldDefs = <
       item
-        Name = 'OddStr'
+        Name = 'Unit'
         DataType = ftString
-        Size = 100
+        Size = 10
       end
       item
-        Name = 'Y'
+        Name = 'YOdd'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'MOdd'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'SumOdd'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'YQty'
         DataType = ftFloat
       end
       item
-        Name = 'M'
+        Name = 'MQty'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Price'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Amount'
         DataType = ftFloat
       end>
     IndexDefs = <>
@@ -90,51 +139,124 @@ object Form2: TForm2
     StoreDefs = True
     Dictionary = <
       item
-        FieldName = 'OddStr'
+        FieldName = 'Unit'
         FieldType = ftString
-        Size = 100
+        Size = 10
+        NumericPrecision = 0
+        NumericScale = 0
+        DisplayWidth = 10
+        DisplayLabel = 'Unit'
+        IsAutoGen = False
+      end
+      item
+        FieldName = 'YOdd'
+        FieldType = ftString
+        Size = 200
         NumericPrecision = 0
         NumericScale = 0
         DisplayWidth = 100
-        DisplayLabel = 'OddStr'
+        DisplayLabel = 'YOdd'
         IsAutoGen = False
       end
       item
-        FieldName = 'Y'
+        FieldName = 'MOdd'
+        FieldType = ftString
+        Size = 200
+        NumericPrecision = 0
+        NumericScale = 0
+        DisplayWidth = 200
+        DisplayLabel = 'MOdd'
+        IsAutoGen = False
+      end
+      item
+        FieldName = 'SumOdd'
+        FieldType = ftString
+        Size = 200
+        NumericPrecision = 0
+        NumericScale = 0
+        DisplayWidth = 200
+        DisplayLabel = 'SumOdd'
+        IsAutoGen = False
+      end
+      item
+        FieldName = 'YQty'
         FieldType = ftFloat
         NumericPrecision = 15
         NumericScale = 0
         Alignment = taRightJustify
         DisplayWidth = 10
-        DisplayLabel = 'Y'
+        DisplayLabel = 'YQty'
         IsAutoGen = False
       end
       item
-        FieldName = 'M'
+        FieldName = 'MQty'
         FieldType = ftFloat
         NumericPrecision = 15
         NumericScale = 0
         Alignment = taRightJustify
         DisplayWidth = 10
-        DisplayLabel = 'M'
+        DisplayLabel = 'MQty'
+        IsAutoGen = False
+      end
+      item
+        FieldName = 'Price'
+        FieldType = ftFloat
+        NumericPrecision = 15
+        NumericScale = 0
+        Alignment = taRightJustify
+        DisplayWidth = 10
+        DisplayLabel = 'Price'
+        IsAutoGen = False
+      end
+      item
+        FieldName = 'Amount'
+        FieldType = ftFloat
+        NumericPrecision = 15
+        NumericScale = 0
+        Alignment = taRightJustify
+        DisplayWidth = 10
+        DisplayLabel = 'Amount'
         IsAutoGen = False
       end>
     LinkedComponents = <>
     OnFieldChange = ClientDataSet1FieldChange
     Left = 632
     Top = 8
+    object ClientDataSet1Unit: TStringField
+      DisplayWidth = 10
+      FieldName = 'Unit'
+      Size = 10
+    end
     object ClientDataSet1str: TspStringField
       DisplayWidth = 100
-      FieldName = 'OddStr'
-      Size = 100
+      FieldName = 'YOdd'
+      Size = 200
+    end
+    object ClientDataSet1MOdd: TStringField
+      DisplayWidth = 200
+      FieldName = 'MOdd'
+      Size = 200
+    end
+    object ClientDataSet1SumOdd: TStringField
+      DisplayWidth = 200
+      FieldName = 'SumOdd'
+      Size = 200
     end
     object ClientDataSet1Y: TspFloatField
       DisplayWidth = 10
-      FieldName = 'Y'
+      FieldName = 'YQty'
     end
     object ClientDataSet1M: TspFloatField
       DisplayWidth = 10
-      FieldName = 'M'
+      FieldName = 'MQty'
+    end
+    object ClientDataSet1Price: TFloatField
+      DisplayWidth = 10
+      FieldName = 'Price'
+    end
+    object ClientDataSet1Amount: TFloatField
+      DisplayWidth = 10
+      FieldName = 'Amount'
     end
   end
   object cxStyleRepository1: TcxStyleRepository

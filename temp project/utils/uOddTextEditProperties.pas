@@ -30,6 +30,8 @@ var
 
 implementation
 
+uses Unit2;
+
 { TcxOddTextEditProperties }
 
 class function TcxOddTextEditProperties.GetContainerClass: TcxContainerClass;
@@ -67,10 +69,14 @@ begin
     TextWidth := ACanvas.TextWidth(C);
     if C in ['0'..'9', '*', '.'] then begin
       R := Rect(Left, Top, Left+TextWidth, Bottom);
-      ACanvas.FillRect(R, OddBackgroudColor);
+      if TextColor = clHighlightText then
+        ACanvas.FillRect(R, not OddBackgroudColor)
+      else
+        ACanvas.FillRect(R, OddBackgroudColor);
     end;
     Left := Left + TextWidth;
   end;
+//  Form2.Caption := ColorToString(TextColor);
 end;
 
 { TcxOddTextEdit }
