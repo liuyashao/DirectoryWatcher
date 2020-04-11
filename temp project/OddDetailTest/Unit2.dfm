@@ -13,7 +13,7 @@ object Form2: TForm2
   OldCreateOrder = False
   OnCreate = FormCreate
   PixelsPerInch = 96
-  TextHeight = 17
+  TextHeight = 16
   object cxGrid1: TcxGrid
     Left = 0
     Top = 72
@@ -41,6 +41,7 @@ object Form2: TForm2
         DataBinding.FieldName = 'Unit'
         PropertiesClassName = 'TcxComboBoxProperties'
         Properties.DropDownListStyle = lsEditFixedList
+        Properties.ImmediatePost = True
         Properties.Items.Strings = (
           #30721
           #31859)
@@ -57,6 +58,7 @@ object Form2: TForm2
       end
       object cxGrid1spGridDBTableView1SumOdd: TspGridDBColumn
         DataBinding.FieldName = 'SumOdd'
+        PropertiesClassName = 'TcxLabelProperties'
         Width = 150
       end
       object cxGrid1spGridDBTableView1YQty: TspGridDBColumn
@@ -241,6 +243,7 @@ object Form2: TForm2
     object ClientDataSet1SumOdd: TStringField
       DisplayWidth = 200
       FieldName = 'SumOdd'
+      OnGetText = ClientDataSet1SumOddGetText
       Size = 200
     end
     object ClientDataSet1Y: TspFloatField
@@ -254,6 +257,7 @@ object Form2: TForm2
     object ClientDataSet1Price: TFloatField
       DisplayWidth = 10
       FieldName = 'Price'
+      OnGetText = ClientDataSet1PriceGetText
     end
     object ClientDataSet1Amount: TFloatField
       DisplayWidth = 10

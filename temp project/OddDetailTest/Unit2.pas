@@ -11,7 +11,7 @@ uses
   cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGridLevel,
   cxClasses, cxGridCustomView, cxGrid, Datasnap.DBClient, cxFontNameComboBox,
   dxCore, cxMaskEdit, cxDropDownEdit, dxColorEdit, spGridDBTableView,
-  spClientDataSet;
+  spClientDataSet, cxLabel;
 
 type
   TForm2 = class(TForm)
@@ -46,6 +46,10 @@ type
     procedure cxGrid1spGridDBTableView1EditValueChanging(
       Sender: TspGridDBTableView; Column: TspGridDBColumn;
       EditControl: TWinControl; const EditValue: string);
+    procedure ClientDataSet1SumOddGetText(Sender: TField; var Text: string;
+      DisplayText: Boolean);
+    procedure ClientDataSet1PriceGetText(Sender: TField; var Text: string;
+      DisplayText: Boolean);
   end;
 
 var
@@ -65,17 +69,47 @@ var
   ody: IOddDetail;
   odm: IOddDetail;
   ods: IOddDetail;
+
+  procedure CalcAmount;
+  begin
+    case AUnit of
+      ouYard:  DataSet['Amount'] := RoundTo(DataSet.FieldByName('YQty').AsFloat*DataSet.FieldByName('Price').AsFloat, -2);
+      ouMetre: DataSet['Amount'] := RoundTo(DataSet.FieldByName('MQty').AsFloat*DataSet.FieldByName('Price').AsFloat, -2);
+    end;
+  end;
+
 begin
-  if SameTextEx(Field.FullName, ['YOdd', 'MOdd', 'Price', 'Unit']) then begin
-    AUnit := TOddUnit.Parse(DataSet.FieldByName('Unit').AsString);
+  AUnit := TOddUnit.Parse(DataSet.FieldByName('Unit').AsString);
+  if SameTextEx(Field.FullName, ['YOdd', 'MOdd', 'Unit']) then begin
     ody := ParseOD(DataSet.FieldByName('YOdd').AsString, ouYard);
     odm := ParseOD(DataSet.FieldByName('MOdd').AsString, ouMetre);
     ods := NewEmptyOD(AUnit).Append(ody).Append(odm);
     DataSet['SumOdd'] := ods.ToString;
     DataSet['YQty'] := RoundTo(ods.TotalQty[ouYard], -2);
     DataSet['MQty'] := RoundTo(ods.TotalQty[ouMetre], -2);
-    DataSet['Amount'] := RoundTo(ods.CalcAmount(AUnit, DataSet.FieldByName('Price').AsFloat), -2);
+    CalcAmount;
   end;
+  if SameTextEx(Field.FullName, ['Price']) then begin
+    CalcAmount;
+  end;
+end;
+
+procedure TForm2.ClientDataSet1PriceGetText(Sender: TField; var Text: string;
+  DisplayText: Boolean);
+begin
+  if DisplayText then
+    Text := Format('%s/%s', [Sender.AsString, Sender.DataSet.FieldByName('Unit').AsString])
+  else
+    Text := Sender.AsString;
+end;
+
+procedure TForm2.ClientDataSet1SumOddGetText(Sender: TField; var Text: string;
+  DisplayText: Boolean);
+begin
+  if DisplayText then
+    Text := Format('(%s)%s', [Sender.AsString, Sender.DataSet.FieldByName('Unit').AsString])
+  else
+    Text := Sender.AsString;
 end;
 
 procedure TForm2.cxGrid1DBTableView1EditKeyPress(Sender: TcxCustomGridTableView;
@@ -87,19 +121,13 @@ end;
 procedure TForm2.cxGrid1spGridDBTableView1EditValueChanging(
   Sender: TspGridDBTableView; Column: TspGridDBColumn; EditControl: TWinControl;
   const EditValue: string);
-var
-  AUnit: TOddUnit;
-  Price: Double;
 begin
-  AUnit := TOddUnit.Parse(ClientDataSet1.FieldByName('Unit').AsString);
-  if SameText(Column.DataBinding.FieldName, 'Price') then begin
-    if not TryStrToFloat(EditValue, Price) then
-      Price := 0;
-    case AUnit of
-      ouYard: ClientDataSet1['Amount'] := RoundTo(ClientDataSet1.FieldByName('YQty').AsFloat*Price, -2);
-      ouMetre: ClientDataSet1['Amount'] := RoundTo(ClientDataSet1.FieldByName('MQty').AsFloat*Price, -2);
-    end;
-  end;
+  if SameText(Column.DataBinding.FieldName, 'Price') then
+    ClientDataSet1['Price'] := EditValue else
+  if SameText(Column.DataBinding.FieldName, 'YOdd') then
+    ClientDataSet1['YOdd'] := EditValue else
+  if SameText(Column.DataBinding.FieldName, 'MOdd') then
+    ClientDataSet1['MOdd'] := EditValue;
 end;
 
 procedure TForm2.dxColorEdit1PropertiesChange(Sender: TObject);
@@ -114,6 +142,7 @@ begin
   cxGrid1spGridDBTableView1YOdd.PropertiesClass := TcxOddTextEditProperties;
   cxGrid1spGridDBTableView1MOdd.PropertiesClass := TcxOddTextEditProperties;
   cxGrid1spGridDBTableView1SumOdd.PropertiesClass := TcxOddTextEditProperties;
+  cxGrid1spGridDBTableView1SumOdd.Properties.ReadOnly := True;
   ClientDataSet1.Append;
   ClientDataSet1['Unit'] := 'Ты';
   ClientDataSet1['YOdd'] := '4*32.92+51.21';
