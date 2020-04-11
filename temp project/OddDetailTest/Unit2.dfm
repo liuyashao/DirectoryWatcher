@@ -36,6 +36,7 @@ object Form2: TForm2
       StateOptions.Font.Height = -11
       StateOptions.Font.Name = 'Tahoma'
       StateOptions.Font.Style = []
+      OnEditValueChanging = cxGrid1spGridDBTableView1EditValueChanging
       object cxGrid1spGridDBTableView1Unit: TspGridDBColumn
         DataBinding.FieldName = 'Unit'
         PropertiesClassName = 'TcxComboBoxProperties'

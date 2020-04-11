@@ -43,6 +43,9 @@ type
     procedure cxGrid1DBTableView1EditKeyPress(Sender: TcxCustomGridTableView;
       AItem: TcxCustomGridTableItem; AEdit: TcxCustomEdit; var Key: Char);
     procedure ClientDataSet1FieldChange(DataSet: TDataSet; Field: TField);
+    procedure cxGrid1spGridDBTableView1EditValueChanging(
+      Sender: TspGridDBTableView; Column: TspGridDBColumn;
+      EditControl: TWinControl; const EditValue: string);
   end;
 
 var
@@ -79,6 +82,24 @@ procedure TForm2.cxGrid1DBTableView1EditKeyPress(Sender: TcxCustomGridTableView;
   AItem: TcxCustomGridTableItem; AEdit: TcxCustomEdit; var Key: Char);
 begin
   Caption := AEdit.ClassName;
+end;
+
+procedure TForm2.cxGrid1spGridDBTableView1EditValueChanging(
+  Sender: TspGridDBTableView; Column: TspGridDBColumn; EditControl: TWinControl;
+  const EditValue: string);
+var
+  AUnit: TOddUnit;
+  Price: Double;
+begin
+  AUnit := TOddUnit.Parse(ClientDataSet1.FieldByName('Unit').AsString);
+  if SameText(Column.DataBinding.FieldName, 'Price') then begin
+    if not TryStrToFloat(EditValue, Price) then
+      Price := 0;
+    case AUnit of
+      ouYard: ClientDataSet1['Amount'] := RoundTo(ClientDataSet1.FieldByName('YQty').AsFloat*Price, -2);
+      ouMetre: ClientDataSet1['Amount'] := RoundTo(ClientDataSet1.FieldByName('MQty').AsFloat*Price, -2);
+    end;
+  end;
 end;
 
 procedure TForm2.dxColorEdit1PropertiesChange(Sender: TObject);
