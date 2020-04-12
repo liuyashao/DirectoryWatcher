@@ -2,7 +2,7 @@ object Form2: TForm2
   Left = 0
   Top = 0
   Caption = 'Form2'
-  ClientHeight = 504
+  ClientHeight = 492
   ClientWidth = 1019
   Color = clBtnFace
   Font.Charset = ANSI_CHARSET
@@ -16,19 +16,35 @@ object Form2: TForm2
   TextHeight = 16
   object cxGrid1: TcxGrid
     Left = 0
-    Top = 72
+    Top = 35
     Width = 1019
-    Height = 432
-    Align = alBottom
+    Height = 457
+    Align = alClient
     TabOrder = 0
-    LookAndFeel.Kind = lfOffice11
-    LookAndFeel.NativeStyle = False
+    ExplicitTop = 72
+    ExplicitHeight = 432
     object cxGrid1spGridDBTableView1: TspGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       DataController.DataSource = DataSource1
       DataController.Summary.DefaultGroupSummaryItems = <>
-      DataController.Summary.FooterSummaryItems = <>
+      DataController.Summary.FooterSummaryItems = <
+        item
+          Format = '0.00'
+          Kind = skSum
+          Column = cxGrid1spGridDBTableView1YQty
+        end
+        item
+          Format = '0.00'
+          Kind = skSum
+          Column = cxGrid1spGridDBTableView1MQty
+        end
+        item
+          Format = '0.00'
+          Kind = skSum
+          Column = cxGrid1spGridDBTableView1Amount
+        end>
       DataController.Summary.SummaryGroups = <>
+      OptionsView.Footer = True
       Styles.Content = cxStyle1
       DisplayTemplate = <>
       StateOptions.Font.Charset = DEFAULT_CHARSET
@@ -48,18 +64,21 @@ object Form2: TForm2
       end
       object cxGrid1spGridDBTableView1YOdd: TspGridDBColumn
         DataBinding.FieldName = 'YOdd'
-        PropertiesClassName = 'TcxTextEditProperties'
-        Properties.HideSelection = False
+        PropertiesClassName = 'TcxOddTextEditProperties'
         Width = 161
       end
       object cxGrid1spGridDBTableView1MOdd: TspGridDBColumn
         DataBinding.FieldName = 'MOdd'
+        PropertiesClassName = 'TcxOddTextEditProperties'
         Width = 150
       end
       object cxGrid1spGridDBTableView1SumOdd: TspGridDBColumn
         DataBinding.FieldName = 'SumOdd'
-        PropertiesClassName = 'TcxLabelProperties'
-        Width = 150
+        PropertiesClassName = 'TcxOddTextEditProperties'
+        Properties.ReadOnly = True
+        Options.Editing = False
+        Options.Focusing = False
+        Width = 215
       end
       object cxGrid1spGridDBTableView1YQty: TspGridDBColumn
         DataBinding.FieldName = 'YQty'
@@ -78,17 +97,39 @@ object Form2: TForm2
       GridView = cxGrid1spGridDBTableView1
     end
   end
-  object dxColorEdit1: TdxColorEdit
-    Left = 72
+  object Panel1: TPanel
+    Left = 0
     Top = 0
-    Properties.OnChange = dxColorEdit1PropertiesChange
+    Width = 1019
+    Height = 35
+    Align = alTop
+    BevelOuter = bvNone
     TabOrder = 1
-    Width = 145
+    object cxTextEdit1: TcxTextEdit
+      Left = 600
+      Top = 5
+      TabOrder = 0
+      Text = 'cxTextEdit1'
+      Width = 121
+    end
+    object cxTextEdit2: TcxTextEdit
+      Left = 727
+      Top = 5
+      TabOrder = 1
+      Text = 'cxTextEdit2'
+      Width = 121
+    end
+    object cxTextEdit3: TcxTextEdit
+      Left = 896
+      Top = 5
+      TabOrder = 2
+      Text = 'cxTextEdit3'
+      Width = 121
+    end
   end
   object DataSource1: TDataSource
     DataSet = ClientDataSet1
-    Left = 528
-    Top = 16
+    Left = 376
   end
   object ClientDataSet1: TspClientDataSet
     PersistDataPacket.Data = {
@@ -223,8 +264,10 @@ object Form2: TForm2
       end>
     LinkedComponents = <>
     OnFieldChange = ClientDataSet1FieldChange
-    Left = 632
-    Top = 8
+    OnSumPredicate = ClientDataSet1SumPredicate
+    OnSumData = ClientDataSet1SumData
+    Left = 440
+    Top = 24
     object ClientDataSet1Unit: TStringField
       DisplayWidth = 10
       FieldName = 'Unit'
@@ -249,19 +292,23 @@ object Form2: TForm2
     object ClientDataSet1Y: TspFloatField
       DisplayWidth = 10
       FieldName = 'YQty'
+      DisplayFormat = '0.00'
     end
     object ClientDataSet1M: TspFloatField
       DisplayWidth = 10
       FieldName = 'MQty'
+      DisplayFormat = '0.00'
     end
     object ClientDataSet1Price: TFloatField
       DisplayWidth = 10
       FieldName = 'Price'
       OnGetText = ClientDataSet1PriceGetText
+      DisplayFormat = '0.00'
     end
     object ClientDataSet1Amount: TFloatField
       DisplayWidth = 10
       FieldName = 'Amount'
+      DisplayFormat = '0.00'
     end
   end
   object cxStyleRepository1: TcxStyleRepository
@@ -274,5 +321,11 @@ object Form2: TForm2
       Font.Name = 'Times New Roman'
       Font.Style = []
     end
+  end
+  object dxSkinController1: TdxSkinController
+    NativeStyle = False
+    SkinName = 'TheAsphaltWorld'
+    Left = 272
+    Top = 24
   end
 end
