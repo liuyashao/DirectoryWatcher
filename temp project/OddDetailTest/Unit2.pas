@@ -11,7 +11,7 @@ uses
   cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGridLevel,
   cxClasses, cxGridCustomView, cxGrid, Datasnap.DBClient, cxFontNameComboBox,
   dxCore, cxMaskEdit, cxDropDownEdit, dxColorEdit, spGridDBTableView,
-  spClientDataSet, cxLabel, uOddTextEditProperties, dxSkinsCore, dxSkinBlue,
+  spClientDataSet, cxLabel, uOddTextEdit, dxSkinsCore, dxSkinBlue,
   dxSkinDevExpressStyle, dxSkinLiquidSky, dxSkinLondonLiquidSky, dxSkinsForm,
   spLinkGraphic, dxSkinBlack, dxSkinBlueprint, dxSkinCaramel, dxSkinCoffee,
   dxSkinDarkRoom, dxSkinDarkSide, dxSkinDevExpressDarkStyle, dxSkinFoggy,
@@ -26,7 +26,7 @@ uses
   dxSkinSummer2008, dxSkinTheAsphaltWorld, dxSkinTheBezier,
   dxSkinsDefaultPainters, dxSkinValentine, dxSkinVisualStudio2013Blue,
   dxSkinVisualStudio2013Dark, dxSkinVisualStudio2013Light, dxSkinVS2010,
-  dxSkinWhiteprint, dxSkinXmas2008Blue, Vcl.ExtCtrls;
+  dxSkinWhiteprint, dxSkinXmas2008Blue, Vcl.ExtCtrls, spTextEditEx;
 
 type
   TForm2 = class(TForm)
@@ -57,6 +57,8 @@ type
     cxTextEdit1: TcxTextEdit;
     cxTextEdit2: TcxTextEdit;
     cxTextEdit3: TcxTextEdit;
+    spTextEditEx1: TspTextEditEx;
+    Timer1: TTimer;
     procedure FormCreate(Sender: TObject);
     procedure cxGrid1DBTableView1EditKeyPress(Sender: TcxCustomGridTableView;
       AItem: TcxCustomGridTableItem; AEdit: TcxCustomEdit; var Key: Char);
@@ -71,6 +73,7 @@ type
     procedure ClientDataSet1SumPredicate(DataSet: TDataSet;
       ChandedField: TField; var CanDoSum: Boolean);
     procedure ClientDataSet1SumData(CloneDataSet: TDataSet);
+    procedure Timer1Timer(Sender: TObject);
   end;
 
 var
@@ -81,6 +84,21 @@ implementation
 uses uOddDetailUtils, Math, spFunc;
 
 {$R *.dfm}
+
+//type
+//  TmyTextEdit = class(TcxTextEdit)
+//  protected
+//    function GetInnerEditClass: TControlClass; override;
+//  end;
+//
+//  TmyCustomInnerTextEdit = class(TcxCustomInnerTextEdit)
+//  private
+//    procedure WMPaint(var Message: TWMPaint); message WM_PAINT;
+//    procedure DoDraw;
+//    procedure DrawOddBackground(ACanvas: TcxCanvas);
+//  protected
+//    procedure Change; override;
+//  end;
 
 { TForm2 }
 
@@ -179,7 +197,12 @@ begin
 end;
 
 procedure TForm2.FormCreate(Sender: TObject);
+var
+  myTextEdit: TcxOddTextEdit;
 begin
+  myTextEdit := TcxOddTextEdit.Create(Self);
+  myTextEdit.Parent := Panel1;
+  myTextEdit.SetBounds(5, 5, 200, 25);
   cxGrid1spGridDBTableView1YOdd.PropertiesClass := TcxOddTextEditProperties;
   cxGrid1spGridDBTableView1MOdd.PropertiesClass := TcxOddTextEditProperties;
   cxGrid1spGridDBTableView1SumOdd.PropertiesClass := TcxOddTextEditProperties;
@@ -197,5 +220,75 @@ begin
   ClientDataSet1['Price'] := 10;
   ClientDataSet1.Post;
 end;
+
+procedure TForm2.Timer1Timer(Sender: TObject);
+begin
+  if ActiveControl <> nil then
+    Caption := ActiveControl.ClassName;
+end;
+
+//{ TmyCustomInnerTextEdit }
+//
+//procedure TmyCustomInnerTextEdit.WMPaint(var Message: TWMPaint);
+//begin
+//  inherited;
+//  DoDraw;
+//end;
+//
+//procedure TmyCustomInnerTextEdit.Change;
+//begin
+//  inherited;
+//  DoDraw;
+//end;
+//
+//procedure TmyCustomInnerTextEdit.DoDraw;
+//var
+//  ACanvas: TControlCanvas;
+//  cxCanvas: TcxCanvas;
+//begin
+//  ACanvas := TControlCanvas.Create;
+//  cxCanvas := TcxCanvas.Create(ACanvas);
+//  try
+//    ACanvas.Control := Self;
+//    cxCanvas.Font := Font;
+//    DrawOddBackground(cxCanvas);
+//    cxCanvas.DrawTexT(Container.EditingText, ClientRect, Container.Properties.Alignment.Horz, vaCenter, True, True);
+//  finally
+//    cxCanvas.Free;
+//    ACanvas.Free;
+//  end;
+//  OutputDebugString(PChar(Container.EditingText));
+//end;
+//
+//procedure TmyCustomInnerTextEdit.DrawOddBackground(ACanvas: TcxCanvas);
+//var
+//  C: Char;
+//  Left: Integer;
+//  Top: Integer;
+//  Bottom: Integer;
+//  TextWidth: Integer;
+//  R: TRect;
+//  Color: TColor;
+//begin
+//  Left := ClientRect.Left;
+//  Top := ClientRect.Top + (ClientRect.Height - ACanvas.TextHeight('0')) div 2 + 2;
+//  Bottom := Top + ACanvas.TextHeight('0') - 3;
+//  Color := GetLightColor(-20, 100, 20);//dxGetDarkerColor(dxInvertColor(TextColor), 70);
+//  for C in Text do begin
+//    TextWidth := ACanvas.TextWidth(C);
+//    if C in ['0'..'9', '*', '.'] then begin
+//      R := Rect(Left, Top, Left+TextWidth, Bottom);
+//      ACanvas.FillRect(R, Color);
+//    end;
+//    Left := Left + TextWidth;
+//  end;
+//end;
+
+//{ TmyTextEdit }
+//
+//function TmyTextEdit.GetInnerEditClass: TControlClass;
+//begin
+//  Result := TmyCustomInnerTextEdit;
+//end;
 
 end.

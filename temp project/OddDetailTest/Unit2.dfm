@@ -2,8 +2,8 @@ object Form2: TForm2
   Left = 0
   Top = 0
   Caption = 'Form2'
-  ClientHeight = 492
-  ClientWidth = 1019
+  ClientHeight = 536
+  ClientWidth = 1112
   Color = clBtnFace
   Font.Charset = ANSI_CHARSET
   Font.Color = clWindowText
@@ -17,12 +17,10 @@ object Form2: TForm2
   object cxGrid1: TcxGrid
     Left = 0
     Top = 35
-    Width = 1019
-    Height = 457
+    Width = 1112
+    Height = 501
     Align = alClient
     TabOrder = 0
-    ExplicitTop = 72
-    ExplicitHeight = 432
     object cxGrid1spGridDBTableView1: TspGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       DataController.DataSource = DataSource1
@@ -100,7 +98,7 @@ object Form2: TForm2
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 1019
+    Width = 1112
     Height = 35
     Align = alTop
     BevelOuter = bvNone
@@ -124,6 +122,13 @@ object Form2: TForm2
       Top = 5
       TabOrder = 2
       Text = 'cxTextEdit3'
+      Width = 121
+    end
+    object spTextEditEx1: TspTextEditEx
+      Left = 408
+      Top = 5
+      TabOrder = 3
+      Text = 'spTextEditEx1'
       Width = 121
     end
   end
@@ -292,23 +297,19 @@ object Form2: TForm2
     object ClientDataSet1Y: TspFloatField
       DisplayWidth = 10
       FieldName = 'YQty'
-      DisplayFormat = '0.00'
     end
     object ClientDataSet1M: TspFloatField
       DisplayWidth = 10
       FieldName = 'MQty'
-      DisplayFormat = '0.00'
     end
     object ClientDataSet1Price: TFloatField
       DisplayWidth = 10
       FieldName = 'Price'
       OnGetText = ClientDataSet1PriceGetText
-      DisplayFormat = '0.00'
     end
     object ClientDataSet1Amount: TFloatField
       DisplayWidth = 10
       FieldName = 'Amount'
-      DisplayFormat = '0.00'
     end
   end
   object cxStyleRepository1: TcxStyleRepository
@@ -327,5 +328,11 @@ object Form2: TForm2
     SkinName = 'TheAsphaltWorld'
     Left = 272
     Top = 24
+  end
+  object Timer1: TTimer
+    Interval = 500
+    OnTimer = Timer1Timer
+    Left = 752
+    Top = 152
   end
 end
