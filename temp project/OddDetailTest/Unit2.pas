@@ -85,21 +85,6 @@ uses uOddDetailUtils, Math, spFunc;
 
 {$R *.dfm}
 
-//type
-//  TmyTextEdit = class(TcxTextEdit)
-//  protected
-//    function GetInnerEditClass: TControlClass; override;
-//  end;
-//
-//  TmyCustomInnerTextEdit = class(TcxCustomInnerTextEdit)
-//  private
-//    procedure WMPaint(var Message: TWMPaint); message WM_PAINT;
-//    procedure DoDraw;
-//    procedure DrawOddBackground(ACanvas: TcxCanvas);
-//  protected
-//    procedure Change; override;
-//  end;
-
 { TForm2 }
 
 procedure TForm2.ClientDataSet1FieldChange(DataSet: TDataSet; Field: TField);
@@ -119,7 +104,7 @@ var
 
 begin
   AUnit := TOddUnit.Parse(DataSet.FieldByName('Unit').AsString);
-  if SameTextEx(Field.FullName, ['YOdd', 'MOdd', 'Unit']) then begin
+  if SameTextEx(Field.FieldName, ['YOdd', 'MOdd', 'Unit']) then begin
     ody := ParseOD(DataSet.FieldByName('YOdd').AsString, ouYard);
     odm := ParseOD(DataSet.FieldByName('MOdd').AsString, ouMetre);
     ods := NewEmptyOD(AUnit).Append(ody).Append(odm);
@@ -128,15 +113,14 @@ begin
     DataSet['MQty'] := RoundTo(ods.TotalQty[ouMetre], -2);
     CalcAmount;
   end;
-  if SameTextEx(Field.FullName, ['Price']) then begin
+  if SameTextEx(Field.FieldName, ['Price']) then
     CalcAmount;
-  end;
 end;
 
 procedure TForm2.ClientDataSet1PriceGetText(Sender: TField; var Text: string;
   DisplayText: Boolean);
 begin
-  if DisplayText then
+  if DisplayText and not Sender.AsString.IsEmpty then
     Text := Format('%s/%s', [Sender.AsString, Sender.DataSet.FieldByName('Unit').AsString])
   else
     Text := Sender.AsString;
@@ -145,7 +129,7 @@ end;
 procedure TForm2.ClientDataSet1SumOddGetText(Sender: TField; var Text: string;
   DisplayText: Boolean);
 begin
-  if DisplayText then
+  if DisplayText and not Sender.AsString.IsEmpty then
     Text := Format('(%s)%s', [Sender.AsString, Sender.DataSet.FieldByName('Unit').AsString])
   else
     Text := Sender.AsString;
@@ -226,69 +210,5 @@ begin
   if ActiveControl <> nil then
     Caption := ActiveControl.ClassName;
 end;
-
-//{ TmyCustomInnerTextEdit }
-//
-//procedure TmyCustomInnerTextEdit.WMPaint(var Message: TWMPaint);
-//begin
-//  inherited;
-//  DoDraw;
-//end;
-//
-//procedure TmyCustomInnerTextEdit.Change;
-//begin
-//  inherited;
-//  DoDraw;
-//end;
-//
-//procedure TmyCustomInnerTextEdit.DoDraw;
-//var
-//  ACanvas: TControlCanvas;
-//  cxCanvas: TcxCanvas;
-//begin
-//  ACanvas := TControlCanvas.Create;
-//  cxCanvas := TcxCanvas.Create(ACanvas);
-//  try
-//    ACanvas.Control := Self;
-//    cxCanvas.Font := Font;
-//    DrawOddBackground(cxCanvas);
-//    cxCanvas.DrawTexT(Container.EditingText, ClientRect, Container.Properties.Alignment.Horz, vaCenter, True, True);
-//  finally
-//    cxCanvas.Free;
-//    ACanvas.Free;
-//  end;
-//  OutputDebugString(PChar(Container.EditingText));
-//end;
-//
-//procedure TmyCustomInnerTextEdit.DrawOddBackground(ACanvas: TcxCanvas);
-//var
-//  C: Char;
-//  Left: Integer;
-//  Top: Integer;
-//  Bottom: Integer;
-//  TextWidth: Integer;
-//  R: TRect;
-//  Color: TColor;
-//begin
-//  Left := ClientRect.Left;
-//  Top := ClientRect.Top + (ClientRect.Height - ACanvas.TextHeight('0')) div 2 + 2;
-//  Bottom := Top + ACanvas.TextHeight('0') - 3;
-//  Color := GetLightColor(-20, 100, 20);//dxGetDarkerColor(dxInvertColor(TextColor), 70);
-//  for C in Text do begin
-//    TextWidth := ACanvas.TextWidth(C);
-//    if C in ['0'..'9', '*', '.'] then begin
-//      R := Rect(Left, Top, Left+TextWidth, Bottom);
-//      ACanvas.FillRect(R, Color);
-//    end;
-//    Left := Left + TextWidth;
-//  end;
-//end;
-
-//{ TmyTextEdit }
-//
-//function TmyTextEdit.GetInnerEditClass: TControlClass;
-//begin
-//  Result := TmyCustomInnerTextEdit;
-//end;
 
 end.
