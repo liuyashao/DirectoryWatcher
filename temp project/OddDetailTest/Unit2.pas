@@ -83,6 +83,24 @@ type
     cxGrid1spGridDBTableView1TotalPiece: TspGridDBColumn;
     ClientDataSet1TotalDetail: TStringField;
     cxGrid1spGridDBTableView1TotalDetail: TspGridDBColumn;
+    cxGrid2spGridDBBandedTableView1Unit: TspGridDBBandedColumn;
+    cxGrid2spGridDBBandedTableView1SpecY: TspGridDBBandedColumn;
+    cxGrid2spGridDBBandedTableView1SpecM: TspGridDBBandedColumn;
+    cxGrid2spGridDBBandedTableView1SpecSale: TspGridDBBandedColumn;
+    cxGrid2spGridDBBandedTableView1Piece: TspGridDBBandedColumn;
+    cxGrid2spGridDBBandedTableView1OddY: TspGridDBBandedColumn;
+    cxGrid2spGridDBBandedTableView1OddM: TspGridDBBandedColumn;
+    cxGrid2spGridDBBandedTableView1OddTotal: TspGridDBBandedColumn;
+    cxGrid2spGridDBBandedTableView1SpecCut: TspGridDBBandedColumn;
+    cxGrid2spGridDBBandedTableView1QtyCut: TspGridDBBandedColumn;
+    cxGrid2spGridDBBandedTableView1SaleDetail: TspGridDBBandedColumn;
+    cxGrid2spGridDBBandedTableView1SaleQty: TspGridDBBandedColumn;
+    cxGrid2spGridDBBandedTableView1Price: TspGridDBBandedColumn;
+    cxGrid2spGridDBBandedTableView1Amount: TspGridDBBandedColumn;
+    cxGrid2spGridDBBandedTableView1TotalDetail: TspGridDBBandedColumn;
+    cxGrid2spGridDBBandedTableView1TotalQtyY: TspGridDBBandedColumn;
+    cxGrid2spGridDBBandedTableView1TotalQtyM: TspGridDBBandedColumn;
+    cxGrid2spGridDBBandedTableView1TotalPiece: TspGridDBBandedColumn;
     procedure FormCreate(Sender: TObject);
     procedure cxGrid1DBTableView1EditKeyPress(Sender: TcxCustomGridTableView;
       AItem: TcxCustomGridTableItem; AEdit: TcxCustomEdit; var Key: Char);
@@ -98,8 +116,16 @@ type
       ChandedField: TField; var CanDoSum: Boolean);
     procedure ClientDataSet1SumData(CloneDataSet: TDataSet);
     procedure Timer1Timer(Sender: TObject);
+    procedure ClientDataSet1SpecYGetText(Sender: TField; var Text: string;
+      DisplayText: Boolean);
+    procedure ClientDataSet1QtyCutGetText(Sender: TField; var Text: string;
+      DisplayText: Boolean);
+    procedure cxGrid2spGridDBBandedTableView1EditValueChanging(
+      Sender: TspGridDBBandedTableView; Column: TspGridDBBandedColumn;
+      EditControl: TWinControl; const EditValue: string);
   private
     FPreventFieldChange: Boolean;
+    procedure EditValueChanging(const FieldName, EditValue: string);
   end;
 
 var
@@ -196,16 +222,16 @@ begin
       odTotal := NewEmptyOD(AUnit).Add(DataSet.FieldByName('Piece').AsInteger, DataSet.FieldByName('SpecY').AsFloat);
     odTotal.Append(odOddY).Append(odOddM).Append(odCut);
     DataSet['OddTotal'] := NewEmptyOD(AUnit).Append(odOddY).Append(odOddM).ToString;
-	DataSet['TotalDetail'] := odTotal.ToString;
-	DataSet['TotalQtyY']   := RoundTo(odTotal.TotalQty[ouYard], -2);
+	  DataSet['TotalDetail'] := odTotal.ToString;
+	  DataSet['TotalQtyY']   := RoundTo(odTotal.TotalQty[ouYard], -2);
     DataSet['TotalQtyM']   := RoundTo(odTotal.TotalQty[ouMetre], -2);
     DataSet['TotalPiece']  := odTotal.TotalPieces;	
-	PreventFieldChange(
-	  procedure begin
-        DataSet['SaleDetail'] := odSale.ToString;
-        DataSet['SaleQty']    := RoundTo(odSale.TotalQty[AUnit], -2);      
-	  end);
-	CalcAmount;
+	  PreventFieldChange(
+      procedure begin
+          DataSet['SaleDetail'] := odSale.ToString;
+          DataSet['SaleQty']    := RoundTo(odSale.TotalQty[AUnit], -2);
+      end);
+	  CalcAmount;
   end;
   if SameTextEx(Field.FieldName, ['SaleDetail']) then begin
     odSale := ParseOD(DataSet.FieldByName('SaleDetail').AsString, AUnit);	
@@ -219,44 +245,92 @@ procedure TForm2.cxGrid1spGridDBTableView1EditValueChanging(
   Sender: TspGridDBTableView; Column: TspGridDBColumn; EditControl: TWinControl;
   const EditValue: string);
 begin
-  if SameText(Column.DataBinding.FieldName, 'Price') then
+  EditValueChanging(Column.DataBinding.FieldName, EditValue);
+end;
+
+procedure TForm2.cxGrid2spGridDBBandedTableView1EditValueChanging(
+  Sender: TspGridDBBandedTableView; Column: TspGridDBBandedColumn;
+  EditControl: TWinControl; const EditValue: string);
+begin
+  EditValueChanging(Column.DataBinding.FieldName, EditValue);
+end;
+
+procedure TForm2.EditValueChanging(const FieldName, EditValue: string);
+begin
+  if SameText(FieldName, 'Price') then
     ClientDataSet1['Price'] := StrToFloatVariant(EditValue) else
 
-  if SameText(Column.DataBinding.FieldName, 'OddY') then
+  if SameText(FieldName, 'OddY') then
     ClientDataSet1['OddY'] := EditValue else
 
-  if SameText(Column.DataBinding.FieldName, 'OddM') then
+  if SameText(FieldName, 'OddM') then
     ClientDataSet1['OddM'] := EditValue else
 
-  if SameText(Column.DataBinding.FieldName, 'SpecY') then
+  if SameText(FieldName, 'SpecY') then
     ClientDataSet1['SpecY'] := StrToFloatVariant(EditValue) else
 
-  if SameText(Column.DataBinding.FieldName, 'SpecM') then
+  if SameText(FieldName, 'SpecM') then
     ClientDataSet1['SpecM'] := StrToFloatVariant(EditValue) else
 
-  if SameText(Column.DataBinding.FieldName, 'SpecSale') then
+  if SameText(FieldName, 'SpecSale') then
     ClientDataSet1['SpecSale'] := StrToFloatVariant(EditValue) else
 
-  if SameText(Column.DataBinding.FieldName, 'Piece') then
+  if SameText(FieldName, 'Piece') then
     ClientDataSet1['Piece'] := StrToFloatVariant(EditValue) else
 
-  if SameText(Column.DataBinding.FieldName, 'QtyCut') then
+  if SameText(FieldName, 'QtyCut') then
     ClientDataSet1['QtyCut'] := StrToFloatVariant(EditValue) else
-	
-  if SameText(Column.DataBinding.FieldName, 'SaleDetail') then
-    ClientDataSet1['SaleDetail'] := EditValue;  
+
+  if SameText(FieldName, 'SaleDetail') then
+    ClientDataSet1['SaleDetail'] := EditValue;
+end;
+
+procedure TForm2.ClientDataSet1OddFieldGetText(Sender: TField; var Text: string;
+  DisplayText: Boolean);
+var
+  AUnit: TOddUnit;
+begin
+  if SameTextEx(Sender.FieldName, ['OddY']) then
+    AUnit := ouYard else
+  if SameTextEx(Sender.FieldName, ['OddM']) then
+    AUnit := ouMetre else
+  if SameTextEx(Sender.FieldName, ['OddTotal', 'SaleDetail', 'TotalDetail']) then
+    AUnit := TOddUnit.Parse(Sender.DataSet.FieldByName('Unit').AsString);
+  Text := GetOddFieldTextWithUnit(Sender, DisplayText, AUnit);
 end;
 
 procedure TForm2.ClientDataSet1PriceGetText(Sender: TField; var Text: string;
   DisplayText: Boolean);
 begin
-  GetPriceFieldTextWithUnit(Sender, DisplayText, TOddUnit.Parse(Sender.DataSet.FieldByName('Unit').AsString));
+  Text := GetPriceFieldTextWithUnit(Sender, DisplayText, TOddUnit.Parse(Sender.DataSet.FieldByName('Unit').AsString));
 end;
 
-procedure TForm2.ClientDataSet1OddFieldGetText(Sender: TField; var Text: string;
+procedure TForm2.ClientDataSet1SpecYGetText(Sender: TField; var Text: string;
   DisplayText: Boolean);
+var
+  AUnit: TOddUnit;
 begin
-  Text := GetOddFieldTextWithUnit(Sender, DisplayText, TOddUnit.Parse(Sender.DataSet.FieldByName('Unit').AsString));
+  if SameTextEx(Sender.FieldName, ['SpecY', 'SpecCut']) then
+    AUnit := ouYard else
+  if SameTextEx(Sender.FieldName, ['SpecM']) then
+    AUnit := ouMetre else
+  if SameTextEx(Sender.FieldName, ['SpecSale']) then
+    AUnit := TOddUnit.Parse(Sender.DataSet.FieldByName('Unit').AsString);
+  Text := GetSpecFieldTextWithUnit(Sender, DisplayText, AUnit);
+end;
+
+procedure TForm2.ClientDataSet1QtyCutGetText(Sender: TField; var Text: string;
+  DisplayText: Boolean);
+var
+  AUnit: TOddUnit;
+begin
+  if SameTextEx(Sender.FieldName, ['TotalQtyY']) then
+    AUnit := ouYard else
+  if SameTextEx(Sender.FieldName, ['TotalQtyM']) then
+    AUnit := ouMetre else
+  if SameTextEx(Sender.FieldName, ['QtyCut', 'SaleQty']) then
+    AUnit := TOddUnit.Parse(Sender.DataSet.FieldByName('Unit').AsString);
+  Text := GetQtyFieldTextWithUnit(Sender, DisplayText, AUnit);
 end;
 
 procedure TForm2.ClientDataSet1SumPredicate(DataSet: TDataSet;
