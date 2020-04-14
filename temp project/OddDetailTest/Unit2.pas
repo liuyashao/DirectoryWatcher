@@ -81,6 +81,8 @@ type
     cxGrid1spGridDBTableView1TotalQtyY: TspGridDBColumn;
     cxGrid1spGridDBTableView1TotalQtyM: TspGridDBColumn;
     cxGrid1spGridDBTableView1TotalPiece: TspGridDBColumn;
+    ClientDataSet1TotalDetail: TStringField;
+    cxGrid1spGridDBTableView1TotalDetail: TspGridDBColumn;
     procedure FormCreate(Sender: TObject);
     procedure cxGrid1DBTableView1EditKeyPress(Sender: TcxCustomGridTableView;
       AItem: TcxCustomGridTableItem; AEdit: TcxCustomEdit; var Key: Char);

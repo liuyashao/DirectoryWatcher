@@ -73,14 +73,18 @@ object Form2: TForm2
       end
       object cxGrid1spGridDBTableView1OddY: TspGridDBColumn
         DataBinding.FieldName = 'OddY'
+        PropertiesClassName = 'TcxOddTextEditProperties'
         Width = 120
       end
       object cxGrid1spGridDBTableView1OddM: TspGridDBColumn
         DataBinding.FieldName = 'OddM'
+        PropertiesClassName = 'TcxOddTextEditProperties'
         Width = 120
       end
       object cxGrid1spGridDBTableView1OddTotal: TspGridDBColumn
         DataBinding.FieldName = 'OddTotal'
+        PropertiesClassName = 'TcxOddTextEditProperties'
+        Properties.ReadOnly = True
         Width = 120
       end
       object cxGrid1spGridDBTableView1SpecCut: TspGridDBColumn
@@ -91,6 +95,7 @@ object Form2: TForm2
       end
       object cxGrid1spGridDBTableView1SaleDetail: TspGridDBColumn
         DataBinding.FieldName = 'SaleDetail'
+        PropertiesClassName = 'TcxOddTextEditProperties'
         Width = 132
       end
       object cxGrid1spGridDBTableView1SaleQty: TspGridDBColumn
@@ -101,15 +106,29 @@ object Form2: TForm2
       end
       object cxGrid1spGridDBTableView1Amount: TspGridDBColumn
         DataBinding.FieldName = 'Amount'
+        PropertiesClassName = 'TcxTextEditProperties'
+        Properties.ReadOnly = True
+      end
+      object cxGrid1spGridDBTableView1TotalDetail: TspGridDBColumn
+        DataBinding.FieldName = 'TotalDetail'
+        PropertiesClassName = 'TcxOddTextEditProperties'
+        Properties.ReadOnly = True
+        Width = 150
       end
       object cxGrid1spGridDBTableView1TotalQtyY: TspGridDBColumn
         DataBinding.FieldName = 'TotalQtyY'
+        PropertiesClassName = 'TcxTextEditProperties'
+        Properties.ReadOnly = True
       end
       object cxGrid1spGridDBTableView1TotalQtyM: TspGridDBColumn
         DataBinding.FieldName = 'TotalQtyM'
+        PropertiesClassName = 'TcxTextEditProperties'
+        Properties.ReadOnly = True
       end
       object cxGrid1spGridDBTableView1TotalPiece: TspGridDBColumn
         DataBinding.FieldName = 'TotalPiece'
+        PropertiesClassName = 'TcxTextEditProperties'
+        Properties.ReadOnly = True
       end
     end
     object cxGrid1Level1: TcxGridLevel
@@ -186,12 +205,285 @@ object Form2: TForm2
     Left = 376
   end
   object ClientDataSet1: TspClientDataSet
+    PersistDataPacket.Data = {
+      7F0100009619E0BD0100000018000000120000000000030000007F0104556E69
+      740100490000000100055749445448020002000A000553706563590800040000
+      00000005537065634D0800040000000000085370656353616C65080004000000
+      00000550696563650400010000000000044F6464590100490000000100055749
+      44544802000200C800044F64644D010049000000010005574944544802000200
+      C800084F6464546F74616C010049000000010005574944544802000200C80007
+      5370656343757408000400000000000651747943757408000400000000000A53
+      616C6544657461696C010049000000010005574944544802000200C800075361
+      6C655174790800040000000000055072696365080004000000000006416D6F75
+      6E7408000400000000000B546F74616C44657461696C01004900000001000557
+      4944544802000200C80009546F74616C51747959080004000000000009546F74
+      616C5174794D08000400000000000A546F74616C506965636504000100000000
+      000000}
+    Active = True
     Aggregates = <>
-    FieldDefs = <>
+    FieldDefs = <
+      item
+        Name = 'Unit'
+        DataType = ftString
+        Size = 10
+      end
+      item
+        Name = 'SpecY'
+        DataType = ftFloat
+      end
+      item
+        Name = 'SpecM'
+        DataType = ftFloat
+      end
+      item
+        Name = 'SpecSale'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Piece'
+        DataType = ftInteger
+      end
+      item
+        Name = 'OddY'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'OddM'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'OddTotal'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'SpecCut'
+        DataType = ftFloat
+      end
+      item
+        Name = 'QtyCut'
+        DataType = ftFloat
+      end
+      item
+        Name = 'SaleDetail'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'SaleQty'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Price'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Amount'
+        DataType = ftFloat
+      end
+      item
+        Name = 'TotalDetail'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'TotalQtyY'
+        DataType = ftFloat
+      end
+      item
+        Name = 'TotalQtyM'
+        DataType = ftFloat
+      end
+      item
+        Name = 'TotalPiece'
+        DataType = ftInteger
+      end>
     IndexDefs = <>
     Params = <>
     StoreDefs = True
-    Dictionary = <>
+    Dictionary = <
+      item
+        FieldName = 'Unit'
+        FieldType = ftString
+        Size = 10
+        NumericPrecision = 0
+        NumericScale = 0
+        DisplayWidth = 10
+        DisplayLabel = 'Unit'
+        IsAutoGen = False
+      end
+      item
+        FieldName = 'SpecY'
+        FieldType = ftFloat
+        NumericPrecision = 15
+        NumericScale = 0
+        Alignment = taRightJustify
+        DisplayWidth = 10
+        DisplayLabel = 'SpecY'
+        IsAutoGen = False
+      end
+      item
+        FieldName = 'SpecM'
+        FieldType = ftFloat
+        NumericPrecision = 15
+        NumericScale = 0
+        Alignment = taRightJustify
+        DisplayWidth = 10
+        DisplayLabel = 'SpecM'
+        IsAutoGen = False
+      end
+      item
+        FieldName = 'SpecSale'
+        FieldType = ftFloat
+        NumericPrecision = 15
+        NumericScale = 0
+        Alignment = taRightJustify
+        DisplayWidth = 10
+        DisplayLabel = 'SpecSale'
+        IsAutoGen = False
+      end
+      item
+        FieldName = 'Piece'
+        FieldType = ftInteger
+        NumericPrecision = 0
+        NumericScale = 0
+        Alignment = taRightJustify
+        DisplayWidth = 10
+        DisplayLabel = 'Piece'
+        IsAutoGen = False
+      end
+      item
+        FieldName = 'OddY'
+        FieldType = ftString
+        Size = 200
+        NumericPrecision = 0
+        NumericScale = 0
+        DisplayWidth = 100
+        DisplayLabel = 'OddY'
+        IsAutoGen = False
+      end
+      item
+        FieldName = 'OddM'
+        FieldType = ftString
+        Size = 200
+        NumericPrecision = 0
+        NumericScale = 0
+        DisplayWidth = 200
+        DisplayLabel = 'OddM'
+        IsAutoGen = False
+      end
+      item
+        FieldName = 'OddTotal'
+        FieldType = ftString
+        Size = 200
+        NumericPrecision = 0
+        NumericScale = 0
+        DisplayWidth = 200
+        DisplayLabel = 'OddTotal'
+        IsAutoGen = False
+      end
+      item
+        FieldName = 'SpecCut'
+        FieldType = ftFloat
+        NumericPrecision = 15
+        NumericScale = 0
+        Alignment = taRightJustify
+        DisplayWidth = 10
+        DisplayLabel = 'SpecCut'
+        IsAutoGen = False
+      end
+      item
+        FieldName = 'QtyCut'
+        FieldType = ftFloat
+        NumericPrecision = 15
+        NumericScale = 0
+        Alignment = taRightJustify
+        DisplayWidth = 10
+        DisplayLabel = 'QtyCut'
+        IsAutoGen = False
+      end
+      item
+        FieldName = 'SaleDetail'
+        FieldType = ftString
+        Size = 200
+        NumericPrecision = 0
+        NumericScale = 0
+        DisplayWidth = 200
+        DisplayLabel = 'SaleDetail'
+        IsAutoGen = False
+      end
+      item
+        FieldName = 'SaleQty'
+        FieldType = ftFloat
+        NumericPrecision = 15
+        NumericScale = 0
+        Alignment = taRightJustify
+        DisplayWidth = 10
+        DisplayLabel = 'SaleQty'
+        IsAutoGen = False
+      end
+      item
+        FieldName = 'Price'
+        FieldType = ftFloat
+        NumericPrecision = 15
+        NumericScale = 0
+        Alignment = taRightJustify
+        DisplayWidth = 10
+        DisplayLabel = 'Price'
+        IsAutoGen = False
+      end
+      item
+        FieldName = 'Amount'
+        FieldType = ftFloat
+        NumericPrecision = 15
+        NumericScale = 0
+        Alignment = taRightJustify
+        DisplayWidth = 10
+        DisplayLabel = 'Amount'
+        IsAutoGen = False
+      end
+      item
+        FieldName = 'TotalDetail'
+        FieldType = ftString
+        Size = 200
+        NumericPrecision = 0
+        NumericScale = 0
+        DisplayWidth = 200
+        DisplayLabel = 'TotalDetail'
+        IsAutoGen = False
+      end
+      item
+        FieldName = 'TotalQtyY'
+        FieldType = ftFloat
+        NumericPrecision = 15
+        NumericScale = 0
+        Alignment = taRightJustify
+        DisplayWidth = 10
+        DisplayLabel = 'TotalQtyY'
+        IsAutoGen = False
+      end
+      item
+        FieldName = 'TotalQtyM'
+        FieldType = ftFloat
+        NumericPrecision = 15
+        NumericScale = 0
+        Alignment = taRightJustify
+        DisplayWidth = 10
+        DisplayLabel = 'TotalQtyM'
+        IsAutoGen = False
+      end
+      item
+        FieldName = 'TotalPiece'
+        FieldType = ftInteger
+        NumericPrecision = 0
+        NumericScale = 0
+        Alignment = taRightJustify
+        DisplayWidth = 10
+        DisplayLabel = 'TotalPiece'
+        IsAutoGen = False
+      end>
     LinkedComponents = <>
     OnFieldChange = ClientDataSet1FieldChange
     OnSumPredicate = ClientDataSet1SumPredicate
@@ -259,6 +551,11 @@ object Form2: TForm2
     object ClientDataSet1Amount: TFloatField
       DisplayWidth = 10
       FieldName = 'Amount'
+    end
+    object ClientDataSet1TotalDetail: TStringField
+      DisplayWidth = 200
+      FieldName = 'TotalDetail'
+      Size = 200
     end
     object ClientDataSet1Y: TspFloatField
       DisplayWidth = 10
