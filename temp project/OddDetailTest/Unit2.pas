@@ -88,7 +88,7 @@ type
     procedure cxGrid1spGridDBTableView1EditValueChanging(
       Sender: TspGridDBTableView; Column: TspGridDBColumn;
       EditControl: TWinControl; const EditValue: string);
-    procedure ClientDataSet1SumOddGetText(Sender: TField; var Text: string;
+    procedure ClientDataSet1OddFieldGetText(Sender: TField; var Text: string;
       DisplayText: Boolean);
     procedure ClientDataSet1PriceGetText(Sender: TField; var Text: string;
       DisplayText: Boolean);
@@ -119,7 +119,17 @@ var
   odOddM: IOddDetail;//零头米明细
   odCut: IOddDetail;//散剪
   odSale: IOddDetail;//销售明细
-  odTotal: IOddDetail;//商品合计明细
+  odTotal: IOddDetail;//出库明细
+  
+  procedure PreventFieldChange(Proc: TProc);
+  begin
+    FPreventFieldChange := True;
+    try
+      proc;
+    finally
+      FPreventFieldChange := False;
+    end;  
+  end;
 
   procedure SetSpecSale;
   begin
@@ -184,14 +194,22 @@ begin
       odTotal := NewEmptyOD(AUnit).Add(DataSet.FieldByName('Piece').AsInteger, DataSet.FieldByName('SpecY').AsFloat);
     odTotal.Append(odOddY).Append(odOddM).Append(odCut);
     DataSet['OddTotal'] := NewEmptyOD(AUnit).Append(odOddY).Append(odOddM).ToString;
-    DataSet['SaleDetail'] := odSale.ToString;
-    DataSet['SaleQty']    := RoundTo(odSale.TotalQty[AUnit], -2);
-    DataSet['TotalQtyY']  := RoundTo(odTotal.TotalQty[ouYard], -2);
-    DataSet['TotalQtyM']  := RoundTo(odTotal.TotalQty[ouMetre], -2);
-    DataSet['TotalPiece'] := odTotal.TotalPieces;
-    CalcAmount;
+	DataSet['TotalDetail'] := odTotal.ToString;
+	DataSet['TotalQtyY']   := RoundTo(odTotal.TotalQty[ouYard], -2);
+    DataSet['TotalQtyM']   := RoundTo(odTotal.TotalQty[ouMetre], -2);
+    DataSet['TotalPiece']  := odTotal.TotalPieces;	
+	PreventFieldChange(
+	  procedure begin
+        DataSet['SaleDetail'] := odSale.ToString;
+        DataSet['SaleQty']    := RoundTo(odSale.TotalQty[AUnit], -2);      
+	  end);
+	CalcAmount;
   end;
-  if SameTextEx(Field.FieldName, ['Price']) then
+  if SameTextEx(Field.FieldName, ['SaleDetail']) then begin
+    odSale := ParseOD(DataSet.FieldByName('SaleDetail').AsString, AUnit);	
+    DataSet['SaleQty'] := RoundTo(odSale.TotalQty[AUnit], -2); 
+  end;	
+  if SameTextEx(Field.FieldName, ['Price', 'SaleQty']) then
     CalcAmount;
 end;
 
@@ -221,31 +239,28 @@ begin
     ClientDataSet1['Piece'] := StrToFloatVariant(EditValue) else
 
   if SameText(Column.DataBinding.FieldName, 'QtyCut') then
-    ClientDataSet1['QtyCut'] := StrToFloatVariant(EditValue);
+    ClientDataSet1['QtyCut'] := StrToFloatVariant(EditValue) else
+	
+  if SameText(Column.DataBinding.FieldName, 'SaleDetail') then
+    ClientDataSet1['SaleDetail'] := EditValue;  
 end;
 
 procedure TForm2.ClientDataSet1PriceGetText(Sender: TField; var Text: string;
   DisplayText: Boolean);
 begin
-  if DisplayText and not Sender.AsString.IsEmpty then
-    Text := Format('%s/%s', [Sender.AsString, Sender.DataSet.FieldByName('Unit').AsString])
-  else
-    Text := Sender.AsString;
+  GetPriceFieldTextWithUnit(Sender, DisplayText, TOddUnit.Parse(Sender.DataSet.FieldByName('Unit').AsString));
 end;
 
-procedure TForm2.ClientDataSet1SumOddGetText(Sender: TField; var Text: string;
+procedure TForm2.ClientDataSet1OddFieldGetText(Sender: TField; var Text: string;
   DisplayText: Boolean);
 begin
-  if DisplayText and not Sender.AsString.IsEmpty then
-    Text := Format('(%s)%s', [Sender.AsString, Sender.DataSet.FieldByName('Unit').AsString])
-  else
-    Text := Sender.AsString;
+  Text := GetOddFieldTextWithUnit(Sender, DisplayText, TOddUnit.Parse(Sender.DataSet.FieldByName('Unit').AsString));
 end;
 
 procedure TForm2.ClientDataSet1SumPredicate(DataSet: TDataSet;
   ChandedField: TField; var CanDoSum: Boolean);
 begin
-//  CanDoSum := SameTextEx(ChandedField.FieldName, ['MQty', 'YQty', 'Amount'])
+  CanDoSum := SameTextEx(ChandedField.FieldName, ['TotalQtyY', 'TotalQtyM', 'TotalPiece', 'SaleQty', 'Amount'])
 end;
 
 procedure TForm2.ClientDataSet1SumData(CloneDataSet: TDataSet);
@@ -282,18 +297,23 @@ begin
 //  myTextEdit := TcxOddTextEdit.Create(Self);
 //  myTextEdit.Parent := Panel1;
 //  myTextEdit.SetBounds(5, 5, 200, 25);
-//  ClientDataSet1.Append;
-//  ClientDataSet1['Unit'] := '码';
-//  ClientDataSet1['YOdd'] := '4*32.92+51.21';
-//  ClientDataSet1['MOdd'] := '4*32.92+51.21';
-//  ClientDataSet1['Price'] := 10;
-//  ClientDataSet1.Post;
-//  ClientDataSet1.Append;
-//  ClientDataSet1['Unit'] := '米';
-//  ClientDataSet1['YOdd'] := '3*39+20';
-//  ClientDataSet1['MOdd'] := '2*20+36';
-//  ClientDataSet1['Price'] := 10;
-//  ClientDataSet1.Post;
+  ClientDataSet1.Append;
+  ClientDataSet1['Unit'] := '码';
+  ClientDataSet1['SpecY'] := 39.37;
+  ClientDataSet1['SpecSale'] := 40;
+  ClientDataSet1['Piece'] := 3;
+  ClientDataSet1['OddY'] := '4*32.92+30';
+  ClientDataSet1['OddM'] := '2*50+35';
+  ClientDataSet1['Price'] := 10;
+  ClientDataSet1.Post;
+  ClientDataSet1.Append;
+  ClientDataSet1['Unit'] := '米';
+  ClientDataSet1['SpecY'] := 40;
+  ClientDataSet1['Piece'] := 2;
+  ClientDataSet1['OddY'] := '3*35.62+50';
+  ClientDataSet1['OddM'] := '2*30+38.6';
+  ClientDataSet1['Price'] := 10;
+  ClientDataSet1.Post;
 end;
 
 procedure TForm2.Timer1Timer(Sender: TObject);
