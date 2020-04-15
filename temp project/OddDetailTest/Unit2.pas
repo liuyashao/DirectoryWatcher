@@ -201,12 +201,12 @@ var
 
 begin
   UpateSpecSale := procedure
-  begin
-    if AUnit = ouMetre then
-      DataSet['SpecSale'] := DataSet['SpecM']
-    else
-      DataSet['SpecSale'] := DataSet['SpecY'];
-  end;
+    begin
+      if AUnit = ouMetre then
+        DataSet['SpecSale'] := DataSet['SpecM']
+      else
+        DataSet['SpecSale'] := DataSet['SpecY'];
+    end;
 
   AUnit := TOddUnit.Parse(DataSet.FieldByName('Unit').AsString);
   if SameTextEx(Field.FieldName, ['Unit', 'SpecY', 'SpecM', 'SpecSale', 'Piece', 'OddY', 'OddM', 'QtyCut']) then begin
@@ -232,18 +232,18 @@ begin
         DataSet['SpecY'] := RoundTo(Field.AsFloat/0.9144, -2);
         UpateSpecSale;
       end);
-    odRoll  := NewEmptyOD(AUnit).Add(DataSet.FieldByName('Piece').AsInteger, DataSet.FieldByName('SpecSale').AsFloat);
+    odRoll  := NewOD(AUnit).Add(DataSet.FieldByName('Piece').AsInteger, DataSet.FieldByName('SpecSale').AsFloat);
     odOddY  := ParseOD(DataSet.FieldByName('OddY').AsString, ouYard);
     odOddM  := ParseOD(DataSet.FieldByName('OddM').AsString, ouMetre);
-    odCut   := NewEmptyOD(AUnit).Add(1, DataSet.FieldByName('QtyCut').AsFloat);
-    odSale  := NewEmptyOD(AUnit).Append(odRoll).Append(odOddY).Append(odOddM).Append(odCut)
+    odCut   := NewOD(AUnit).Add(1, DataSet.FieldByName('QtyCut').AsFloat);
+    odSale  := NewOD(AUnit).Append(odRoll).Append(odOddY).Append(odOddM).Append(odCut)
       .Round(TRoundType(cbRoundType.ItemIndex));
     if AUnit = ouMetre then
-      odTotal := NewEmptyOD(AUnit).Add(DataSet.FieldByName('Piece').AsInteger, DataSet.FieldByName('SpecM').AsFloat)
+      odTotal := NewOD(AUnit).Add(DataSet.FieldByName('Piece').AsInteger, DataSet.FieldByName('SpecM').AsFloat)
     else
-      odTotal := NewEmptyOD(AUnit).Add(DataSet.FieldByName('Piece').AsInteger, DataSet.FieldByName('SpecY').AsFloat);
+      odTotal := NewOD(AUnit).Add(DataSet.FieldByName('Piece').AsInteger, DataSet.FieldByName('SpecY').AsFloat);
     odTotal.Append(odOddY).Append(odOddM).Append(odCut);
-    DataSet['OddTotal'] := NewEmptyOD(AUnit).Append(odOddY).Append(odOddM).ToString;
+    DataSet['OddTotal'] := NewOD(AUnit).Append(odOddY).Append(odOddM).ToString;
 	  DataSet['TotalDetail'] := odTotal.ToString;
 	  DataSet['TotalQtyY']   := RoundTo(odTotal.TotalQty[ouYard], -2);
     DataSet['TotalQtyM']   := RoundTo(odTotal.TotalQty[ouMetre], -2);
@@ -256,8 +256,7 @@ begin
 	  CalcAmount;
   end;
   if SameTextEx(Field.FieldName, ['SaleDetail']) then begin
-    odSale := ParseOD(DataSet.FieldByName('SaleDetail').AsString, AUnit)
-      .Round(TRoundType(cbRoundType.ItemIndex));
+    odSale := ParseOD(DataSet.FieldByName('SaleDetail').AsString, AUnit);
     DataSet['SaleQty'] := RoundTo(odSale.TotalQty[AUnit], -2); 
   end;	
   if SameTextEx(Field.FieldName, ['Price', 'SaleQty']) then
