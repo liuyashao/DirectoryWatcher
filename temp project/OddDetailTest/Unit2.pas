@@ -101,6 +101,7 @@ type
     cxGrid2spGridDBBandedTableView1TotalQtyY: TspGridDBBandedColumn;
     cxGrid2spGridDBBandedTableView1TotalQtyM: TspGridDBBandedColumn;
     cxGrid2spGridDBBandedTableView1TotalPiece: TspGridDBBandedColumn;
+    cbRoundType: TcxComboBox;
     procedure FormCreate(Sender: TObject);
     procedure cxGrid1DBTableView1EditKeyPress(Sender: TcxCustomGridTableView;
       AItem: TcxCustomGridTableItem; AEdit: TcxCustomEdit; var Key: Char);
@@ -132,11 +133,40 @@ var
 
 implementation
 
-uses uOddDetailUtils, Math, spFunc;
+uses
+  uOddDetailUtils, Math, spFunc;
 
 {$R *.dfm}
 
 { TForm2 }
+
+procedure TForm2.FormCreate(Sender: TObject);
+//var
+//  myTextEdit: TcxOddTextEdit;
+begin
+//  myTextEdit := TcxOddTextEdit.Create(Self);
+//  myTextEdit.Parent := Panel1;
+//  myTextEdit.SetBounds(5, 5, 200, 25);
+  TRoundType.FillStrings(cbRoundType.Properties.Items);
+  cbRoundType.ItemIndex := 1;
+  ClientDataSet1.Append;
+  ClientDataSet1['Unit'] := 'ย๋';
+  ClientDataSet1['SpecY'] := 39.37;
+  ClientDataSet1['SpecSale'] := 40;
+  ClientDataSet1['Piece'] := 3;
+  ClientDataSet1['OddY'] := '4*32.92+30';
+  ClientDataSet1['OddM'] := '2*50+35';
+  ClientDataSet1['Price'] := 10;
+  ClientDataSet1.Post;
+  ClientDataSet1.Append;
+  ClientDataSet1['Unit'] := 'รื';
+  ClientDataSet1['SpecY'] := 40;
+  ClientDataSet1['Piece'] := 2;
+  ClientDataSet1['OddY'] := '3*35.62+50';
+  ClientDataSet1['OddM'] := '2*30+38.6';
+  ClientDataSet1['Price'] := 10;
+  ClientDataSet1.Post;
+end;
 
 procedure TForm2.ClientDataSet1FieldChange(DataSet: TDataSet; Field: TField);
 var
@@ -206,7 +236,8 @@ begin
     odOddY  := ParseOD(DataSet.FieldByName('OddY').AsString, ouYard);
     odOddM  := ParseOD(DataSet.FieldByName('OddM').AsString, ouMetre);
     odCut   := NewEmptyOD(AUnit).Add(1, DataSet.FieldByName('QtyCut').AsFloat);
-    odSale  := NewEmptyOD(AUnit).Append(odRoll).Append(odOddY).Append(odOddM).Append(odCut);
+    odSale  := NewEmptyOD(AUnit).Append(odRoll).Append(odOddY).Append(odOddM).Append(odCut)
+      .Round(TRoundType(cbRoundType.ItemIndex));
     if AUnit = ouMetre then
       odTotal := NewEmptyOD(AUnit).Add(DataSet.FieldByName('Piece').AsInteger, DataSet.FieldByName('SpecM').AsFloat)
     else
@@ -225,7 +256,8 @@ begin
 	  CalcAmount;
   end;
   if SameTextEx(Field.FieldName, ['SaleDetail']) then begin
-    odSale := ParseOD(DataSet.FieldByName('SaleDetail').AsString, AUnit);	
+    odSale := ParseOD(DataSet.FieldByName('SaleDetail').AsString, AUnit)
+      .Round(TRoundType(cbRoundType.ItemIndex));
     DataSet['SaleQty'] := RoundTo(odSale.TotalQty[AUnit], -2); 
   end;	
   if SameTextEx(Field.FieldName, ['Price', 'SaleQty']) then
@@ -355,32 +387,6 @@ procedure TForm2.cxGrid1DBTableView1EditKeyPress(Sender: TcxCustomGridTableView;
   AItem: TcxCustomGridTableItem; AEdit: TcxCustomEdit; var Key: Char);
 begin
   Caption := AEdit.ClassName;
-end;
-
-procedure TForm2.FormCreate(Sender: TObject);
-//var
-//  myTextEdit: TcxOddTextEdit;
-begin
-//  myTextEdit := TcxOddTextEdit.Create(Self);
-//  myTextEdit.Parent := Panel1;
-//  myTextEdit.SetBounds(5, 5, 200, 25);
-  ClientDataSet1.Append;
-  ClientDataSet1['Unit'] := 'ย๋';
-  ClientDataSet1['SpecY'] := 39.37;
-  ClientDataSet1['SpecSale'] := 40;
-  ClientDataSet1['Piece'] := 3;
-  ClientDataSet1['OddY'] := '4*32.92+30';
-  ClientDataSet1['OddM'] := '2*50+35';
-  ClientDataSet1['Price'] := 10;
-  ClientDataSet1.Post;
-  ClientDataSet1.Append;
-  ClientDataSet1['Unit'] := 'รื';
-  ClientDataSet1['SpecY'] := 40;
-  ClientDataSet1['Piece'] := 2;
-  ClientDataSet1['OddY'] := '3*35.62+50';
-  ClientDataSet1['OddM'] := '2*30+38.6';
-  ClientDataSet1['Price'] := 10;
-  ClientDataSet1.Post;
 end;
 
 procedure TForm2.Timer1Timer(Sender: TObject);

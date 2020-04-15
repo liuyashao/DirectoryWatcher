@@ -13,7 +13,7 @@ object Form2: TForm2
   OldCreateOrder = False
   OnCreate = FormCreate
   PixelsPerInch = 96
-  TextHeight = 17
+  TextHeight = 16
   object cxGrid1: TcxGrid
     Left = 0
     Top = 35
@@ -187,6 +187,13 @@ object Form2: TForm2
       Top = 5
       TabOrder = 3
       Text = 'spTextEditEx1'
+      Width = 121
+    end
+    object cbRoundType: TcxComboBox
+      Left = 208
+      Top = 5
+      Properties.DropDownListStyle = lsEditFixedList
+      TabOrder = 4
       Width = 121
     end
   end
