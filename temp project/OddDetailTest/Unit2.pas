@@ -124,7 +124,6 @@ type
       Sender: TspGridDBBandedTableView; Column: TspGridDBBandedColumn;
       EditControl: TWinControl; const EditValue: string);
   private
-    FPreventFieldChange: Boolean;
     procedure EditValueChanging(const FieldName, EditValue: string);
   end;
 
@@ -148,24 +147,7 @@ var
   odCut: IOddDetail;//散剪
   odSale: IOddDetail;//销售明细
   odTotal: IOddDetail;//出库明细
-  
-  procedure PreventFieldChange(Proc: TProc);
-  begin
-    FPreventFieldChange := True;
-    try
-      proc;
-    finally
-      FPreventFieldChange := False;
-    end;  
-  end;
-
-  procedure SetSpecSale;
-  begin
-    if AUnit = ouMetre then
-      DataSet['SpecSale'] := DataSet['SpecM']
-    else
-      DataSet['SpecSale'] := DataSet['SpecY'];
-  end;
+  UpateSpecSale: TProc;
 
   procedure CalcAmount;
   begin
@@ -175,42 +157,51 @@ var
     end;
   end;
 
+  procedure PreventFieldChange(Proc: TProc);
+  begin
+    if DataSet is TspClientDataSet then
+      (DataSet as TspClientDataSet).DisableFieldChanges;
+    try
+      Proc;
+    finally
+      if DataSet is TspClientDataSet then
+        (DataSet as TspClientDataSet).EnableFieldChanges;
+    end;
+  end;
+
 begin
-  if FPreventFieldChange then
-    Exit;
+  UpateSpecSale := procedure
+  begin
+    if AUnit = ouMetre then
+      DataSet['SpecSale'] := DataSet['SpecM']
+    else
+      DataSet['SpecSale'] := DataSet['SpecY'];
+  end;
+
   AUnit := TOddUnit.Parse(DataSet.FieldByName('Unit').AsString);
   if SameTextEx(Field.FieldName, ['Unit', 'SpecY', 'SpecM', 'SpecSale', 'Piece', 'OddY', 'OddM', 'QtyCut']) then begin
-    if SameText(Field.FieldName, 'Unit') then begin
-      FPreventFieldChange := True;
-      try
-        SetSpecSale;
+    if SameText(Field.FieldName, 'Unit') then
+      PreventFieldChange(procedure
+      begin
+        UpateSpecSale;
         if AUnit = ouRoll then begin
           DataSet['OddY'] := null;
           DataSet['OddM'] := null;
           DataSet['QtyCut'] := null;
         end;
-      finally
-        FPreventFieldChange := False;
-      end;
-    end;
-    if SameText(Field.FieldName, 'SpecY') then begin
-      FPreventFieldChange := True;
-      try
+      end);
+    if SameText(Field.FieldName, 'SpecY') then
+      PreventFieldChange(procedure
+      begin
         DataSet['SpecM'] := RoundTo(Field.AsFloat*0.9144, -2);
-        SetSpecSale;
-      finally
-        FPreventFieldChange := False;
-      end;
-    end;
-    if SameText(Field.FieldName, 'SpecM') then begin
-      FPreventFieldChange := True;
-      try
+        UpateSpecSale;
+      end);
+    if SameText(Field.FieldName, 'SpecM') then
+      PreventFieldChange(procedure
+	    begin
         DataSet['SpecY'] := RoundTo(Field.AsFloat/0.9144, -2);
-        SetSpecSale;
-      finally
-        FPreventFieldChange := False;
-      end;
-    end;
+        UpateSpecSale;
+      end);
     odRoll  := NewEmptyOD(AUnit).Add(DataSet.FieldByName('Piece').AsInteger, DataSet.FieldByName('SpecSale').AsFloat);
     odOddY  := ParseOD(DataSet.FieldByName('OddY').AsString, ouYard);
     odOddM  := ParseOD(DataSet.FieldByName('OddM').AsString, ouMetre);
@@ -226,11 +217,11 @@ begin
 	  DataSet['TotalQtyY']   := RoundTo(odTotal.TotalQty[ouYard], -2);
     DataSet['TotalQtyM']   := RoundTo(odTotal.TotalQty[ouMetre], -2);
     DataSet['TotalPiece']  := odTotal.TotalPieces;	
-	  PreventFieldChange(
-      procedure begin
-          DataSet['SaleDetail'] := odSale.ToString;
-          DataSet['SaleQty']    := RoundTo(odSale.TotalQty[AUnit], -2);
-      end);
+	  PreventFieldChange(procedure
+    begin
+      DataSet['SaleDetail'] := odSale.ToString;
+      DataSet['SaleQty']    := RoundTo(odSale.TotalQty[AUnit], -2);
+    end);
 	  CalcAmount;
   end;
   if SameTextEx(Field.FieldName, ['SaleDetail']) then begin

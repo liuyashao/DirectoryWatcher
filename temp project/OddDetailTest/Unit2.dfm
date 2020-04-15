@@ -13,7 +13,7 @@ object Form2: TForm2
   OldCreateOrder = False
   OnCreate = FormCreate
   PixelsPerInch = 96
-  TextHeight = 16
+  TextHeight = 17
   object cxGrid1: TcxGrid
     Left = 0
     Top = 35
