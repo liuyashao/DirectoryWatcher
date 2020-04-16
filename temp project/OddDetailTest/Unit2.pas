@@ -126,6 +126,7 @@ type
       EditControl: TWinControl; const EditValue: string);
   private
     procedure EditValueChanging(const FieldName, EditValue: string);
+	procedure CalcSaleWithRoundType(RoundType: TRoundType);
   end;
 
 var
@@ -262,6 +263,16 @@ begin
   if SameTextEx(Field.FieldName, ['Price', 'SaleQty']) then
     CalcAmount;
 end;
+
+procedure TForm2.CalcSaleWithRoundType(RoundType: TRoundType);
+begin
+  if ClientDataSet1.Active then
+  ForEachRecord(ClientDataSet1, 
+    procedure(DataSet: TDataSet)
+    begin
+      ClientDataSet1FieldChange(DataSet, DataSet.FieldByName('Piece'));
+    end);
+end
 
 procedure TForm2.cxGrid1spGridDBTableView1EditValueChanging(
   Sender: TspGridDBTableView; Column: TspGridDBColumn; EditControl: TWinControl;

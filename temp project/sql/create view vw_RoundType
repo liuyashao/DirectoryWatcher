@@ -1,0 +1,18 @@
+create view vw_RoundType
+as
+    ( select    cast('rtNone' as varchar(20)) as RoundType ,
+                cast('不进位' as varchar(30)) as RoundName
+      union all
+      select    'rtRoundToInt' ,
+                '四舍五入取整'
+      union all
+      select    'rtRoundToOneDecimal' ,
+                '保留一位小数'
+      union all
+      select    'rtCeil' ,
+                '向上取整'
+      union all
+      select    'rtFloor' ,
+                '向下取整'
+    )
+go
