@@ -193,6 +193,7 @@ object Form2: TForm2
       Left = 208
       Top = 5
       Properties.DropDownListStyle = lsEditFixedList
+      Properties.OnChange = cbRoundTypePropertiesChange
       TabOrder = 4
       Width = 121
     end
@@ -208,7 +209,11 @@ object Form2: TForm2
       Navigator.Buttons.CustomButtons = <>
       DataController.DataSource = DataSource1
       DataController.Summary.DefaultGroupSummaryItems = <>
-      DataController.Summary.FooterSummaryItems = <>
+      DataController.Summary.FooterSummaryItems = <
+        item
+          Kind = skSum
+          Column = cxGrid2spGridDBBandedTableView1SaleQty
+        end>
       DataController.Summary.SummaryGroups = <>
       Styles.Content = cxStyle1
       Bands = <
