@@ -190,12 +190,20 @@ object Form2: TForm2
       Width = 121
     end
     object cbRoundType: TcxComboBox
-      Left = 208
+      Left = 184
       Top = 5
       Properties.DropDownListStyle = lsEditFixedList
       Properties.OnChange = cbRoundTypePropertiesChange
       TabOrder = 4
-      Width = 121
+      Width = 137
+    end
+    object cxButton1: TcxButton
+      Left = 320
+      Top = 6
+      Width = 24
+      Height = 22
+      Caption = #27604
+      TabOrder = 5
     end
   end
   object cxGrid2: TcxGrid
@@ -840,7 +848,7 @@ object Form2: TForm2
   end
   object dxSkinController1: TdxSkinController
     NativeStyle = False
-    SkinName = 'TheAsphaltWorld'
+    SkinName = 'Springtime'
     Left = 272
     Top = 24
   end

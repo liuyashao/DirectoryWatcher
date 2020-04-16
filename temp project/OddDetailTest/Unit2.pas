@@ -27,7 +27,8 @@ uses
   dxSkinsDefaultPainters, dxSkinValentine, dxSkinVisualStudio2013Blue,
   dxSkinVisualStudio2013Dark, dxSkinVisualStudio2013Light, dxSkinVS2010,
   dxSkinWhiteprint, dxSkinXmas2008Blue, Vcl.ExtCtrls, spTextEditEx,
-  cxGridBandedTableView, cxGridDBBandedTableView, spGridDBBandedTableView;
+  cxGridBandedTableView, cxGridDBBandedTableView, spGridDBBandedTableView,
+  Vcl.Menus, cxButtons;
 
 type
   TForm2 = class(TForm)
@@ -102,6 +103,7 @@ type
     cxGrid2spGridDBBandedTableView1TotalQtyM: TspGridDBBandedColumn;
     cxGrid2spGridDBBandedTableView1TotalPiece: TspGridDBBandedColumn;
     cbRoundType: TcxComboBox;
+    cxButton1: TcxButton;
     procedure FormCreate(Sender: TObject);
     procedure cxGrid1DBTableView1EditKeyPress(Sender: TcxCustomGridTableView;
       AItem: TcxCustomGridTableItem; AEdit: TcxCustomEdit; var Key: Char);
