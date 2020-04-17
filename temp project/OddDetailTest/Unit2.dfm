@@ -3,7 +3,7 @@ object Form2: TForm2
   Top = 0
   Caption = 'Form2'
   ClientHeight = 536
-  ClientWidth = 1112
+  ClientWidth = 1342
   Color = clBtnFace
   Font.Charset = ANSI_CHARSET
   Font.Color = clWindowText
@@ -17,10 +17,11 @@ object Form2: TForm2
   object cxGrid1: TcxGrid
     Left = 0
     Top = 35
-    Width = 1112
+    Width = 1342
     Height = 221
     Align = alTop
     TabOrder = 0
+    ExplicitWidth = 1112
     object cxGrid1spGridDBTableView1: TspGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       DataController.DataSource = DataSource1
@@ -41,6 +42,7 @@ object Form2: TForm2
         end>
       DataController.Summary.SummaryGroups = <>
       OptionsView.Footer = True
+      OptionsView.GroupByBox = False
       Styles.Content = cxStyle1
       DisplayTemplate = <>
       StateOptions.Font.Charset = DEFAULT_CHARSET
@@ -104,6 +106,7 @@ object Form2: TForm2
         HeaderAlignmentHorz = taCenter
       end
       object cxGrid1spGridDBTableView1SaleDetail: TspGridDBColumn
+        Caption = #26126#32454
         DataBinding.FieldName = 'SaleDetail'
         PropertiesClassName = 'TcxOddTextEditProperties'
         HeaderAlignmentHorz = taCenter
@@ -156,11 +159,12 @@ object Form2: TForm2
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 1112
+    Width = 1342
     Height = 35
     Align = alTop
     BevelOuter = bvNone
     TabOrder = 1
+    ExplicitWidth = 1112
     object cxTextEdit1: TcxTextEdit
       Left = 600
       Top = 5
@@ -200,19 +204,43 @@ object Form2: TForm2
     object cxButton1: TcxButton
       Left = 320
       Top = 6
-      Width = 24
+      Width = 27
       Height = 22
-      Caption = #27604
+      Caption = #23545#27604
+      OptionsImage.Glyph.SourceDPI = 96
+      OptionsImage.Glyph.Data = {
+        89504E470D0A1A0A0000000D4948445200000020000000200806000000737A7A
+        F4000001E9494441545847ED963F68535114C6BF2F4F8D7F06932771142AB911
+        741304976241104470B2056771C8CBA4A8839B93E0A0204DAAAD20888B76511C
+        FC33084E826255C422BDA18E16A2EF254D5084E47DF22A0A522834DE920EEFEE
+        F79CDFF91DCEB99718F0E180F32305480DA4069619F06B566B399A6160FEC9B9
+        7E01243440CC3AB121EC25514862ADC6C07418983117007ED54E8338F15F00F9
+        EADC3CC9A16EAC838B5FCD6B7F67BD0D602BC45D623C4CF116882D80BEC4E4B1
+        66D9BCFD03EF08C04E92381D13A7BAB15E6E226705CDC3F3F6A3D76B10B48871
+        0919DC93F024AA98A34E01FC713B96048F81AB146648DC95741399CC38A50F02
+        5E448119C94DD89118DEF7C5F2EE574E0172D73EE798ED86049EC5C0C70C70B6
+        278CB61AC507F942FD1D897D021E437A18056612E4DF7176D282A49A7CCDCE50
+        2888A80338A49F1BFCE699A126EE2C6CF33BED9380CE01DC23E1515431C79D1A
+        F80D307785E079481D809FC28A3980FBF272DFEAC312DBADA0F8C6AFDA05413B
+        A24A69A37380ED557BC4239E2681055C8E02731112FD897A47D20F8053002E80
+        0AA3A0B434F7C971D6025CB7D9BC8716896C8F3CDC2A179F2F25A8D95148B745
+        6E86F01ED45414946EB807E8732BF565603DACE23EEB5DF9DA6ADE82C100AC49
+        D61582A65FB2D4406A60E0067E011B812230E6EAC3A60000000049454E44AE42
+        6082}
+      OptionsImage.Layout = blGlyphTop
+      OptionsImage.Spacing = 0
+      PaintStyle = bpsGlyph
       TabOrder = 5
     end
   end
   object cxGrid2: TcxGrid
     Left = 0
     Top = 256
-    Width = 1112
+    Width = 1342
     Height = 280
     Align = alClient
     TabOrder = 2
+    ExplicitWidth = 1112
     object cxGrid2spGridDBBandedTableView1: TspGridDBBandedTableView
       Navigator.Buttons.CustomButtons = <>
       DataController.DataSource = DataSource1
@@ -223,6 +251,7 @@ object Form2: TForm2
           Column = cxGrid2spGridDBBandedTableView1SaleQty
         end>
       DataController.Summary.SummaryGroups = <>
+      OptionsView.GroupByBox = False
       Styles.Content = cxStyle1
       Bands = <
         item
@@ -357,6 +386,7 @@ object Form2: TForm2
         Position.RowIndex = 0
       end
       object cxGrid2spGridDBBandedTableView1SaleDetail: TspGridDBBandedColumn
+        Caption = #26126#32454
         DataBinding.FieldName = 'SaleDetail'
         PropertiesClassName = 'TcxOddTextEditProperties'
         HeaderAlignmentHorz = taCenter
@@ -366,6 +396,7 @@ object Form2: TForm2
         Position.RowIndex = 0
       end
       object cxGrid2spGridDBBandedTableView1SaleQty: TspGridDBBandedColumn
+        Caption = #25968#37327
         DataBinding.FieldName = 'SaleQty'
         HeaderAlignmentHorz = taCenter
         Width = 82
@@ -848,7 +879,7 @@ object Form2: TForm2
   end
   object dxSkinController1: TdxSkinController
     NativeStyle = False
-    SkinName = 'Springtime'
+    SkinName = 'MoneyTwins'
     Left = 272
     Top = 24
   end
