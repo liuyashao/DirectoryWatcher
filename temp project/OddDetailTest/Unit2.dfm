@@ -21,7 +21,6 @@ object Form2: TForm2
     Height = 221
     Align = alTop
     TabOrder = 0
-    ExplicitWidth = 1112
     object cxGrid1spGridDBTableView1: TspGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       DataController.DataSource = DataSource1
@@ -164,7 +163,6 @@ object Form2: TForm2
     Align = alTop
     BevelOuter = bvNone
     TabOrder = 1
-    ExplicitWidth = 1112
     object cxTextEdit1: TcxTextEdit
       Left = 600
       Top = 5
@@ -240,9 +238,9 @@ object Form2: TForm2
     Height = 280
     Align = alClient
     TabOrder = 2
-    ExplicitWidth = 1112
     object cxGrid2spGridDBBandedTableView1: TspGridDBBandedTableView
       Navigator.Buttons.CustomButtons = <>
+      OnEditKeyPress = cxGrid2spGridDBBandedTableView1EditKeyPress
       DataController.DataSource = DataSource1
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <
@@ -386,7 +384,6 @@ object Form2: TForm2
         Position.RowIndex = 0
       end
       object cxGrid2spGridDBBandedTableView1SaleDetail: TspGridDBBandedColumn
-        Caption = #26126#32454
         DataBinding.FieldName = 'SaleDetail'
         PropertiesClassName = 'TcxOddTextEditProperties'
         HeaderAlignmentHorz = taCenter

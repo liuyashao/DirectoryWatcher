@@ -127,6 +127,9 @@ type
       Sender: TspGridDBBandedTableView; Column: TspGridDBBandedColumn;
       EditControl: TWinControl; const EditValue: string);
     procedure cbRoundTypePropertiesChange(Sender: TObject);
+    procedure cxGrid2spGridDBBandedTableView1EditKeyPress(
+      Sender: TcxCustomGridTableView; AItem: TcxCustomGridTableItem;
+      AEdit: TcxCustomEdit; var Key: Char);
   private
     procedure EditValueChanging(const FieldName, EditValue: string);
   end;
@@ -284,6 +287,18 @@ procedure TForm2.cxGrid1spGridDBTableView1EditValueChanging(
   const EditValue: string);
 begin
   EditValueChanging(Column.DataBinding.FieldName, EditValue);
+end;
+
+procedure TForm2.cxGrid2spGridDBBandedTableView1EditKeyPress(
+  Sender: TcxCustomGridTableView; AItem: TcxCustomGridTableItem;
+  AEdit: TcxCustomEdit; var Key: Char);
+begin
+  if (TOddUnit.Parse(ClientDataSet1.FieldByName('Unit').AsString) = ouRoll) and
+    SameTextEx((AItem as TspGridDBBandedColumn).DataBinding.FieldName, ['OddY', 'OddM', 'QtyCut', 'SpecCut'])
+  then begin
+    Key := #0;
+    ShowGridTableItemHintMsg(AItem, '单位为支时，只能整支销售，不能输入零头或散剪', 4000);
+  end;
 end;
 
 procedure TForm2.cxGrid2spGridDBBandedTableView1EditValueChanging(
