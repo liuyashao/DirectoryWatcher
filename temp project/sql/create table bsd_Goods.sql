@@ -22,10 +22,12 @@ Grain varchar(100),
 Thick varchar(100),
 Size varchar(100),
 
-DefLocation varchar(50),
+DefaultltSeat varchar(30),
 FactoryCode varchar(50),
 SupplierCode varchar(50),
 SupplierName varchar(100),
+
+Disabled int default 0,
 
 PYCode varchar(100)
 )
