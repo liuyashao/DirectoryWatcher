@@ -2,10 +2,10 @@ create table sto_Stock(
 Id INT NOT NULL PRIMARY KEY,
 StoreNo varchar(20) not null,
 GoodsCode varchar(50) not null,
-Qty decimal(18, 2) not null default 0;
+QtyY decimal(18, 2) not null default 0;
 SpecY decimal(18, 2) not null, 
-Lot varchar(30),
-Seat varchar(30),
+Lot varchar(30) default '',
+Seat varchar(30) default '',
 CostPrice decimal(18, 4) not null default 0,
 LastInDate timestamp,
 LastSaleDate timestamp
