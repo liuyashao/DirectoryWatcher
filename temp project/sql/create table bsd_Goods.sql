@@ -11,7 +11,8 @@ PurchaseUnit varchar(10) not null,
 
 SpecY decimal(12, 2) not null,
 SpecM decimal(12, 2) not null,
-SpecSale decimal(12, 2) not null,
+SpecSaleY decimal(12, 2) not null,
+SpecSaleM decimal(12, 2) not null,
 
 pfPrice decimal(12, 2),
 lsPrice decimal(12, 2),
