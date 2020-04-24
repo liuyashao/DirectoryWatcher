@@ -8,6 +8,12 @@ uses
 type 
   TCostManageType = (cmtMovingAverage=1, cmtLot=2);//('移动平均', '批次计价')
   
+  TCostManageTypeHelper = record helper of TCostManageType
+    function ToString: string;
+	function ToInteger: Integer;
+	class fucntion P(const Str: string): TCostManageType; static;
+  end
+  
   TWHProperty = record
     Code: string;
     Name: string;
