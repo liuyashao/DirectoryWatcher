@@ -5,6 +5,7 @@ StoreNo varchar(20) not null,
 SpecFlag int default 0，
 LotFlag int default 0，
 SeatFlag int default 0，
-CostManageType varchar(20) not null check(CostManageType in ('移动平均', '批次计价'))
+CostManageType int not null,
+--1为移动平均  2为批次计价
 --批次计价时，LotFlag必须为1
 )
