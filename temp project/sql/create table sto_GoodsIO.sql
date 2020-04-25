@@ -12,7 +12,7 @@ InQtyY decimal(18, 2),
 InPiece int,
 OutQtyY decimal(18, 2),
 OutPiece int, 
-CostAmount decimal(18, 4),
+CostPriceY decimal(18, 4),
 
 GuestCode varchar(20),
 GuestName varchar(60)

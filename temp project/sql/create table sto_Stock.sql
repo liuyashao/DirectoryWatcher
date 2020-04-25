@@ -6,7 +6,7 @@ QtyY decimal(18, 2) not null default 0;
 SpecY decimal(18, 2) not null, 
 Lot varchar(30) default '',
 Seat varchar(30) default '',
-CostPrice decimal(18, 4) not null default 0,
+CostPriceY decimal(18, 4) not null default 0,
 LastInDate timestamp,
 LastOutDate timestamp
 )
