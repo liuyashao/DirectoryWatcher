@@ -17,7 +17,7 @@ object Form1: TForm1
     Left = 41
     Top = 59
     Width = 752
-    Height = 355
+    Height = 174
     Lines.Strings = (
       'Memo1')
     TabOrder = 0
@@ -38,5 +38,11 @@ object Form1: TForm1
     Height = 24
     TabOrder = 2
     Text = '3*36+56+1*36+20'
+  end
+  object cxOddTextEdit1: TcxOddTextEdit
+    Left = 41
+    Top = 248
+    TabOrder = 3
+    Width = 121
   end
 end
