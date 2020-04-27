@@ -1,6 +1,6 @@
 create table sto_Stock(
 Id INT NOT NULL PRIMARY KEY,
-WHCode varchar(10) not null,
+WHId int not null,
 GoodsCode varchar(50) not null,
 QtyY decimal(18, 2) not null default 0;
 SpecY decimal(18, 2) not null, 
@@ -12,10 +12,10 @@ LastOutDate timestamp
 )
 
 
-create index idx_sto_Stock_WHCode on sto_Stock(WHCode, GoodsCode, SpecY, Lot, Seat) 
+create index idx_sto_Stock_WHId on sto_Stock(WHId, GoodsCode, SpecY, Lot, Seat) 
 go
 
-create index idx_sto_Stock_GoodsCode on sto_Stock(GoodsCode, WHCode) 
+create index idx_sto_Stock_GoodsCode on sto_Stock(GoodsCode, WHId) 
 go
 
 create index idx_sto_Stock_SpecY on sto_Stock(SpecY)
