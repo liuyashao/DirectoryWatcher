@@ -1,7 +1,7 @@
 create table bsd_WareHouses(
 Id int not null primary key,
 Name varchar(50) not null,
-StoreId int not null,
+StoreNo varchar(10) not null,
 SpecFlag int default 0,
 LotFlag int default 0,
 SeatFlag int default 0,

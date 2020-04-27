@@ -1,5 +1,5 @@
 create table bsd_Store(
-Id Int not null primary key
+StoreNo varchar(10) not null primary key
 Name varchar(100) not null,
 LinkPerson varchar(20)
 Telphone varchar(100) null,
