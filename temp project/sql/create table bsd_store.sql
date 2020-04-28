@@ -9,3 +9,4 @@ AddressCounty varchar(20),
 AddressTown varchar(20),
 AddressDetail varchar(100)
 )
+go
