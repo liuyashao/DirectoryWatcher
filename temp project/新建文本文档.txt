@@ -1,0 +1,10 @@
+var
+  RegEx: TRegEx;
+  Match: TMatch;
+begin
+//  Edit1.Text := NumberToZeroPadStr(20, 5);
+  RegEx := TRegEx.Create('^[\w\W]*[a-zA-Z]([0-9]{6})(\d+)$', [roIgnoreCase]);
+  Match := RegEx.Match(Edit1.Text);
+  if Match.Success then
+    ShowMessage(Match.Groups[2].Value)
+end;
