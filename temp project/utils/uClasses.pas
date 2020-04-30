@@ -14,15 +14,23 @@ type
 	class function Parse(const Str: string): TCostManageType; static;
   end
   
-  TWHProperty = record
-    Code: string;
+  TWHProperty = record  
+  private var
+    FLock: TObject;
+	FCaches: TDIC;
+	class constructor Create;
+	class destructor Destroy; 
+  private
+    FNotFound: Boolean;    
+  public
+    Id: Integer;
     Name: string;
     StoreNo: string;
     SpecFlag: Boolean;
     LotFlag: Boolean;
     SeatFlag: Boolean;
     CostManageType: TCostManageType;
-    class function LoadFromDB(const WHCode: string; Conn: TUniConn = nil): TWHProperty; static;	
+    class procedure Reset; 	
   end;
   
   TGoodsProperty = record
