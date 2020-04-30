@@ -11,8 +11,9 @@ object Form4: TForm4
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  OnCreate = FormCreate
   PixelsPerInch = 96
-  TextHeight = 14
+  TextHeight = 13
   object cxGrid1: TcxGrid
     Left = 112
     Top = 32
@@ -34,6 +35,7 @@ object Form4: TForm4
       object cxGrid1spGridDBTableView1str: TspGridDBColumn
         DataBinding.FieldName = 'str'
         PropertiesClassName = 'TcxTextEditProperties'
+        Properties.OnValidate = cxGrid1spGridDBTableView1strPropertiesValidate
         OnGetProperties = cxGrid1spGridDBTableView1strGetProperties
         OnGetPropertiesForEdit = cxGrid1spGridDBTableView1strGetPropertiesForEdit
       end
