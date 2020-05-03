@@ -1,6 +1,7 @@
 create table bsd_guests(
 Code varchar(30) not null,
 Name varchar(60) not null,
+StoreNo varchar(10) not null,
 IsGuest int default 0,
 IsSupplier int default 0,
 
@@ -13,23 +14,19 @@ AddressTown varchar(20),
 AddressDetail varchar(100),
 
 LinkMan varchar(30),
-LinkSex varchar(15),
 HandPhone varchar(30),
 Telephone varchar(30),
 OtherPhone varchar(30),
 Fax varchar(30),
-Homepage varchar(50),
 
 Email varchar(50),
 TaxNumber varchar(30),
 Bank varchar(30),
 BankNumber varchar(30),
 InvoAddress varchar(100),
-BusiNumber varchar(30),
 
 MaxAmount decimal(15, 4) default 5000,
 AccountLimitDays int,
-
 
 PYCode varchar(60), 
 Remark varchar(200),
