@@ -30,7 +30,6 @@ AccountLimitDays int,
 
 PYCode varchar(60), 
 Remark varchar(200),
-IsSys SmallInt,
 
 PrePay decimal(15, 4) default 0,
 PreIncome decimal(15, 4) default 0,
