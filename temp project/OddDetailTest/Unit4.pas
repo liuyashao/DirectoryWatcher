@@ -25,7 +25,8 @@ uses
   dxSkinTheAsphaltWorld, dxSkinTheBezier, dxSkinsDefaultPainters,
   dxSkinValentine, dxSkinVisualStudio2013Blue, dxSkinVisualStudio2013Dark,
   dxSkinVisualStudio2013Light, dxSkinVS2010, dxSkinWhiteprint,
-  dxSkinXmas2008Blue;
+  dxSkinXmas2008Blue, cxContainer, cxMaskEdit, cxDropDownEdit, cxLookupEdit,
+  cxDBLookupEdit, cxDBExtLookupComboBox;
 
 type
   TForm4 = class(TForm)
@@ -36,6 +37,11 @@ type
     DataSource1: TDataSource;
     ClientDataSet1str: TStringField;
     cxGrid1spGridDBTableView1str: TspGridDBColumn;
+    cxDBExtLookupComboBox1: TcxDBExtLookupComboBox;
+    ClientDataSet1dt: TDateTimeField;
+    ClientDataSet1float: TFloatField;
+    cxGrid1spGridDBTableView1dt: TspGridDBColumn;
+    cxGrid1spGridDBTableView1float: TspGridDBColumn;
     procedure cxGrid1spGridDBTableView1strPropertiesValidate(Sender: TObject;
       var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
     procedure cxGrid1spGridDBTableView1strGetPropertiesForEdit(
@@ -83,15 +89,15 @@ end;
 
 procedure TForm4.FormCreate(Sender: TObject);
 begin
-  cxGrid1spGridDBTableView1str.RegisterValidateItem(TValidateItem.Construct(
-  function (ADisplayValue: TcxEditValue; AEdit: TcxCustomEdit; AEditingItem: TcxCustomGridTableItem): TValidateResult
-  begin
-    Result.Error := VarToStr(ADisplayValue).Length mod 2 = 1;
-    if Result.Error then begin
-      Result.ErrorText := '长度不能为奇数';
-//      Result.DisplayValue := '';
-    end;
-  end));
+//  cxGrid1spGridDBTableView1str.RegisterValidateItem(TspValidateItem.Construct(
+//  function (ADisplayValue: TcxEditValue; AEdit: TcxCustomEdit; AEditingItem: TcxCustomGridTableItem): TspValidateResult
+//  begin
+//    Result.Error := VarToStr(ADisplayValue).Length mod 2 = 1;
+//    if Result.Error then begin
+//      Result.ErrorText := '长度不能为奇数';
+////      Result.DisplayValue := '';
+//    end;
+//  end));
 end;
 
 end.
