@@ -16,9 +16,9 @@ object Form4: TForm4
   TextHeight = 14
   object cxGrid1: TcxGrid
     Left = 8
-    Top = 24
+    Top = 8
     Width = 417
-    Height = 200
+    Height = 161
     TabOrder = 0
     object cxGrid1spGridDBTableView1: TspGridDBTableView
       Navigator.Buttons.CustomButtons = <>
@@ -58,6 +58,28 @@ object Form4: TForm4
     Top = 120
     TabOrder = 1
     Width = 145
+  end
+  object Button1: TButton
+    Left = 568
+    Top = 24
+    Width = 75
+    Height = 25
+    Caption = 'Button1'
+    TabOrder = 2
+    OnClick = Button1Click
+  end
+  object DBGrid1: TDBGrid
+    Left = 40
+    Top = 192
+    Width = 320
+    Height = 77
+    DataSource = DataSource2
+    TabOrder = 3
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'Tahoma'
+    TitleFont.Style = []
   end
   object ClientDataSet1: TClientDataSet
     PersistDataPacket.Data = {
@@ -100,5 +122,28 @@ object Form4: TForm4
     DataSet = ClientDataSet1
     Left = 504
     Top = 136
+  end
+  object dxMemData1: TdxMemData
+    Indexes = <>
+    SortOptions = []
+    Left = 592
+    Top = 184
+  end
+  object VirtualQuery1: TVirtualQuery
+    Active = True
+    SourceDataSets = <
+      item
+        TableName = 'ClientDataSet1'
+        DataSet = ClientDataSet1
+      end>
+    SQL.Strings = (
+      'select count(*) as cnt from ClientDataSet1')
+    Left = 600
+    Top = 64
+  end
+  object DataSource2: TDataSource
+    DataSet = VirtualQuery1
+    Left = 344
+    Top = 216
   end
 end

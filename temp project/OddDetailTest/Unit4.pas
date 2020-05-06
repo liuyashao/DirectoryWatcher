@@ -26,7 +26,8 @@ uses
   dxSkinValentine, dxSkinVisualStudio2013Blue, dxSkinVisualStudio2013Dark,
   dxSkinVisualStudio2013Light, dxSkinVS2010, dxSkinWhiteprint,
   dxSkinXmas2008Blue, cxContainer, cxMaskEdit, cxDropDownEdit, cxLookupEdit,
-  cxDBLookupEdit, cxDBExtLookupComboBox;
+  cxDBLookupEdit, cxDBExtLookupComboBox, dxmdaset, MemDS, DBAccess, VirtualQuery,
+  Vcl.StdCtrls, Vcl.Grids, Vcl.DBGrids;
 
 type
   TForm4 = class(TForm)
@@ -42,6 +43,11 @@ type
     ClientDataSet1float: TFloatField;
     cxGrid1spGridDBTableView1dt: TspGridDBColumn;
     cxGrid1spGridDBTableView1float: TspGridDBColumn;
+    dxMemData1: TdxMemData;
+    VirtualQuery1: TVirtualQuery;
+    Button1: TButton;
+    DataSource2: TDataSource;
+    DBGrid1: TDBGrid;
     procedure cxGrid1spGridDBTableView1strPropertiesValidate(Sender: TObject;
       var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
     procedure cxGrid1spGridDBTableView1strGetPropertiesForEdit(
@@ -51,6 +57,7 @@ type
       Sender: TcxCustomGridTableItem; ARecord: TcxCustomGridRecord;
       var AProperties: TcxCustomEditProperties);
     procedure FormCreate(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -65,6 +72,15 @@ implementation
 USES spClasses;
 
 {$R *.dfm}
+
+procedure TForm4.Button1Click(Sender: TObject);
+begin
+//  VirtualQuery1.Close;
+//  VirtualQuery1.SQL.Text := 'select count(*) as cnt from ClientDataSet1';
+//  VirtualQuery1.Open;
+//  ShowMessage(VirtualQuery1.Fields[0].AsString);
+  ClientDataSet1['dt'] := null;
+end;
 
 procedure TForm4.cxGrid1spGridDBTableView1strGetProperties(
   Sender: TcxCustomGridTableItem; ARecord: TcxCustomGridRecord;
