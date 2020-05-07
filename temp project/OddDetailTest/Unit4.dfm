@@ -11,6 +11,7 @@ object Form4: TForm4
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  ShowHint = True
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 14
@@ -71,8 +72,44 @@ object Form4: TForm4
         DataBinding.FieldName = 'lk'
       end
     end
+    object cxGrid1spGridDBTableView2: TspGridDBTableView
+      Navigator.Buttons.CustomButtons = <>
+      DataController.DataSource = DataSource1
+      DataController.Summary.DefaultGroupSummaryItems = <>
+      DataController.Summary.FooterSummaryItems = <>
+      DataController.Summary.SummaryGroups = <>
+      DisplayTemplate = <>
+      StateOptions.Font.Charset = DEFAULT_CHARSET
+      StateOptions.Font.Color = clWindowText
+      StateOptions.Font.Height = -11
+      StateOptions.Font.Name = 'Tahoma'
+      StateOptions.Font.Style = []
+      object cxGrid1spGridDBTableView2str: TspGridDBColumn
+        DataBinding.FieldName = 'str'
+      end
+      object cxGrid1spGridDBTableView2dt: TspGridDBColumn
+        DataBinding.FieldName = 'dt'
+      end
+      object cxGrid1spGridDBTableView2float: TspGridDBColumn
+        DataBinding.FieldName = 'float'
+      end
+      object cxGrid1spGridDBTableView2Int: TspGridDBColumn
+        DataBinding.FieldName = 'Int'
+        PropertiesClassName = 'TcxTextEditProperties'
+        Properties.ValidationOptions = [evoShowErrorIcon, evoAllowLoseFocus]
+        Properties.OnValidate = cxGrid1spGridDBTableView2IntPropertiesValidate
+        OnValidateDrawValue = cxGrid1spGridDBTableView2IntValidateDrawValue
+        CommonValidatations = [cvNotNull]
+      end
+      object cxGrid1spGridDBTableView2lk: TspGridDBColumn
+        DataBinding.FieldName = 'lk'
+        PropertiesClassName = 'TcxTextEditProperties'
+        Properties.ValidationOptions = [evoRaiseException, evoShowErrorIcon, evoAllowLoseFocus]
+        CommonValidatations = [cvNotNull]
+      end
+    end
     object cxGrid1Level1: TcxGridLevel
-      GridView = cxGrid1spGridDBTableView1
+      GridView = cxGrid1spGridDBTableView2
     end
   end
   object Button1: TButton
@@ -126,6 +163,41 @@ object Form4: TForm4
     Height = 25
     DataSource = DataSource1
     TabOrder = 5
+  end
+  object cxImage1: TcxImage
+    Left = 824
+    Top = 160
+    Picture.Data = {
+      07544269746D617076020000424D760200000000000036000000280000000C00
+      00000C0000000100200000000000400200000000000000000000000000000000
+      00001840768E1543B4EF061DAEFF0618AAFF0714A7FF0711A4FF070FA2FF070C
+      9FFF060A9DFF06089CFF0529A2EF032C6C8E1950BDEF4CB6EDFF57DFFFFF4ADA
+      FFFF3ED6FFFF32D3FFFF28CEFFFF1CCBFFFF14C7FFFF0BC3FFFF0593E7FF062A
+      A4EF1B59C3EF56BCEFFF64E4FFFF57DFFFFF4ADCFFFF071CAEFF0717ABFF28CF
+      FFFF1DCBFFFF14C7FFFF0B96E8FF072BA7EF214E7E8E2D78DAFF71E8FFFF64E5
+      FFFF58E0FFFF4ADCFFFF3FD7FFFF33D3FFFF29D0FFFF1DCCFFFF0C4DC3FF0530
+      6F8E000000002268C9EB5CBCF0FF71E9FFFF64E5FFFF062BBBFF0725B6FF3FD8
+      FFFF34D4FFFF1F9BE8FF0C38ADEB00000000000000001D3E5A612473DCFF7EEC
+      FFFF72E9FFFF0635C1FF062DBCFF4BDDFFFF40D9FFFF1143C2FF092950610000
+      000000000000000000002A7CD2EB67C5F3FF7FEDFFFF053FC8FF0638C4FF59E2
+      FFFF38ABECFF1345B6EB0000000000000000000000000000000021435C612D86
+      E6FF8CF0FFFF044AD0FF0541CAFF65E7FFFF1857CDFF0F2F5361000000000000
+      0000000000000000000000000000358CD8EB73CCF6FF8CF0FFFF7FEDFFFF53BB
+      F1FF185AC2EB0000000000000000000000000000000000000000000000002648
+      5D613999ECFF99F2FFFF8DF0FFFF2071DDFF1537576100000000000000000000
+      000000000000000000000000000000000000419DDFEB7FD5F9FF74CFF7FF2678
+      D2EB000000000000000000000000000000000000000000000000000000000000
+      0000284757592C99EFFF2289EAFF1D3D54590000000000000000000000000000
+      0000}
+    Properties.GraphicClassName = 'TMetafile'
+    Properties.GraphicTransparency = gtTransparent
+    Properties.ShowFocusRect = False
+    Style.BorderStyle = ebsNone
+    Style.HotTrack = False
+    TabOrder = 6
+    Transparent = True
+    Height = 49
+    Width = 41
   end
   object ClientDataSet1: TspClientDataSet
     PersistDataPacket.Data = {

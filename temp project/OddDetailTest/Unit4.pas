@@ -28,7 +28,7 @@ uses
   dxSkinXmas2008Blue, cxContainer, cxMaskEdit, cxDropDownEdit, cxLookupEdit,
   cxDBLookupEdit, cxDBExtLookupComboBox, dxmdaset, MemDS, DBAccess, VirtualQuery,
   Vcl.StdCtrls, Vcl.Grids, Vcl.DBGrids, cxDBLookupComboBox, cxDBEdit, Vcl.Mask,
-  Vcl.DBCtrls, spClientDataSet, Vcl.ExtCtrls, spDicLabel;
+  Vcl.DBCtrls, spClientDataSet, Vcl.ExtCtrls, spDicLabel, cxImage;
 
 type
   TForm4 = class(TForm)
@@ -60,6 +60,13 @@ type
     DBNavigator1: TDBNavigator;
     spDicLabel1: TspDicLabel;
     spDicLabel2: TspDicLabel;
+    cxGrid1spGridDBTableView2: TspGridDBTableView;
+    cxGrid1spGridDBTableView2str: TspGridDBColumn;
+    cxGrid1spGridDBTableView2dt: TspGridDBColumn;
+    cxGrid1spGridDBTableView2float: TspGridDBColumn;
+    cxGrid1spGridDBTableView2Int: TspGridDBColumn;
+    cxGrid1spGridDBTableView2lk: TspGridDBColumn;
+    cxImage1: TcxImage;
     procedure cxGrid1spGridDBTableView1strPropertiesValidate(Sender: TObject;
       var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
     procedure cxGrid1spGridDBTableView1strGetPropertiesForEdit(
@@ -70,6 +77,11 @@ type
       var AProperties: TcxCustomEditProperties);
     procedure FormCreate(Sender: TObject);
     procedure Button1Click(Sender: TObject);
+    procedure cxGrid1spGridDBTableView2IntValidateDrawValue(
+      Sender: TcxCustomGridTableItem; ARecord: TcxCustomGridRecord;
+      const AValue: Variant; AData: TcxEditValidateInfo);
+    procedure cxGrid1spGridDBTableView2IntPropertiesValidate(Sender: TObject;
+      var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
   private
     { Private declarations }
   public
@@ -115,6 +127,20 @@ begin
   Error := False;
 end;
 
+procedure TForm4.cxGrid1spGridDBTableView2IntPropertiesValidate(Sender: TObject;
+  var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
+begin
+//  cxGrid1spGridDBTableView2Int.Properties.
+  ErrorText := '123';
+end;
+
+procedure TForm4.cxGrid1spGridDBTableView2IntValidateDrawValue(
+  Sender: TcxCustomGridTableItem; ARecord: TcxCustomGridRecord;
+  const AValue: Variant; AData: TcxEditValidateInfo);
+begin
+//  AData.ErrorType := eetWarning;
+end;
+
 procedure TForm4.FormCreate(Sender: TObject);
 begin
 //  cxGrid1spGridDBTableView1str.RegisterValidateItem(TspValidateItem.Construct(
@@ -134,6 +160,7 @@ begin
   ClientDataSet2['int'] := 2;
   ClientDataSet2['str'] := 'B';
   ClientDataSet2.Post;
+//  cxImage1.Picture.Bitmap.Mask(clWindow);
 end;
 
 end.
