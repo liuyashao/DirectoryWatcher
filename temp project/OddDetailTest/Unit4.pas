@@ -28,7 +28,8 @@ uses
   dxSkinXmas2008Blue, cxContainer, cxMaskEdit, cxDropDownEdit, cxLookupEdit,
   cxDBLookupEdit, cxDBExtLookupComboBox, dxmdaset, MemDS, DBAccess, VirtualQuery,
   Vcl.StdCtrls, Vcl.Grids, Vcl.DBGrids, cxDBLookupComboBox, cxDBEdit, Vcl.Mask,
-  Vcl.DBCtrls, spClientDataSet, Vcl.ExtCtrls, spDicLabel, cxImage;
+  Vcl.DBCtrls, spClientDataSet, Vcl.ExtCtrls, spDicLabel, cxImage,
+  dxGDIPlusClasses;
 
 type
   TForm4 = class(TForm)
@@ -160,7 +161,9 @@ begin
   ClientDataSet2['int'] := 2;
   ClientDataSet2['str'] := 'B';
   ClientDataSet2.Post;
-//  cxImage1.Picture.Bitmap.Mask(clWindow);
+  cxImage1.Picture.Bitmap.TransparentColor := clBlack;
+  cxImage1.Picture.Bitmap.TransparentMode := tmFixed;
+  cxImage1.Picture.Bitmap.Transparent := True;
 end;
 
 end.
