@@ -27,27 +27,39 @@ uses
   dxSkinVisualStudio2013Light, dxSkinVS2010, dxSkinWhiteprint,
   dxSkinXmas2008Blue, cxContainer, cxMaskEdit, cxDropDownEdit, cxLookupEdit,
   cxDBLookupEdit, cxDBExtLookupComboBox, dxmdaset, MemDS, DBAccess, VirtualQuery,
-  Vcl.StdCtrls, Vcl.Grids, Vcl.DBGrids;
+  Vcl.StdCtrls, Vcl.Grids, Vcl.DBGrids, cxDBLookupComboBox, cxDBEdit, Vcl.Mask,
+  Vcl.DBCtrls, spClientDataSet, Vcl.ExtCtrls, spDicLabel;
 
 type
   TForm4 = class(TForm)
     cxGrid1Level1: TcxGridLevel;
     cxGrid1: TcxGrid;
     cxGrid1spGridDBTableView1: TspGridDBTableView;
-    ClientDataSet1: TClientDataSet;
+    ClientDataSet1: TspClientDataSet;
     DataSource1: TDataSource;
     ClientDataSet1str: TStringField;
     cxGrid1spGridDBTableView1str: TspGridDBColumn;
-    cxDBExtLookupComboBox1: TcxDBExtLookupComboBox;
     ClientDataSet1dt: TDateTimeField;
     ClientDataSet1float: TFloatField;
     cxGrid1spGridDBTableView1dt: TspGridDBColumn;
     cxGrid1spGridDBTableView1float: TspGridDBColumn;
-    dxMemData1: TdxMemData;
     VirtualQuery1: TVirtualQuery;
     Button1: TButton;
     DataSource2: TDataSource;
     DBGrid1: TDBGrid;
+    ClientDataSet1Int: TIntegerField;
+    DataSource3: TDataSource;
+    ClientDataSet2: TClientDataSet;
+    ClientDataSet2Int: TStringField;
+    ClientDataSet2str: TStringField;
+    ClientDataSet1lk: TStringField;
+    cxDBLookupComboBox1: TcxDBLookupComboBox;
+    cxGrid1spGridDBTableView1Int: TspGridDBColumn;
+    cxGrid1spGridDBTableView1lk: TspGridDBColumn;
+    DBEdit1: TDBEdit;
+    DBNavigator1: TDBNavigator;
+    spDicLabel1: TspDicLabel;
+    spDicLabel2: TspDicLabel;
     procedure cxGrid1spGridDBTableView1strPropertiesValidate(Sender: TObject;
       var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
     procedure cxGrid1spGridDBTableView1strGetPropertiesForEdit(
@@ -114,6 +126,14 @@ begin
 ////      Result.DisplayValue := '';
 //    end;
 //  end));
+  ClientDataSet2.Append;
+  ClientDataSet2['int'] := 1;
+  ClientDataSet2['str'] := 'A';
+  ClientDataSet2.Post;
+  ClientDataSet2.Append;
+  ClientDataSet2['int'] := 2;
+  ClientDataSet2['str'] := 'B';
+  ClientDataSet2.Post;
 end;
 
 end.

@@ -3,7 +3,7 @@ object Form4: TForm4
   Top = 0
   Caption = 'Form4'
   ClientHeight = 293
-  ClientWidth = 697
+  ClientWidth = 873
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -14,10 +14,26 @@ object Form4: TForm4
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 14
+  object spDicLabel1: TspDicLabel
+    Left = 320
+    Top = 218
+    Width = 10
+    Height = 13
+    Caption = 'lk'
+    FocusControl = cxDBLookupComboBox1
+  end
+  object spDicLabel2: TspDicLabel
+    Left = 562
+    Top = 218
+    Width = 17
+    Height = 13
+    Caption = 'Int'
+    FocusControl = DBEdit1
+  end
   object cxGrid1: TcxGrid
     Left = 8
-    Top = 8
-    Width = 417
+    Top = 35
+    Width = 569
     Height = 161
     TabOrder = 0
     object cxGrid1spGridDBTableView1: TspGridDBTableView
@@ -48,44 +64,74 @@ object Form4: TForm4
         DataBinding.FieldName = 'float'
         CommonValidatations = [cvNotNull, cvLessThanZero]
       end
+      object cxGrid1spGridDBTableView1Int: TspGridDBColumn
+        DataBinding.FieldName = 'Int'
+      end
+      object cxGrid1spGridDBTableView1lk: TspGridDBColumn
+        DataBinding.FieldName = 'lk'
+      end
     end
     object cxGrid1Level1: TcxGridLevel
       GridView = cxGrid1spGridDBTableView1
     end
   end
-  object cxDBExtLookupComboBox1: TcxDBExtLookupComboBox
-    Left = 384
-    Top = 120
-    TabOrder = 1
-    Width = 145
-  end
   object Button1: TButton
-    Left = 568
-    Top = 24
+    Left = 720
+    Top = 32
     Width = 75
     Height = 25
     Caption = 'Button1'
-    TabOrder = 2
+    TabOrder = 1
     OnClick = Button1Click
   end
   object DBGrid1: TDBGrid
-    Left = 40
-    Top = 192
-    Width = 320
-    Height = 77
+    Left = 8
+    Top = 202
+    Width = 161
+    Height = 58
     DataSource = DataSource2
-    TabOrder = 3
+    TabOrder = 2
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
     TitleFont.Height = -11
     TitleFont.Name = 'Tahoma'
     TitleFont.Style = []
   end
-  object ClientDataSet1: TClientDataSet
+  object cxDBLookupComboBox1: TcxDBLookupComboBox
+    Left = 336
+    Top = 215
+    DataBinding.DataField = 'lk'
+    DataBinding.DataSource = DataSource1
+    Properties.KeyFieldNames = 'Int'
+    Properties.ListColumns = <
+      item
+        FieldName = 'str'
+      end>
+    TabOrder = 3
+    Width = 145
+  end
+  object DBEdit1: TDBEdit
+    Left = 584
+    Top = 215
+    Width = 121
+    Height = 21
+    DataField = 'Int'
+    DataSource = DataSource1
+    TabOrder = 4
+  end
+  object DBNavigator1: TDBNavigator
+    Left = 16
+    Top = 4
+    Width = 240
+    Height = 25
+    DataSource = DataSource1
+    TabOrder = 5
+  end
+  object ClientDataSet1: TspClientDataSet
     PersistDataPacket.Data = {
-      4B0000009619E0BD0100000018000000030000000000030000004B0003737472
+      570000009619E0BD010000001800000004000000000003000000570003737472
       0100490000000100055749445448020002001E00026474080008000000000005
-      666C6F617408000400000000000000}
+      666C6F6174080004000000000003496E7404000100000000000000}
     Active = True
     Aggregates = <>
     FieldDefs = <
@@ -101,36 +147,109 @@ object Form4: TForm4
       item
         Name = 'float'
         DataType = ftFloat
+      end
+      item
+        Name = 'Int'
+        DataType = ftInteger
       end>
     IndexDefs = <>
     Params = <>
     StoreDefs = True
-    Left = 512
-    Top = 48
+    Dictionary = <
+      item
+        FieldName = 'str'
+        FieldType = ftString
+        Size = 30
+        NumericPrecision = 0
+        NumericScale = 0
+        DisplayWidth = 30
+        DisplayLabel = 'str'
+        IsAutoGen = False
+      end
+      item
+        FieldName = 'dt'
+        FieldType = ftDateTime
+        NumericPrecision = 0
+        NumericScale = 0
+        DisplayWidth = 18
+        DisplayLabel = 'dt'
+        IsAutoGen = False
+      end
+      item
+        FieldName = 'float'
+        FieldType = ftFloat
+        NumericPrecision = 15
+        NumericScale = 0
+        Alignment = taRightJustify
+        DisplayWidth = 10
+        DisplayLabel = 'float'
+        IsAutoGen = False
+      end
+      item
+        FieldName = 'Int'
+        FieldType = ftInteger
+        NumericPrecision = 0
+        NumericScale = 0
+        IsRequest = True
+        Alignment = taRightJustify
+        DisplayWidth = 10
+        DisplayLabel = 'Int'
+        IsAutoGen = False
+      end
+      item
+        FieldName = 'lk'
+        FieldType = ftString
+        FieldKind = fkLookup
+        Size = 20
+        NumericPrecision = 0
+        NumericScale = 0
+        IsRequest = True
+        DisplayLabel = 'lk'
+        LookupFieldInfo.KeyFields = 'Int'
+        LookupFieldInfo.LookupKeyFields = 'Int'
+        LookupFieldInfo.LookupResultField = 'Str'
+        LookupFieldInfo.CacheEnabled = False
+        IsAutoGen = False
+      end>
+    LinkedComponents = <>
+    Left = 664
+    Top = 56
     object ClientDataSet1str: TStringField
+      DisplayWidth = 30
       FieldName = 'str'
       Size = 30
     end
     object ClientDataSet1dt: TDateTimeField
+      DisplayWidth = 18
       FieldName = 'dt'
     end
     object ClientDataSet1float: TFloatField
+      DisplayWidth = 10
       FieldName = 'float'
+    end
+    object ClientDataSet1Int: TIntegerField
+      DisplayWidth = 10
+      FieldName = 'Int'
+      Required = True
+    end
+    object ClientDataSet1lk: TStringField
+      DisplayWidth = 20
+      FieldKind = fkLookup
+      FieldName = 'lk'
+      LookupDataSet = ClientDataSet2
+      LookupKeyFields = 'Int'
+      LookupResultField = 'str'
+      KeyFields = 'Int'
+      Required = True
+      Lookup = True
     end
   end
   object DataSource1: TDataSource
     DataSet = ClientDataSet1
-    Left = 504
-    Top = 136
-  end
-  object dxMemData1: TdxMemData
-    Indexes = <>
-    SortOptions = []
-    Left = 592
-    Top = 184
+    Left = 656
+    Top = 144
   end
   object VirtualQuery1: TVirtualQuery
-    Active = True
     SourceDataSets = <
       item
         TableName = 'ClientDataSet1'
@@ -138,12 +257,34 @@ object Form4: TForm4
       end>
     SQL.Strings = (
       'select count(*) as cnt from ClientDataSet1')
-    Left = 600
-    Top = 64
+    Left = 752
+    Top = 72
   end
   object DataSource2: TDataSource
     DataSet = VirtualQuery1
-    Left = 344
-    Top = 216
+    Left = 496
+    Top = 243
+  end
+  object DataSource3: TDataSource
+    DataSet = ClientDataSet2
+    Left = 760
+    Top = 224
+  end
+  object ClientDataSet2: TClientDataSet
+    PersistDataPacket.Data = {
+      4A0000009619E0BD0100000018000000020000000000030000004A0003496E74
+      0100490000000100055749445448020002001400037374720100490000000100
+      0557494454480200020014000000}
+    Active = True
+    Aggregates = <>
+    Params = <>
+    Left = 752
+    Top = 152
+    object ClientDataSet2Int: TStringField
+      FieldName = 'Int'
+    end
+    object ClientDataSet2str: TStringField
+      FieldName = 'str'
+    end
   end
 end
