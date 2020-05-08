@@ -14,22 +14,23 @@ object Form4: TForm4
   ShowHint = True
   OnCreate = FormCreate
   PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 14
   object spDicLabel1: TspDicLabel
-    Left = 321
-    Top = 219
+    Left = 320
+    Top = 218
     Width = 10
     Height = 13
     Caption = 'lk'
     FocusControl = cxDBLookupComboBox1
   end
   object spDicLabel2: TspDicLabel
-    Left = 562
-    Top = 219
+    Left = 708
+    Top = 218
     Width = 17
     Height = 13
     Caption = 'Int'
     FocusControl = DBEdit1
+    PositionOptions.Position = dpRightMiddle
   end
   object cxGrid1: TcxGrid
     Left = 8
@@ -96,7 +97,7 @@ object Form4: TForm4
       object cxGrid1spGridDBTableView2Int: TspGridDBColumn
         DataBinding.FieldName = 'Int'
         PropertiesClassName = 'TcxTextEditProperties'
-        Properties.ValidationOptions = [evoShowErrorIcon, evoAllowLoseFocus]
+        Properties.ValidationOptions = []
         Properties.OnValidate = cxGrid1spGridDBTableView2IntPropertiesValidate
         OnValidateDrawValue = cxGrid1spGridDBTableView2IntValidateDrawValue
         CommonValidatations = [cvNotNull]
@@ -106,6 +107,74 @@ object Form4: TForm4
         PropertiesClassName = 'TcxTextEditProperties'
         Properties.ValidationOptions = [evoRaiseException, evoShowErrorIcon, evoAllowLoseFocus]
         CommonValidatations = [cvNotNull]
+      end
+    end
+    object cxGrid1spGridDBBandedTableView1: TspGridDBBandedTableView
+      Navigator.Buttons.CustomButtons = <>
+      DataController.DataSource = DataSource1
+      DataController.Summary.DefaultGroupSummaryItems = <>
+      DataController.Summary.FooterSummaryItems = <>
+      DataController.Summary.SummaryGroups = <>
+      Bands = <
+        item
+        end>
+      DisplayTemplate.Items = <>
+      DisplayTemplate.Bands = <>
+      StateOptions.Font.Charset = DEFAULT_CHARSET
+      StateOptions.Font.Color = clWindowText
+      StateOptions.Font.Height = -11
+      StateOptions.Font.Name = 'Tahoma'
+      StateOptions.Font.Style = []
+      object cxGrid1spGridDBBandedTableView1str: TspGridDBBandedColumn
+        DataBinding.FieldName = 'str'
+        Position.BandIndex = 0
+        Position.ColIndex = 0
+        Position.RowIndex = 0
+      end
+      object cxGrid1spGridDBBandedTableView1dt: TspGridDBBandedColumn
+        DataBinding.FieldName = 'dt'
+        Position.BandIndex = 0
+        Position.ColIndex = 1
+        Position.RowIndex = 0
+      end
+      object cxGrid1spGridDBBandedTableView1float: TspGridDBBandedColumn
+        DataBinding.FieldName = 'float'
+        Position.BandIndex = 0
+        Position.ColIndex = 2
+        Position.RowIndex = 0
+      end
+      object cxGrid1spGridDBBandedTableView1Int: TspGridDBBandedColumn
+        DataBinding.FieldName = 'Int'
+        PropertiesClassName = 'TcxTextEditProperties'
+        OnValidateDrawValue = cxGrid1spGridDBBandedTableView1IntValidateDrawValue
+        Position.BandIndex = 0
+        Position.ColIndex = 3
+        Position.RowIndex = 0
+        CommonValidatations = [cvNotNull]
+      end
+      object cxGrid1spGridDBBandedTableView1lk: TspGridDBBandedColumn
+        DataBinding.FieldName = 'lk'
+        Position.BandIndex = 0
+        Position.ColIndex = 4
+        Position.RowIndex = 0
+      end
+    end
+    object cxGrid1DBBandedTableView1: TcxGridDBBandedTableView
+      Navigator.Buttons.CustomButtons = <>
+      DataController.DataSource = DataSource1
+      DataController.Summary.DefaultGroupSummaryItems = <>
+      DataController.Summary.FooterSummaryItems = <>
+      DataController.Summary.SummaryGroups = <>
+      Bands = <
+        item
+        end>
+      object cxGrid1DBBandedTableView1Int: TcxGridDBBandedColumn
+        DataBinding.FieldName = 'Int'
+        PropertiesClassName = 'TcxTextEditProperties'
+        OnValidateDrawValue = cxGrid1DBBandedTableView1IntValidateDrawValue
+        Position.BandIndex = 0
+        Position.ColIndex = 0
+        Position.RowIndex = 0
       end
     end
     object cxGrid1Level1: TcxGridLevel
@@ -163,46 +232,6 @@ object Form4: TForm4
     Height = 25
     DataSource = DataSource1
     TabOrder = 5
-  end
-  object cxImage1: TcxImage
-    Left = 824
-    Top = 160
-    Picture.Data = {
-      07544269746D617036030000424D360300000000000036000000280000001000
-      000010000000010018000000000000030000120B0000120B0000000000000000
-      0000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFC5E8FF7FCBFF7FCBFF7FCBFF7FCB
-      FF7FCBFF7FCBFF7FCBFF7FCBFF7FCBFF7FCBFF7FCBFF7FCBFF7FCBFF7FCBFFC6
-      E8FFA5DBFF0098FF4CC4FF4DC6FF4DC6FF4DC6FF4DC6FF4DC6FF4DC6FF4DC6FF
-      4DC6FF4DC6FF4DC6FF4AC2FF0098FFA5DBFFFFFFFF2DAAFF4FC9FF3BEBFF3BEB
-      FF3BEBFF3BEBFF3BEBFF3BEBFF3BEBFF3BEBFF3BEBFF3BEBFF4FC7FF2DAAFFFF
-      FFFFFFFFFFB7E2FF0E9DFF43E6FF3BEBFF3BEBFF3BEBFF5EB1FF5DB1FF3BEBFF
-      3BEBFF3BEBFF43E6FF0B9CFFB8E2FFFFFFFFFFFFFFFFFFFF3AAFFF4AC2FF3BEB
-      FF3BEBFF3BEBFF4CE5FF42E3FF3BEBFF3BEBFF3BEBFF49C1FF3AAFFFFFFFFFFF
-      FFFFFFFFFFFFFFFFCCEAFF059AFF47E4FF3BEBFF3BEBFF5CC9FF5CC9FF3BEBFF
-      3BEBFF47E4FF069AFFCCEAFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF54BAFF43BC
-      FF3BEBFF3BEBFF65A5FF65A5FF3BEBFF3BEBFF42BAFF55BAFFFFFFFFFFFFFFFF
-      FFFFFFFFFFFFFFFFFFFFFFDEF2FF059AFF4CDFFF3BEBFF65A5FF65A5FF3BEBFF
-      4CDFFF0499FFDEF2FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF68C2
-      FF39B4FF3BEBFF68AFFF61AFFF3BEBFF38B4FF69C2FFFFFFFFFFFFFFFFFFFFFF
-      FFFFFFFFFFFFFFFFFFFFFFFFFFFFE8F6FF089BFF4FDBFF3BEBFF3BEBFF4FDBFF
-      0B9CFFE8F6FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-      FF7CCAFF2BABFF3BEBFF3BEBFF2BABFF7DCAFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF4FBFF129FFF52D3FF53D4FF129FFF
-      F4FBFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-      FFFFFFFF8FD2FF22A7FF22A7FF90D2FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFAFDFF1BA2FF1BA2FFFAFDFF
-      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-      FFFFFFFFFFFFFFC2E6FFC2E6FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-      FFFF}
-    Properties.GraphicTransparency = gtTransparent
-    Properties.ShowFocusRect = False
-    Style.BorderStyle = ebsNone
-    Style.HotTrack = False
-    TabOrder = 6
-    Transparent = True
-    Height = 49
-    Width = 41
   end
   object ClientDataSet1: TspClientDataSet
     PersistDataPacket.Data = {
@@ -363,5 +392,11 @@ object Form4: TForm4
     object ClientDataSet2str: TStringField
       FieldName = 'str'
     end
+  end
+  object dxSkinController1: TdxSkinController
+    NativeStyle = False
+    SkinName = 'Coffee'
+    Left = 608
+    Top = 24
   end
 end

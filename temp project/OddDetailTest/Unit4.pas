@@ -29,7 +29,8 @@ uses
   cxDBLookupEdit, cxDBExtLookupComboBox, dxmdaset, MemDS, DBAccess, VirtualQuery,
   Vcl.StdCtrls, Vcl.Grids, Vcl.DBGrids, cxDBLookupComboBox, cxDBEdit, Vcl.Mask,
   Vcl.DBCtrls, spClientDataSet, Vcl.ExtCtrls, spDicLabel, cxImage,
-  dxGDIPlusClasses;
+  dxGDIPlusClasses, dxSkinsForm, cxGridBandedTableView, cxGridDBBandedTableView,
+  spGridDBBandedTableView;
 
 type
   TForm4 = class(TForm)
@@ -67,7 +68,15 @@ type
     cxGrid1spGridDBTableView2float: TspGridDBColumn;
     cxGrid1spGridDBTableView2Int: TspGridDBColumn;
     cxGrid1spGridDBTableView2lk: TspGridDBColumn;
-    cxImage1: TcxImage;
+    dxSkinController1: TdxSkinController;
+    cxGrid1spGridDBBandedTableView1: TspGridDBBandedTableView;
+    cxGrid1spGridDBBandedTableView1str: TspGridDBBandedColumn;
+    cxGrid1spGridDBBandedTableView1dt: TspGridDBBandedColumn;
+    cxGrid1spGridDBBandedTableView1float: TspGridDBBandedColumn;
+    cxGrid1spGridDBBandedTableView1Int: TspGridDBBandedColumn;
+    cxGrid1spGridDBBandedTableView1lk: TspGridDBBandedColumn;
+    cxGrid1DBBandedTableView1: TcxGridDBBandedTableView;
+    cxGrid1DBBandedTableView1Int: TcxGridDBBandedColumn;
     procedure cxGrid1spGridDBTableView1strPropertiesValidate(Sender: TObject;
       var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
     procedure cxGrid1spGridDBTableView1strGetPropertiesForEdit(
@@ -83,6 +92,12 @@ type
       const AValue: Variant; AData: TcxEditValidateInfo);
     procedure cxGrid1spGridDBTableView2IntPropertiesValidate(Sender: TObject;
       var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
+    procedure cxGrid1spGridDBBandedTableView1IntValidateDrawValue(
+      Sender: TcxCustomGridTableItem; ARecord: TcxCustomGridRecord;
+      const AValue: Variant; AData: TcxEditValidateInfo);
+    procedure cxGrid1DBBandedTableView1IntValidateDrawValue(
+      Sender: TcxCustomGridTableItem; ARecord: TcxCustomGridRecord;
+      const AValue: Variant; AData: TcxEditValidateInfo);
   private
     { Private declarations }
   public
@@ -105,6 +120,21 @@ begin
 //  VirtualQuery1.Open;
 //  ShowMessage(VirtualQuery1.Fields[0].AsString);
   ClientDataSet1['dt'] := null;
+end;
+
+procedure TForm4.cxGrid1DBBandedTableView1IntValidateDrawValue(
+  Sender: TcxCustomGridTableItem; ARecord: TcxCustomGridRecord;
+  const AValue: Variant; AData: TcxEditValidateInfo);
+begin
+  AData.ErrorType := eetWarning;
+  AData.ErrorText := '11111';
+end;
+
+procedure TForm4.cxGrid1spGridDBBandedTableView1IntValidateDrawValue(
+  Sender: TcxCustomGridTableItem; ARecord: TcxCustomGridRecord;
+  const AValue: Variant; AData: TcxEditValidateInfo);
+begin
+//  AData.ErrorType := eetWarning;
 end;
 
 procedure TForm4.cxGrid1spGridDBTableView1strGetProperties(
@@ -161,9 +191,6 @@ begin
   ClientDataSet2['int'] := 2;
   ClientDataSet2['str'] := 'B';
   ClientDataSet2.Post;
-  cxImage1.Picture.Bitmap.TransparentColor := clBlack;
-  cxImage1.Picture.Bitmap.TransparentMode := tmFixed;
-  cxImage1.Picture.Bitmap.Transparent := True;
 end;
 
 end.
