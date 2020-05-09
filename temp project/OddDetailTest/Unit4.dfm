@@ -24,7 +24,7 @@ object Form4: TForm4
     FocusControl = cxDBLookupComboBox1
   end
   object spDicLabel2: TspDicLabel
-    Left = 708
+    Left = 705
     Top = 218
     Width = 17
     Height = 13
@@ -87,12 +87,15 @@ object Form4: TForm4
       StateOptions.Font.Style = []
       object cxGrid1spGridDBTableView2str: TspGridDBColumn
         DataBinding.FieldName = 'str'
+        Visible = False
       end
       object cxGrid1spGridDBTableView2dt: TspGridDBColumn
         DataBinding.FieldName = 'dt'
+        Visible = False
       end
       object cxGrid1spGridDBTableView2float: TspGridDBColumn
         DataBinding.FieldName = 'float'
+        Visible = False
       end
       object cxGrid1spGridDBTableView2Int: TspGridDBColumn
         DataBinding.FieldName = 'Int'
@@ -106,6 +109,7 @@ object Form4: TForm4
         DataBinding.FieldName = 'lk'
         PropertiesClassName = 'TcxTextEditProperties'
         Properties.ValidationOptions = [evoRaiseException, evoShowErrorIcon, evoAllowLoseFocus]
+        OnValidateDrawValue = cxGrid1spGridDBTableView2lkValidateDrawValue
         CommonValidatations = [cvNotNull]
       end
     end
@@ -399,5 +403,9 @@ object Form4: TForm4
     SkinName = 'Coffee'
     Left = 608
     Top = 24
+  end
+  object spUniQuery1: TspUniQuery
+    Left = 224
+    Top = 224
   end
 end

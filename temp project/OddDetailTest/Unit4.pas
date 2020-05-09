@@ -30,7 +30,7 @@ uses
   Vcl.StdCtrls, Vcl.Grids, Vcl.DBGrids, cxDBLookupComboBox, cxDBEdit, Vcl.Mask,
   Vcl.DBCtrls, spClientDataSet, Vcl.ExtCtrls, spDicLabel, cxImage,
   dxGDIPlusClasses, dxSkinsForm, cxGridBandedTableView, cxGridDBBandedTableView,
-  spGridDBBandedTableView;
+  spGridDBBandedTableView, Uni, spUniQuery;
 
 type
   TForm4 = class(TForm)
@@ -77,6 +77,7 @@ type
     cxGrid1spGridDBBandedTableView1lk: TspGridDBBandedColumn;
     cxGrid1DBBandedTableView1: TcxGridDBBandedTableView;
     cxGrid1DBBandedTableView1Int: TcxGridDBBandedColumn;
+    spUniQuery1: TspUniQuery;
     procedure cxGrid1spGridDBTableView1strPropertiesValidate(Sender: TObject;
       var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
     procedure cxGrid1spGridDBTableView1strGetPropertiesForEdit(
@@ -96,6 +97,9 @@ type
       Sender: TcxCustomGridTableItem; ARecord: TcxCustomGridRecord;
       const AValue: Variant; AData: TcxEditValidateInfo);
     procedure cxGrid1DBBandedTableView1IntValidateDrawValue(
+      Sender: TcxCustomGridTableItem; ARecord: TcxCustomGridRecord;
+      const AValue: Variant; AData: TcxEditValidateInfo);
+    procedure cxGrid1spGridDBTableView2lkValidateDrawValue(
       Sender: TcxCustomGridTableItem; ARecord: TcxCustomGridRecord;
       const AValue: Variant; AData: TcxEditValidateInfo);
   private
@@ -170,6 +174,13 @@ procedure TForm4.cxGrid1spGridDBTableView2IntValidateDrawValue(
   const AValue: Variant; AData: TcxEditValidateInfo);
 begin
 //  AData.ErrorType := eetWarning;
+end;
+
+procedure TForm4.cxGrid1spGridDBTableView2lkValidateDrawValue(
+  Sender: TcxCustomGridTableItem; ARecord: TcxCustomGridRecord;
+  const AValue: Variant; AData: TcxEditValidateInfo);
+begin
+//
 end;
 
 procedure TForm4.FormCreate(Sender: TObject);
