@@ -78,8 +78,6 @@ type
     cxGrid1DBBandedTableView1: TcxGridDBBandedTableView;
     cxGrid1DBBandedTableView1Int: TcxGridDBBandedColumn;
     spUniQuery1: TspUniQuery;
-    procedure cxGrid1spGridDBTableView1strPropertiesValidate(Sender: TObject;
-      var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
     procedure cxGrid1spGridDBTableView1strGetPropertiesForEdit(
       Sender: TcxCustomGridTableItem; ARecord: TcxCustomGridRecord;
       var AProperties: TcxCustomEditProperties);
@@ -88,20 +86,8 @@ type
       var AProperties: TcxCustomEditProperties);
     procedure FormCreate(Sender: TObject);
     procedure Button1Click(Sender: TObject);
-    procedure cxGrid1spGridDBTableView2IntValidateDrawValue(
-      Sender: TcxCustomGridTableItem; ARecord: TcxCustomGridRecord;
-      const AValue: Variant; AData: TcxEditValidateInfo);
     procedure cxGrid1spGridDBTableView2IntPropertiesValidate(Sender: TObject;
       var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
-    procedure cxGrid1spGridDBBandedTableView1IntValidateDrawValue(
-      Sender: TcxCustomGridTableItem; ARecord: TcxCustomGridRecord;
-      const AValue: Variant; AData: TcxEditValidateInfo);
-    procedure cxGrid1DBBandedTableView1IntValidateDrawValue(
-      Sender: TcxCustomGridTableItem; ARecord: TcxCustomGridRecord;
-      const AValue: Variant; AData: TcxEditValidateInfo);
-    procedure cxGrid1spGridDBTableView2lkValidateDrawValue(
-      Sender: TcxCustomGridTableItem; ARecord: TcxCustomGridRecord;
-      const AValue: Variant; AData: TcxEditValidateInfo);
   private
     { Private declarations }
   public
@@ -126,21 +112,6 @@ begin
   ClientDataSet1['dt'] := null;
 end;
 
-procedure TForm4.cxGrid1DBBandedTableView1IntValidateDrawValue(
-  Sender: TcxCustomGridTableItem; ARecord: TcxCustomGridRecord;
-  const AValue: Variant; AData: TcxEditValidateInfo);
-begin
-  AData.ErrorType := eetWarning;
-  AData.ErrorText := '11111';
-end;
-
-procedure TForm4.cxGrid1spGridDBBandedTableView1IntValidateDrawValue(
-  Sender: TcxCustomGridTableItem; ARecord: TcxCustomGridRecord;
-  const AValue: Variant; AData: TcxEditValidateInfo);
-begin
-//  AData.ErrorType := eetWarning;
-end;
-
 procedure TForm4.cxGrid1spGridDBTableView1strGetProperties(
   Sender: TcxCustomGridTableItem; ARecord: TcxCustomGridRecord;
   var AProperties: TcxCustomEditProperties);
@@ -155,32 +126,11 @@ begin
   Caption := '2'
 end;
 
-procedure TForm4.cxGrid1spGridDBTableView1strPropertiesValidate(Sender: TObject;
-  var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
-begin
-  ErrorText := 'Test';
-  Error := False;
-end;
-
 procedure TForm4.cxGrid1spGridDBTableView2IntPropertiesValidate(Sender: TObject;
   var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
 begin
 //  cxGrid1spGridDBTableView2Int.Properties.
   ErrorText := '123';
-end;
-
-procedure TForm4.cxGrid1spGridDBTableView2IntValidateDrawValue(
-  Sender: TcxCustomGridTableItem; ARecord: TcxCustomGridRecord;
-  const AValue: Variant; AData: TcxEditValidateInfo);
-begin
-//  AData.ErrorType := eetWarning;
-end;
-
-procedure TForm4.cxGrid1spGridDBTableView2lkValidateDrawValue(
-  Sender: TcxCustomGridTableItem; ARecord: TcxCustomGridRecord;
-  const AValue: Variant; AData: TcxEditValidateInfo);
-begin
-//
 end;
 
 procedure TForm4.FormCreate(Sender: TObject);

@@ -14,10 +14,10 @@ object Form4: TForm4
   ShowHint = True
   OnCreate = FormCreate
   PixelsPerInch = 96
-  TextHeight = 14
+  TextHeight = 13
   object spDicLabel1: TspDicLabel
-    Left = 320
-    Top = 218
+    Left = 321
+    Top = 219
     Width = 10
     Height = 13
     Caption = 'lk'
@@ -25,7 +25,7 @@ object Form4: TForm4
   end
   object spDicLabel2: TspDicLabel
     Left = 705
-    Top = 218
+    Top = 219
     Width = 17
     Height = 13
     Caption = 'Int'
@@ -53,7 +53,6 @@ object Form4: TForm4
       object cxGrid1spGridDBTableView1str: TspGridDBColumn
         DataBinding.FieldName = 'str'
         PropertiesClassName = 'TcxTextEditProperties'
-        Properties.OnValidate = cxGrid1spGridDBTableView1strPropertiesValidate
         OnGetProperties = cxGrid1spGridDBTableView1strGetProperties
         OnGetPropertiesForEdit = cxGrid1spGridDBTableView1strGetPropertiesForEdit
         CommonValidatations = [cvNotNull, cvNotEmptyStr]
@@ -68,9 +67,11 @@ object Form4: TForm4
       end
       object cxGrid1spGridDBTableView1Int: TspGridDBColumn
         DataBinding.FieldName = 'Int'
+        CommonValidatations = [cvNotNull]
       end
       object cxGrid1spGridDBTableView1lk: TspGridDBColumn
         DataBinding.FieldName = 'lk'
+        CommonValidatations = [cvNotNull]
       end
     end
     object cxGrid1spGridDBTableView2: TspGridDBTableView
@@ -99,17 +100,10 @@ object Form4: TForm4
       end
       object cxGrid1spGridDBTableView2Int: TspGridDBColumn
         DataBinding.FieldName = 'Int'
-        PropertiesClassName = 'TcxTextEditProperties'
-        Properties.ValidationOptions = []
-        Properties.OnValidate = cxGrid1spGridDBTableView2IntPropertiesValidate
-        OnValidateDrawValue = cxGrid1spGridDBTableView2IntValidateDrawValue
         CommonValidatations = [cvNotNull]
       end
       object cxGrid1spGridDBTableView2lk: TspGridDBColumn
         DataBinding.FieldName = 'lk'
-        PropertiesClassName = 'TcxTextEditProperties'
-        Properties.ValidationOptions = [evoRaiseException, evoShowErrorIcon, evoAllowLoseFocus]
-        OnValidateDrawValue = cxGrid1spGridDBTableView2lkValidateDrawValue
         CommonValidatations = [cvNotNull]
       end
     end
@@ -149,8 +143,6 @@ object Form4: TForm4
       end
       object cxGrid1spGridDBBandedTableView1Int: TspGridDBBandedColumn
         DataBinding.FieldName = 'Int'
-        PropertiesClassName = 'TcxTextEditProperties'
-        OnValidateDrawValue = cxGrid1spGridDBBandedTableView1IntValidateDrawValue
         Position.BandIndex = 0
         Position.ColIndex = 3
         Position.RowIndex = 0
@@ -161,6 +153,7 @@ object Form4: TForm4
         Position.BandIndex = 0
         Position.ColIndex = 4
         Position.RowIndex = 0
+        CommonValidatations = [cvNotNull]
       end
     end
     object cxGrid1DBBandedTableView1: TcxGridDBBandedTableView
@@ -175,7 +168,6 @@ object Form4: TForm4
       object cxGrid1DBBandedTableView1Int: TcxGridDBBandedColumn
         DataBinding.FieldName = 'Int'
         PropertiesClassName = 'TcxTextEditProperties'
-        OnValidateDrawValue = cxGrid1DBBandedTableView1IntValidateDrawValue
         Position.BandIndex = 0
         Position.ColIndex = 0
         Position.RowIndex = 0
