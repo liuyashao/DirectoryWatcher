@@ -217,10 +217,11 @@ object Form4: TForm4
     Width = 145
   end
   object DBEdit1: TDBEdit
-    Left = 584
+    Left = 581
     Top = 215
     Width = 121
     Height = 21
+    AutoSize = False
     DataField = 'Int'
     DataSource = DataSource1
     TabOrder = 4
