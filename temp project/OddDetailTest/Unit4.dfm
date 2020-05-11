@@ -14,10 +14,10 @@ object Form4: TForm4
   ShowHint = True
   OnCreate = FormCreate
   PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 14
   object spDicLabel1: TspDicLabel
-    Left = 321
-    Top = 219
+    Left = 320
+    Top = 218
     Width = 10
     Height = 13
     Caption = 'lk'
@@ -25,11 +25,12 @@ object Form4: TForm4
   end
   object spDicLabel2: TspDicLabel
     Left = 705
-    Top = 219
+    Top = 218
     Width = 17
     Height = 13
     Caption = 'Int'
     FocusControl = DBEdit1
+    Visible = False
     PositionOptions.Position = dpRightMiddle
   end
   object cxGrid1: TcxGrid
@@ -80,6 +81,7 @@ object Form4: TForm4
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
+      OptionsView.ValidateDataSetConstraint = False
       DisplayTemplate = <>
       StateOptions.Font.Charset = DEFAULT_CHARSET
       StateOptions.Font.Color = clWindowText
@@ -88,7 +90,6 @@ object Form4: TForm4
       StateOptions.Font.Style = []
       object cxGrid1spGridDBTableView2str: TspGridDBColumn
         DataBinding.FieldName = 'str'
-        Visible = False
       end
       object cxGrid1spGridDBTableView2dt: TspGridDBColumn
         DataBinding.FieldName = 'dt'
@@ -104,7 +105,7 @@ object Form4: TForm4
       end
       object cxGrid1spGridDBTableView2lk: TspGridDBColumn
         DataBinding.FieldName = 'lk'
-        CommonValidatations = [cvNotNull]
+        CommonValidatations = [cvNotNull, cvNotEmptyStr]
       end
     end
     object cxGrid1spGridDBBandedTableView1: TspGridDBBandedTableView
@@ -113,6 +114,7 @@ object Form4: TForm4
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
+      OptionsView.ValidateDataSetConstraint = False
       Bands = <
         item
         end>
@@ -221,6 +223,7 @@ object Form4: TForm4
     DataField = 'Int'
     DataSource = DataSource1
     TabOrder = 4
+    Visible = False
   end
   object DBNavigator1: TDBNavigator
     Left = 16
