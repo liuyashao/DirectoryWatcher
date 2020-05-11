@@ -14,10 +14,10 @@ object Form4: TForm4
   ShowHint = True
   OnCreate = FormCreate
   PixelsPerInch = 96
-  TextHeight = 14
+  TextHeight = 13
   object spDicLabel1: TspDicLabel
-    Left = 320
-    Top = 218
+    Left = 321
+    Top = 219
     Width = 10
     Height = 13
     Caption = 'lk'
@@ -25,7 +25,7 @@ object Form4: TForm4
   end
   object spDicLabel2: TspDicLabel
     Left = 705
-    Top = 218
+    Top = 219
     Width = 17
     Height = 13
     Caption = 'Int'
@@ -81,7 +81,6 @@ object Form4: TForm4
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
-      OptionsView.ValidateDataSetConstraint = False
       DisplayTemplate = <>
       StateOptions.Font.Charset = DEFAULT_CHARSET
       StateOptions.Font.Color = clWindowText
@@ -105,7 +104,6 @@ object Form4: TForm4
       end
       object cxGrid1spGridDBTableView2lk: TspGridDBColumn
         DataBinding.FieldName = 'lk'
-        CommonValidatations = [cvNotNull, cvNotEmptyStr]
       end
     end
     object cxGrid1spGridDBBandedTableView1: TspGridDBBandedTableView
