@@ -16,9 +16,9 @@ object Form4: TForm4
   PixelsPerInch = 96
   TextHeight = 14
   object spDicLabel1: TspDicLabel
-    Left = 320
+    Left = 326
     Top = 218
-    Width = 10
+    Width = 7
     Height = 13
     Caption = 'lk'
     FocusControl = cxDBLookupComboBox1
@@ -26,7 +26,7 @@ object Form4: TForm4
   object spDicLabel2: TspDicLabel
     Left = 705
     Top = 218
-    Width = 17
+    Width = 14
     Height = 13
     Caption = 'Int'
     FocusControl = DBEdit1
@@ -103,6 +103,7 @@ object Form4: TForm4
       end
       object cxGrid1spGridDBTableView2lk: TspGridDBColumn
         DataBinding.FieldName = 'lk'
+        CommonValidatations = [cvNotNull]
       end
     end
     object cxGrid1spGridDBBandedTableView1: TspGridDBBandedTableView
@@ -231,11 +232,6 @@ object Form4: TForm4
     TabOrder = 5
   end
   object ClientDataSet1: TspClientDataSet
-    PersistDataPacket.Data = {
-      570000009619E0BD010000001800000004000000000003000000570003737472
-      0100490004000100055749445448020002001E00026474080008000000000005
-      666C6F6174080004000000000003496E7404000100040000000000}
-    Active = True
     Aggregates = <>
     FieldDefs = <
       item
@@ -254,7 +250,6 @@ object Form4: TForm4
       end
       item
         Name = 'Int'
-        Attributes = [faRequired]
         DataType = ftInteger
       end>
     IndexDefs = <>
@@ -296,7 +291,6 @@ object Form4: TForm4
         FieldType = ftInteger
         NumericPrecision = 0
         NumericScale = 0
-        IsRequest = True
         Alignment = taRightJustify
         DisplayWidth = 10
         DisplayLabel = 'Int'
@@ -309,7 +303,6 @@ object Form4: TForm4
         Size = 20
         NumericPrecision = 0
         NumericScale = 0
-        IsRequest = True
         DisplayLabel = 'lk'
         LookupFieldInfo.KeyFields = 'Int'
         LookupFieldInfo.LookupKeyFields = 'Int'
@@ -337,7 +330,6 @@ object Form4: TForm4
     object ClientDataSet1Int: TIntegerField
       DisplayWidth = 10
       FieldName = 'Int'
-      Required = True
     end
     object ClientDataSet1lk: TStringField
       DisplayWidth = 20
@@ -347,7 +339,6 @@ object Form4: TForm4
       LookupKeyFields = 'Int'
       LookupResultField = 'str'
       KeyFields = 'Int'
-      Required = True
       Lookup = True
     end
   end
