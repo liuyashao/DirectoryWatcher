@@ -9,7 +9,7 @@ uses
   cxDataStorage, cxEdit, cxNavigator,
   cxDataControllerConditionalFormattingRulesManagerDialog, Data.DB, cxDBData,
   cxTextEdit, cxGridCustomTableView, cxGridTableView, cxGridDBTableView,
-  spGridDBTableView, Datasnap.DBClient, cxGridCustomView, cxClasses,
+  Datasnap.DBClient, cxGridCustomView, cxClasses,
   cxGridLevel, cxGrid, dxSkinsCore, dxSkinBlack, dxSkinBlue, dxSkinBlueprint,
   dxSkinCaramel, dxSkinCoffee, dxSkinDarkRoom, dxSkinDarkSide,
   dxSkinDevExpressDarkStyle, dxSkinDevExpressStyle, dxSkinFoggy,
@@ -30,7 +30,7 @@ uses
   Vcl.StdCtrls, Vcl.Grids, Vcl.DBGrids, cxDBLookupComboBox, cxDBEdit, Vcl.Mask,
   Vcl.DBCtrls, spClientDataSet, Vcl.ExtCtrls, spDicLabel, cxImage,
   dxGDIPlusClasses, dxSkinsForm, cxGridBandedTableView, cxGridDBBandedTableView,
-  spGridDBBandedTableView, Uni, spUniQuery;
+  spGridDBBandedTableView, Uni, spUniQuery, spGridDBTableView;
 
 type
   TForm4 = class(TForm)
@@ -109,7 +109,8 @@ begin
 //  VirtualQuery1.SQL.Text := 'select count(*) as cnt from ClientDataSet1';
 //  VirtualQuery1.Open;
 //  ShowMessage(VirtualQuery1.Fields[0].AsString);
-  ClientDataSet1['dt'] := null;
+//  ClientDataSet1['dt'] := null;
+ClientDataSet1.CheckConstraints;
 end;
 
 procedure TForm4.cxGrid1spGridDBTableView1strGetProperties(

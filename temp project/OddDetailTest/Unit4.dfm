@@ -14,10 +14,10 @@ object Form4: TForm4
   ShowHint = True
   OnCreate = FormCreate
   PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 14
   object spDicLabel1: TspDicLabel
-    Left = 321
-    Top = 219
+    Left = 320
+    Top = 218
     Width = 10
     Height = 13
     Caption = 'lk'
@@ -25,7 +25,7 @@ object Form4: TForm4
   end
   object spDicLabel2: TspDicLabel
     Left = 705
-    Top = 219
+    Top = 218
     Width = 17
     Height = 13
     Caption = 'Int'
@@ -100,7 +100,6 @@ object Form4: TForm4
       end
       object cxGrid1spGridDBTableView2Int: TspGridDBColumn
         DataBinding.FieldName = 'Int'
-        CommonValidatations = [cvNotNull]
       end
       object cxGrid1spGridDBTableView2lk: TspGridDBColumn
         DataBinding.FieldName = 'lk'
@@ -234,13 +233,14 @@ object Form4: TForm4
   object ClientDataSet1: TspClientDataSet
     PersistDataPacket.Data = {
       570000009619E0BD010000001800000004000000000003000000570003737472
-      0100490000000100055749445448020002001E00026474080008000000000005
-      666C6F6174080004000000000003496E7404000100000000000000}
+      0100490004000100055749445448020002001E00026474080008000000000005
+      666C6F6174080004000000000003496E7404000100040000000000}
     Active = True
     Aggregates = <>
     FieldDefs = <
       item
         Name = 'str'
+        Attributes = [faRequired]
         DataType = ftString
         Size = 30
       end
@@ -254,6 +254,7 @@ object Form4: TForm4
       end
       item
         Name = 'Int'
+        Attributes = [faRequired]
         DataType = ftInteger
       end>
     IndexDefs = <>
@@ -266,6 +267,7 @@ object Form4: TForm4
         Size = 30
         NumericPrecision = 0
         NumericScale = 0
+        IsRequest = True
         DisplayWidth = 30
         DisplayLabel = 'str'
         IsAutoGen = False
@@ -321,6 +323,7 @@ object Form4: TForm4
     object ClientDataSet1str: TStringField
       DisplayWidth = 30
       FieldName = 'str'
+      Required = True
       Size = 30
     end
     object ClientDataSet1dt: TDateTimeField
