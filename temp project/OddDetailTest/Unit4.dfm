@@ -77,6 +77,8 @@ object Form4: TForm4
     end
     object cxGrid1spGridDBTableView2: TspGridDBTableView
       Navigator.Buttons.CustomButtons = <>
+      OnCellClick = cxGrid1spGridDBTableView2CellClick
+      OnCellDblClick = cxGrid1spGridDBTableView2CellDblClick
       DataController.DataSource = DataSource1
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
@@ -179,7 +181,7 @@ object Form4: TForm4
   end
   object Button1: TButton
     Left = 720
-    Top = 32
+    Top = 35
     Width = 75
     Height = 25
     Caption = 'Button1'
@@ -232,6 +234,11 @@ object Form4: TForm4
     TabOrder = 5
   end
   object ClientDataSet1: TspClientDataSet
+    PersistDataPacket.Data = {
+      570000009619E0BD010000001800000004000000000003000000570003737472
+      0100490004000100055749445448020002001E00026474080008000000000005
+      666C6F6174080004000000000003496E7404000100000000000000}
+    Active = True
     Aggregates = <>
     FieldDefs = <
       item

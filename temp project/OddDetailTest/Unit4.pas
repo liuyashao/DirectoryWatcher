@@ -88,6 +88,13 @@ type
     procedure Button1Click(Sender: TObject);
     procedure cxGrid1spGridDBTableView2IntPropertiesValidate(Sender: TObject;
       var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
+    procedure cxGrid1spGridDBTableView2CellDblClick(
+      Sender: TcxCustomGridTableView;
+      ACellViewInfo: TcxGridTableDataCellViewInfo; AButton: TMouseButton;
+      AShift: TShiftState; var AHandled: Boolean);
+    procedure cxGrid1spGridDBTableView2CellClick(Sender: TcxCustomGridTableView;
+      ACellViewInfo: TcxGridTableDataCellViewInfo; AButton: TMouseButton;
+      AShift: TShiftState; var AHandled: Boolean);
   private
     { Private declarations }
   public
@@ -99,7 +106,7 @@ var
 
 implementation
 
-USES spClasses;
+USES spClasses, uFrmPopupBase;
 
 {$R *.dfm}
 
@@ -110,7 +117,8 @@ begin
 //  VirtualQuery1.Open;
 //  ShowMessage(VirtualQuery1.Fields[0].AsString);
 //  ClientDataSet1['dt'] := null;
-ClientDataSet1.CheckConstraints;
+//ClientDataSet1.CheckConstraints;
+  TFrmPopupBase.Popup(Button1);
 end;
 
 procedure TForm4.cxGrid1spGridDBTableView1strGetProperties(
@@ -125,6 +133,20 @@ procedure TForm4.cxGrid1spGridDBTableView1strGetPropertiesForEdit(
   var AProperties: TcxCustomEditProperties);
 begin
   Caption := '2'
+end;
+
+procedure TForm4.cxGrid1spGridDBTableView2CellClick(
+  Sender: TcxCustomGridTableView; ACellViewInfo: TcxGridTableDataCellViewInfo;
+  AButton: TMouseButton; AShift: TShiftState; var AHandled: Boolean);
+begin
+  TFrmPopupBase.Popup(cxGrid1spGridDBTableView2);
+end;
+
+procedure TForm4.cxGrid1spGridDBTableView2CellDblClick(
+  Sender: TcxCustomGridTableView; ACellViewInfo: TcxGridTableDataCellViewInfo;
+  AButton: TMouseButton; AShift: TShiftState; var AHandled: Boolean);
+begin
+//  TFrmPopupBase.Popup(cxGrid1spGridDBTableView2);
 end;
 
 procedure TForm4.cxGrid1spGridDBTableView2IntPropertiesValidate(Sender: TObject;
