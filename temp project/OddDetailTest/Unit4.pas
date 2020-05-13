@@ -105,7 +105,7 @@ var
 
 implementation
 
-USES spClasses, uFrmPopupBase;
+USES spClasses, uFromPopupUtils, Unit5;
 
 {$R *.dfm}
 
@@ -117,7 +117,7 @@ begin
 //  ShowMessage(VirtualQuery1.Fields[0].AsString);
 //  ClientDataSet1['dt'] := null;
 //ClientDataSet1.CheckConstraints;
-  TFrmPopupBase.Popup(Button1);
+//  TFrmPopupBase.Popup(Button1);
 end;
 
 procedure TForm4.cxGrid1spGridDBTableView1strGetProperties(
@@ -151,7 +151,7 @@ end;
 procedure TForm4.cxGrid1spGridDBTableView2strPropertiesButtonClick(
   Sender: TObject; AButtonIndex: Integer);
 begin
-  TFrmPopupBase.Popup(cxGrid1spGridDBTableView2str);
+  TPopup.Show<TFrmPopupBase5>(cxGrid1spGridDBTableView2str).Button1.Caption := DateTimeToStr(Now);
 end;
 
 procedure TForm4.FormCreate(Sender: TObject);
