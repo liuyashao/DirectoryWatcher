@@ -30,7 +30,7 @@ uses
   Vcl.StdCtrls, Vcl.Grids, Vcl.DBGrids, cxDBLookupComboBox, cxDBEdit, Vcl.Mask,
   Vcl.DBCtrls, spClientDataSet, Vcl.ExtCtrls, spDicLabel, cxImage,
   dxGDIPlusClasses, dxSkinsForm, cxGridBandedTableView, cxGridDBBandedTableView,
-  spGridDBBandedTableView, Uni, spUniQuery, spGridDBTableView;
+  spGridDBBandedTableView, Uni, spUniQuery, spGridDBTableView, cxButtonEdit;
 
 type
   TForm4 = class(TForm)
@@ -92,9 +92,8 @@ type
       Sender: TcxCustomGridTableView;
       ACellViewInfo: TcxGridTableDataCellViewInfo; AButton: TMouseButton;
       AShift: TShiftState; var AHandled: Boolean);
-    procedure cxGrid1spGridDBTableView2CellClick(Sender: TcxCustomGridTableView;
-      ACellViewInfo: TcxGridTableDataCellViewInfo; AButton: TMouseButton;
-      AShift: TShiftState; var AHandled: Boolean);
+    procedure cxGrid1spGridDBTableView2strPropertiesButtonClick(Sender: TObject;
+      AButtonIndex: Integer);
   private
     { Private declarations }
   public
@@ -135,13 +134,6 @@ begin
   Caption := '2'
 end;
 
-procedure TForm4.cxGrid1spGridDBTableView2CellClick(
-  Sender: TcxCustomGridTableView; ACellViewInfo: TcxGridTableDataCellViewInfo;
-  AButton: TMouseButton; AShift: TShiftState; var AHandled: Boolean);
-begin
-  TFrmPopupBase.Popup(cxGrid1spGridDBTableView2);
-end;
-
 procedure TForm4.cxGrid1spGridDBTableView2CellDblClick(
   Sender: TcxCustomGridTableView; ACellViewInfo: TcxGridTableDataCellViewInfo;
   AButton: TMouseButton; AShift: TShiftState; var AHandled: Boolean);
@@ -154,6 +146,12 @@ procedure TForm4.cxGrid1spGridDBTableView2IntPropertiesValidate(Sender: TObject;
 begin
 //  cxGrid1spGridDBTableView2Int.Properties.
   ErrorText := '123';
+end;
+
+procedure TForm4.cxGrid1spGridDBTableView2strPropertiesButtonClick(
+  Sender: TObject; AButtonIndex: Integer);
+begin
+  TFrmPopupBase.Popup(cxGrid1spGridDBTableView2str);
 end;
 
 procedure TForm4.FormCreate(Sender: TObject);

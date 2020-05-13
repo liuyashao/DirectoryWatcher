@@ -11,8 +11,10 @@ object FrmPopupBase: TFrmPopupBase
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
+  KeyPreview = True
   OldCreateOrder = False
   OnClose = FormClose
+  OnKeyDown = FormKeyDown
   PixelsPerInch = 96
   TextHeight = 14
   object pnlBackground: TPanel

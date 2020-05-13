@@ -77,7 +77,6 @@ object Form4: TForm4
     end
     object cxGrid1spGridDBTableView2: TspGridDBTableView
       Navigator.Buttons.CustomButtons = <>
-      OnCellClick = cxGrid1spGridDBTableView2CellClick
       OnCellDblClick = cxGrid1spGridDBTableView2CellDblClick
       DataController.DataSource = DataSource1
       DataController.Summary.DefaultGroupSummaryItems = <>
@@ -91,6 +90,13 @@ object Form4: TForm4
       StateOptions.Font.Style = []
       object cxGrid1spGridDBTableView2str: TspGridDBColumn
         DataBinding.FieldName = 'str'
+        PropertiesClassName = 'TcxButtonEditProperties'
+        Properties.Buttons = <
+          item
+            Default = True
+            Kind = bkEllipsis
+          end>
+        Properties.OnButtonClick = cxGrid1spGridDBTableView2strPropertiesButtonClick
       end
       object cxGrid1spGridDBTableView2dt: TspGridDBColumn
         DataBinding.FieldName = 'dt'
