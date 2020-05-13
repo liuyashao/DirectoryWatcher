@@ -32,17 +32,24 @@ implementation
 class function TPopup.Show<T>(Position: TPoint): T;
 begin
   Result := T.Create(Application);
-  if Position.X < 0 then
-    Position.X := 2
-  else if Screen.WorkAreaWidth < Position.X + Result.Width then
-    Position.X := Screen.WorkAreaWidth - Result.Width - 2;
-  if Position.Y < 0 then
-    Position.Y := 2
-  else if Screen.WorkAreaHeight < Position.Y + Result.Height then
-    Position.Y := Screen.WorkAreaHeight - Result.Height - 2;
-  Result.Left := Position.X;
-  Result.Top := Position.Y;
-  Result.Show;
+  try
+    if Position.X < 0 then
+      Position.X := 2
+    else if Screen.WorkAreaWidth < Position.X + Result.Width then
+      Position.X := Screen.WorkAreaWidth - Result.Width - 2;
+    if Position.Y < 0 then
+      Position.Y := 2
+    else if Screen.WorkAreaHeight < Position.Y + Result.Height then
+      Position.Y := Screen.WorkAreaHeight - Result.Height - 2;
+    Result.Left := Position.X;
+    Result.Top := Position.Y;
+    Result.Show;
+  except
+    on E: Exception do begin
+      Result.Free;
+      raise;
+    end;
+  end;
 end;
 
 class function TPopup.Show<T>(AnchorControl: TControl): T;
@@ -51,20 +58,27 @@ var
   P: TPoint;
 begin
   Result := T.Create(Application);
-  Position := AnchorControl.ClientToScreen(Point(0, AnchorControl.Height));
-  if Position.X < 0 then
-    Position.X := 2
-  else if Screen.WorkAreaWidth < Position.X + Result.Width then
-    Position.X := Screen.WorkAreaWidth - Result.Width - 2;
-  if Position.Y < 0 then
-    Position.Y := 2
-  else if Screen.WorkAreaHeight < Position.Y + Result.Height then begin
-    P := AnchorControl.ClientToScreen(Point(0, 0));
-    Position.Y := P.Y - Result.Height;
+  try
+    Position := AnchorControl.ClientToScreen(Point(0, AnchorControl.Height));
+    if Position.X < 0 then
+      Position.X := 2
+    else if Screen.WorkAreaWidth < Position.X + Result.Width then
+      Position.X := Screen.WorkAreaWidth - Result.Width - 2;
+    if Position.Y < 0 then
+      Position.Y := 2
+    else if Screen.WorkAreaHeight < Position.Y + Result.Height then begin
+      P := AnchorControl.ClientToScreen(Point(0, 0));
+      Position.Y := P.Y - Result.Height;
+    end;
+    Result.Left := Position.X;
+    Result.Top := Position.Y;
+    Result.Show;
+  except
+    on E: Exception do begin
+      Result.Free;
+      raise;
+    end;
   end;
-  Result.Left := Position.X;
-  Result.Top := Position.Y;
-  Result.Show;
 end;
 
 class function TPopup.Show<T>(Item: TcxCustomGridTableItem): T;
@@ -74,22 +88,29 @@ var
   ARect: TRect;
 begin
   Result := T.Create(Application);
-  ARect := Item.FocusedCellViewInfo.Bounds;
-  Position := Item.GridView.Site.Parent.ClientToScreen(ARect.TopLeft);
-  Position.Y := Position.Y + ARect.Height;
-  if Position.X < 0 then
-    Position.X := 2
-  else if Screen.WorkAreaWidth < Position.X + Result.Width then
-    Position.X := Screen.WorkAreaWidth - Result.Width - 2;
-  if Position.Y < 0 then
-    Position.Y := 2
-  else if Screen.WorkAreaHeight < Position.Y + Result.Height then begin
-    P := Item.GridView.Site.Parent.ClientToScreen(ARect.TopLeft);
-    Position.Y := P.Y - Result.Height;
+  try
+    ARect := Item.FocusedCellViewInfo.Bounds;
+    Position := Item.GridView.Site.Parent.ClientToScreen(ARect.TopLeft);
+    Position.Y := Position.Y + ARect.Height;
+    if Position.X < 0 then
+      Position.X := 2
+    else if Screen.WorkAreaWidth < Position.X + Result.Width then
+      Position.X := Screen.WorkAreaWidth - Result.Width - 2;
+    if Position.Y < 0 then
+      Position.Y := 2
+    else if Screen.WorkAreaHeight < Position.Y + Result.Height then begin
+      P := Item.GridView.Site.Parent.ClientToScreen(ARect.TopLeft);
+      Position.Y := P.Y - Result.Height;
+    end;
+    Result.Left := Position.X;
+    Result.Top := Position.Y;
+    Result.Show;
+  except
+    on E: Exception do begin
+      Result.Free;
+      raise;
+    end;
   end;
-  Result.Left := Position.X;
-  Result.Top := Position.Y;
-  Result.Show;
 end;
 
 { TFrmPopupBase }
@@ -103,8 +124,10 @@ end;
 procedure TFrmPopupBase.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-  if Key = VK_ESCAPE then
+  if Key = VK_ESCAPE then begin
+    Key := 0;
     Close;
+  end;
 end;
 
 procedure TFrmPopupBase.WMACTIVATE(var Message: TWMActivate);
