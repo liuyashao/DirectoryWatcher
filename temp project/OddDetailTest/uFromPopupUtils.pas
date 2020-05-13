@@ -55,7 +55,6 @@ end;
 class function TPopup.Show<T>(AnchorControl: TControl): T;
 var
   Position: TPoint;
-  P: TPoint;
 begin
   Result := T.Create(Application);
   try
@@ -66,10 +65,8 @@ begin
       Position.X := Screen.WorkAreaWidth - Result.Width - 2;
     if Position.Y < 0 then
       Position.Y := 2
-    else if Screen.WorkAreaHeight < Position.Y + Result.Height then begin
-      P := AnchorControl.ClientToScreen(Point(0, 0));
-      Position.Y := P.Y - Result.Height;
-    end;
+    else if Screen.WorkAreaHeight < Position.Y + Result.Height then
+      Position.Y := Position. Y - AnchorControl.Height - Result.Height;
     Result.Left := Position.X;
     Result.Top := Position.Y;
     Result.Show;

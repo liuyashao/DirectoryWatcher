@@ -94,7 +94,10 @@ type
       AShift: TShiftState; var AHandled: Boolean);
     procedure cxGrid1spGridDBTableView2strPropertiesButtonClick(Sender: TObject;
       AButtonIndex: Integer);
+    procedure cxGrid1spGridDBTableView2InitEdit(Sender: TcxCustomGridTableView;
+      AItem: TcxCustomGridTableItem; AEdit: TcxCustomEdit);
   private
+    procedure StrEditOnDblClick(Sender: TObject);
     { Private declarations }
   public
     { Public declarations }
@@ -117,7 +120,7 @@ begin
 //  ShowMessage(VirtualQuery1.Fields[0].AsString);
 //  ClientDataSet1['dt'] := null;
 //ClientDataSet1.CheckConstraints;
-//  TFrmPopupBase.Popup(Button1);
+  TPopup.Show<TFrmPopupBase5>(Button1).Button1.Caption := DateTimeToStr(Now);
 end;
 
 procedure TForm4.cxGrid1spGridDBTableView1strGetProperties(
@@ -141,6 +144,19 @@ begin
 //  TFrmPopupBase.Popup(cxGrid1spGridDBTableView2);
 end;
 
+procedure TForm4.cxGrid1spGridDBTableView2InitEdit(
+  Sender: TcxCustomGridTableView; AItem: TcxCustomGridTableItem;
+  AEdit: TcxCustomEdit);
+begin
+  if AItem = cxGrid1spGridDBTableView2str then
+    AEdit.OnDblClick := StrEditOnDblClick;
+end;
+
+procedure TForm4.StrEditOnDblClick(Sender: TObject);
+begin
+  TPopup.Show<TFrmPopupBase5>(cxGrid1spGridDBTableView2str).Button1.Caption := DateTimeToStr(Now);
+end;
+
 procedure TForm4.cxGrid1spGridDBTableView2IntPropertiesValidate(Sender: TObject;
   var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
 begin
@@ -151,7 +167,7 @@ end;
 procedure TForm4.cxGrid1spGridDBTableView2strPropertiesButtonClick(
   Sender: TObject; AButtonIndex: Integer);
 begin
-  TPopup.Show<TFrmPopupBase5>(cxGrid1spGridDBTableView2str).Button1.Caption := DateTimeToStr(Now);
+//  TPopup.Show<TFrmPopupBase5>(cxGrid1spGridDBTableView2str).Button1.Caption := DateTimeToStr(Now);
 end;
 
 procedure TForm4.FormCreate(Sender: TObject);

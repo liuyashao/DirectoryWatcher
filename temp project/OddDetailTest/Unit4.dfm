@@ -3,7 +3,7 @@ object Form4: TForm4
   Top = 0
   Caption = 'Form4'
   ClientHeight = 293
-  ClientWidth = 873
+  ClientWidth = 872
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -78,6 +78,7 @@ object Form4: TForm4
     object cxGrid1spGridDBTableView2: TspGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       OnCellDblClick = cxGrid1spGridDBTableView2CellDblClick
+      OnInitEdit = cxGrid1spGridDBTableView2InitEdit
       DataController.DataSource = DataSource1
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
@@ -399,7 +400,6 @@ object Form4: TForm4
     end
   end
   object dxSkinController1: TdxSkinController
-    NativeStyle = False
     SkinName = 'Coffee'
     Left = 608
     Top = 24
