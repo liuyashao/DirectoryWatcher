@@ -108,7 +108,7 @@ var
 
 implementation
 
-USES spClasses, uFromPopupUtils, Unit5;
+USES spClasses, uFromPopupUtils, Unit5, uPoolFactory;
 
 {$R *.dfm}
 
@@ -189,6 +189,7 @@ begin
   ClientDataSet2['int'] := 2;
   ClientDataSet2['str'] := 'B';
   ClientDataSet2.Post;
+  Pool<TClientDataSet>.Make;
 end;
 
 end.
