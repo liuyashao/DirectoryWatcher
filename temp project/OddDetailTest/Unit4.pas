@@ -171,6 +171,8 @@ begin
 end;
 
 procedure TForm4.FormCreate(Sender: TObject);
+var
+  cds: Pool<TClientDataSet>;
 begin
 //  cxGrid1spGridDBTableView1str.RegisterValidateItem(TspValidateItem.Construct(
 //  function (ADisplayValue: TcxEditValue; AEdit: TcxCustomEdit; AEditingItem: TcxCustomGridTableItem): TspValidateResult
@@ -189,7 +191,9 @@ begin
   ClientDataSet2['int'] := 2;
   ClientDataSet2['str'] := 'B';
   ClientDataSet2.Post;
-  Pool<TClientDataSet>.Make;
+//  cds := Pool<TClientDataSet>.Make;
+  cds.Value.FieldDefs.Add('A', ftString, 20);
+  cds.Value.FieldDefs.Add('B', ftString, 20);
 end;
 
 end.
