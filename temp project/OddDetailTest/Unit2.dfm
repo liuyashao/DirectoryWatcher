@@ -250,6 +250,7 @@ object Form2: TForm2
         end>
       DataController.Summary.SummaryGroups = <>
       OptionsView.GroupByBox = False
+      OptionsView.ValidateDataSetConstraint = False
       Styles.Content = cxStyle1
       Bands = <
         item

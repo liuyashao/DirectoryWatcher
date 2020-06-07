@@ -1,2 +1,2 @@
 BR_ShoppingCart
-BR_GusetOrderRecv
+BR_GuestOrderRecv

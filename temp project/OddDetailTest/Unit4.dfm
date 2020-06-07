@@ -14,10 +14,10 @@ object Form4: TForm4
   ShowHint = True
   OnCreate = FormCreate
   PixelsPerInch = 96
-  TextHeight = 14
+  TextHeight = 13
   object spDicLabel1: TspDicLabel
-    Left = 326
-    Top = 218
+    Left = 327
+    Top = 219
     Width = 7
     Height = 13
     Caption = 'lk'
@@ -25,7 +25,7 @@ object Form4: TForm4
   end
   object spDicLabel2: TspDicLabel
     Left = 705
-    Top = 218
+    Top = 219
     Width = 14
     Height = 13
     Caption = 'Int'
@@ -400,7 +400,8 @@ object Form4: TForm4
     end
   end
   object dxSkinController1: TdxSkinController
-    SkinName = 'Coffee'
+    NativeStyle = False
+    SkinName = 'MoneyTwins'
     Left = 608
     Top = 24
   end
