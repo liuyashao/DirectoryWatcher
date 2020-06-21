@@ -260,7 +260,7 @@ object Form2: TForm2
         end
         item
           Caption = #25972#25903
-          Width = 480
+          Width = 507
         end
         item
           Caption = #38646#22836
@@ -308,7 +308,7 @@ object Form2: TForm2
         Caption = #21253#35013'('#30721'/'#25903')'
         DataBinding.FieldName = 'SpecY'
         HeaderAlignmentHorz = taCenter
-        Width = 107
+        Width = 115
         Position.BandIndex = 1
         Position.ColIndex = 0
         Position.RowIndex = 0
@@ -317,16 +317,16 @@ object Form2: TForm2
         Caption = #21253#35013'('#31859'/'#25903')'
         DataBinding.FieldName = 'SpecM'
         HeaderAlignmentHorz = taCenter
-        Width = 96
+        Width = 103
         Position.BandIndex = 1
         Position.ColIndex = 1
         Position.RowIndex = 0
       end
       object cxGrid2spGridDBBandedTableView1SpecSale: TspGridDBBandedColumn
-        Caption = #38144#21806'('#30721')'
+        Caption = #38144#21806'('#30721'/'#25903')'
         DataBinding.FieldName = 'SpecSaleY'
         HeaderAlignmentHorz = taCenter
-        Width = 89
+        Width = 96
         Position.BandIndex = 1
         Position.ColIndex = 2
         Position.RowIndex = 0
@@ -334,7 +334,7 @@ object Form2: TForm2
       object cxGrid2spGridDBBandedTableView1Piece: TspGridDBBandedColumn
         DataBinding.FieldName = 'Piece'
         HeaderAlignmentHorz = taCenter
-        Width = 104
+        Width = 96
         Position.BandIndex = 1
         Position.ColIndex = 4
         Position.RowIndex = 0
@@ -465,10 +465,10 @@ object Form2: TForm2
         Position.RowIndex = 0
       end
       object cxGrid2spGridDBBandedTableView1SpecSaleM: TspGridDBBandedColumn
-        Caption = #38144#21806'('#31859')'
+        Caption = #38144#21806'('#31859'/'#25903')'
         DataBinding.FieldName = 'SpecSaleM'
         HeaderAlignmentHorz = taCenter
-        Width = 83
+        Width = 105
         Position.BandIndex = 1
         Position.ColIndex = 3
         Position.RowIndex = 0
