@@ -70,8 +70,9 @@ object Form2: TForm2
         HeaderAlignmentHorz = taCenter
       end
       object cxGrid1spGridDBTableView1SpecSale: TspGridDBColumn
-        DataBinding.FieldName = 'SpecSale'
+        DataBinding.FieldName = 'SpecSaleY'
         HeaderAlignmentHorz = taCenter
+        Width = 112
       end
       object cxGrid1spGridDBTableView1Piece: TspGridDBColumn
         DataBinding.FieldName = 'Piece'
@@ -97,7 +98,7 @@ object Form2: TForm2
         Width = 120
       end
       object cxGrid1spGridDBTableView1SpecCut: TspGridDBColumn
-        DataBinding.FieldName = 'SpecCut'
+        DataBinding.FieldName = 'SpecCutY'
         HeaderAlignmentHorz = taCenter
       end
       object cxGrid1spGridDBTableView1QtyCut: TspGridDBColumn
@@ -259,7 +260,7 @@ object Form2: TForm2
         end
         item
           Caption = #25972#25903
-          Width = 299
+          Width = 480
         end
         item
           Caption = #38646#22836
@@ -267,7 +268,7 @@ object Form2: TForm2
         end
         item
           Caption = #25955#21098
-          Width = 147
+          Width = 213
         end
         item
           Caption = #23454#38469#38144#21806
@@ -304,25 +305,28 @@ object Form2: TForm2
         Position.RowIndex = 0
       end
       object cxGrid2spGridDBBandedTableView1SpecY: TspGridDBBandedColumn
+        Caption = #21253#35013'('#30721'/'#25903')'
         DataBinding.FieldName = 'SpecY'
         HeaderAlignmentHorz = taCenter
-        Width = 70
+        Width = 107
         Position.BandIndex = 1
         Position.ColIndex = 0
         Position.RowIndex = 0
       end
       object cxGrid2spGridDBBandedTableView1SpecM: TspGridDBBandedColumn
+        Caption = #21253#35013'('#31859'/'#25903')'
         DataBinding.FieldName = 'SpecM'
         HeaderAlignmentHorz = taCenter
-        Width = 88
+        Width = 96
         Position.BandIndex = 1
         Position.ColIndex = 1
         Position.RowIndex = 0
       end
       object cxGrid2spGridDBBandedTableView1SpecSale: TspGridDBBandedColumn
-        DataBinding.FieldName = 'SpecSale'
+        Caption = #38144#21806'('#30721')'
+        DataBinding.FieldName = 'SpecSaleY'
         HeaderAlignmentHorz = taCenter
-        Width = 96
+        Width = 89
         Position.BandIndex = 1
         Position.ColIndex = 2
         Position.RowIndex = 0
@@ -330,9 +334,9 @@ object Form2: TForm2
       object cxGrid2spGridDBBandedTableView1Piece: TspGridDBBandedColumn
         DataBinding.FieldName = 'Piece'
         HeaderAlignmentHorz = taCenter
-        Width = 99
+        Width = 104
         Position.BandIndex = 1
-        Position.ColIndex = 3
+        Position.ColIndex = 4
         Position.RowIndex = 0
       end
       object cxGrid2spGridDBBandedTableView1OddY: TspGridDBBandedColumn
@@ -367,10 +371,10 @@ object Form2: TForm2
         Position.RowIndex = 0
       end
       object cxGrid2spGridDBBandedTableView1SpecCut: TspGridDBBandedColumn
-        Caption = #35268#26684
-        DataBinding.FieldName = 'SpecCut'
+        Caption = #30721'/'#25903
+        DataBinding.FieldName = 'SpecCutY'
         HeaderAlignmentHorz = taCenter
-        Width = 20
+        Width = 71
         Position.BandIndex = 3
         Position.ColIndex = 0
         Position.RowIndex = 0
@@ -379,9 +383,9 @@ object Form2: TForm2
         Caption = #25968#37327
         DataBinding.FieldName = 'QtyCut'
         HeaderAlignmentHorz = taCenter
-        Width = 26
+        Width = 73
         Position.BandIndex = 3
-        Position.ColIndex = 1
+        Position.ColIndex = 2
         Position.RowIndex = 0
       end
       object cxGrid2spGridDBBandedTableView1SaleDetail: TspGridDBBandedColumn
@@ -460,6 +464,24 @@ object Form2: TForm2
         Position.ColIndex = 3
         Position.RowIndex = 0
       end
+      object cxGrid2spGridDBBandedTableView1SpecSaleM: TspGridDBBandedColumn
+        Caption = #38144#21806'('#31859')'
+        DataBinding.FieldName = 'SpecSaleM'
+        HeaderAlignmentHorz = taCenter
+        Width = 83
+        Position.BandIndex = 1
+        Position.ColIndex = 3
+        Position.RowIndex = 0
+      end
+      object cxGrid2spGridDBBandedTableView1SpecCutM: TspGridDBBandedColumn
+        Caption = #31859'/'#25903
+        DataBinding.FieldName = 'SpecCutM'
+        HeaderAlignmentHorz = taCenter
+        Width = 68
+        Position.BandIndex = 3
+        Position.ColIndex = 1
+        Position.RowIndex = 0
+      end
     end
     object cxGrid2Level1: TcxGridLevel
       GridView = cxGrid2spGridDBBandedTableView1
@@ -471,19 +493,20 @@ object Form2: TForm2
   end
   object ClientDataSet1: TspClientDataSet
     PersistDataPacket.Data = {
-      7F0100009619E0BD0100000018000000120000000000030000007F0104556E69
+      A40100009619E0BD010000001800000014000000000003000000A40104556E69
       740100490000000100055749445448020002000A000553706563590800040000
-      00000005537065634D0800040000000000085370656353616C65080004000000
-      00000550696563650400010000000000044F6464590100490000000100055749
-      44544802000200C800044F64644D010049000000010005574944544802000200
-      C800084F6464546F74616C010049000000010005574944544802000200C80007
-      5370656343757408000400000000000651747943757408000400000000000A53
-      616C6544657461696C010049000000010005574944544802000200C800075361
-      6C655174790800040000000000055072696365080004000000000006416D6F75
-      6E7408000400000000000B546F74616C44657461696C01004900000001000557
-      4944544802000200C80009546F74616C51747959080004000000000009546F74
-      616C5174794D08000400000000000A546F74616C506965636504000100000000
-      000000}
+      00000005537065634D0800040000000000095370656353616C65590800040000
+      000000095370656353616C654D08000400000000000550696563650400010000
+      000000044F646459010049000000010005574944544802000200C800044F6464
+      4D010049000000010005574944544802000200C800084F6464546F74616C0100
+      49000000010005574944544802000200C8000853706563437574590800040000
+      00000008537065634375744D0800040000000000065174794375740800040000
+      0000000A53616C6544657461696C010049000000010005574944544802000200
+      C8000753616C6551747908000400000000000550726963650800040000000000
+      06416D6F756E7408000400000000000B546F74616C44657461696C0100490000
+      00010005574944544802000200C80009546F74616C5174795908000400000000
+      0009546F74616C5174794D08000400000000000A546F74616C50696563650400
+      0100000000000000}
     Active = True
     Aggregates = <>
     FieldDefs = <
@@ -501,7 +524,11 @@ object Form2: TForm2
         DataType = ftFloat
       end
       item
-        Name = 'SpecSale'
+        Name = 'SpecSaleY'
+        DataType = ftFloat
+      end
+      item
+        Name = 'SpecSaleM'
         DataType = ftFloat
       end
       item
@@ -524,7 +551,11 @@ object Form2: TForm2
         Size = 200
       end
       item
-        Name = 'SpecCut'
+        Name = 'SpecCutY'
+        DataType = ftFloat
+      end
+      item
+        Name = 'SpecCutM'
         DataType = ftFloat
       end
       item
@@ -568,6 +599,7 @@ object Form2: TForm2
     IndexDefs = <>
     Params = <>
     StoreDefs = True
+    BeforeOpen = ClientDataSet1BeforeOpen
     Dictionary = <
       item
         FieldName = 'Unit'
@@ -600,13 +632,21 @@ object Form2: TForm2
         IsAutoGen = False
       end
       item
-        FieldName = 'SpecSale'
+        FieldName = 'SpecSaleY'
         FieldType = ftFloat
         NumericPrecision = 15
         NumericScale = 0
         Alignment = taRightJustify
         DisplayWidth = 10
-        DisplayLabel = #38144#21806#35268#26684
+        DisplayLabel = #38144#21806#35268#26684'('#30721'/'#25903')'
+        IsAutoGen = False
+      end
+      item
+        FieldName = 'SpecSaleM'
+        FieldType = ftFloat
+        NumericPrecision = 0
+        NumericScale = 0
+        DisplayLabel = #38144#21806#35268#26684'('#31859'/'#25903')'
         IsAutoGen = False
       end
       item
@@ -650,13 +690,21 @@ object Form2: TForm2
         IsAutoGen = False
       end
       item
-        FieldName = 'SpecCut'
+        FieldName = 'SpecCutY'
         FieldType = ftFloat
         NumericPrecision = 15
         NumericScale = 0
         Alignment = taRightJustify
         DisplayWidth = 10
-        DisplayLabel = #25955#21098#35268#26684
+        DisplayLabel = #25955#21098#35268#26684'('#30721'/'#25903')'
+        IsAutoGen = False
+      end
+      item
+        FieldName = 'SpecCutM'
+        FieldType = ftFloat
+        NumericPrecision = 0
+        NumericScale = 0
+        DisplayLabel = #25955#21098#35268#26684'('#31859'/'#25903')'
         IsAutoGen = False
       end
       item
@@ -755,110 +803,112 @@ object Form2: TForm2
     OnSumData = ClientDataSet1SumData
     Left = 440
     Top = 24
-    object ClientDataSet1Unit: TStringField
+    object ClientDataSet1Unit: TspStringField
       DisplayLabel = #21333#20301
       DisplayWidth = 10
       FieldName = 'Unit'
       Size = 10
     end
-    object ClientDataSet1SpecY: TFloatField
+    object ClientDataSet1SpecY: TspFloatField
       DisplayLabel = #30721'/'#25903
       DisplayWidth = 10
       FieldName = 'SpecY'
     end
-    object ClientDataSet1SpecM: TFloatField
+    object ClientDataSet1SpecM: TspFloatField
       DisplayLabel = #31859'/'#25903
       DisplayWidth = 10
       FieldName = 'SpecM'
     end
-    object ClientDataSet1SpecSale: TFloatField
-      DisplayLabel = #38144#21806#35268#26684
+    object ClientDataSet1SpecSaleY: TspFloatField
+      DisplayLabel = #38144#21806#35268#26684'('#30721'/'#25903')'
       DisplayWidth = 10
-      FieldName = 'SpecSale'
-      OnGetText = ClientDataSet1SpecYGetText
+      FieldName = 'SpecSaleY'
     end
-    object ClientDataSet1Piece: TIntegerField
+    object ClientDataSet1SpecSaleM: TspFloatField
+      Alignment = taLeftJustify
+      DisplayLabel = #38144#21806#35268#26684'('#31859'/'#25903')'
+      DisplayWidth = 20
+      FieldName = 'SpecSaleM'
+      Precision = 2
+    end
+    object ClientDataSet1Piece: TspIntegerField
       DisplayLabel = #25972#25903#25968
       DisplayWidth = 10
       FieldName = 'Piece'
     end
-    object ClientDataSet1str: TspStringField
+    object ClientDataSet1OddY: TspStringField
       DisplayLabel = #38646#22836#30721#26126#32454
       DisplayWidth = 100
       FieldName = 'OddY'
-      OnGetText = ClientDataSet1OddFieldGetText
       Size = 200
     end
-    object ClientDataSet1MOdd: TStringField
+    object ClientDataSet1OddM: TspStringField
       DisplayLabel = #38646#22836#31859#26126#32454
       DisplayWidth = 200
       FieldName = 'OddM'
-      OnGetText = ClientDataSet1OddFieldGetText
       Size = 200
     end
-    object ClientDataSet1SumOdd: TStringField
+    object ClientDataSet1OddTotal: TspStringField
       DisplayLabel = #38646#22836#21512#35745#26126#32454
       DisplayWidth = 200
       FieldName = 'OddTotal'
-      OnGetText = ClientDataSet1OddFieldGetText
       Size = 200
     end
-    object ClientDataSet1SpecCut: TFloatField
-      DisplayLabel = #25955#21098#35268#26684
+    object ClientDataSet1SpecCutY: TspFloatField
+      DisplayLabel = #25955#21098#35268#26684'('#30721'/'#25903')'
       DisplayWidth = 10
-      FieldName = 'SpecCut'
-      OnGetText = ClientDataSet1SpecYGetText
+      FieldName = 'SpecCutY'
     end
-    object ClientDataSet1QtyCut: TFloatField
+    object ClientDataSet1SpecCutM: TspFloatField
+      Alignment = taLeftJustify
+      DisplayLabel = #25955#21098#35268#26684'('#31859'/'#25903')'
+      DisplayWidth = 20
+      FieldName = 'SpecCutM'
+      Precision = 2
+    end
+    object ClientDataSet1QtyCut: TspFloatField
       DisplayLabel = #25955#21098#25968#37327
       DisplayWidth = 10
       FieldName = 'QtyCut'
-      OnGetText = ClientDataSet1QtyCutGetText
     end
-    object ClientDataSet1OddSale: TStringField
+    object ClientDataSet1SaleDetail: TspStringField
       DisplayLabel = #38144#21806#26126#32454
       DisplayWidth = 200
       FieldName = 'SaleDetail'
-      OnGetText = ClientDataSet1OddFieldGetText
       Size = 200
     end
-    object ClientDataSet1SaleQty: TFloatField
+    object ClientDataSet1SaleQty: TspFloatField
       DisplayLabel = #38144#21806#25968#37327
       DisplayWidth = 10
       FieldName = 'SaleQty'
-      OnGetText = ClientDataSet1QtyCutGetText
     end
-    object ClientDataSet1Price: TFloatField
+    object ClientDataSet1Price: TspFloatField
       DisplayLabel = #21333#20215
       DisplayWidth = 10
       FieldName = 'Price'
-      OnGetText = ClientDataSet1PriceGetText
     end
-    object ClientDataSet1Amount: TFloatField
+    object ClientDataSet1Amount: TspFloatField
       DisplayLabel = #37329#39069
       DisplayWidth = 10
       FieldName = 'Amount'
     end
-    object ClientDataSet1TotalDetail: TStringField
+    object ClientDataSet1TotalDetail: TspStringField
       DisplayLabel = #20986#24211#26126#32454
       DisplayWidth = 200
       FieldName = 'TotalDetail'
-      OnGetText = ClientDataSet1OddFieldGetText
       Size = 200
     end
-    object ClientDataSet1Y: TspFloatField
+    object ClientDataSet1TotalQtyY: TspFloatField
       DisplayLabel = #24635#30721#25968
       DisplayWidth = 10
       FieldName = 'TotalQtyY'
-      OnGetText = ClientDataSet1QtyCutGetText
     end
-    object ClientDataSet1M: TspFloatField
+    object ClientDataSet1TotalQtyM: TspFloatField
       DisplayLabel = #24635#31859#25968
       DisplayWidth = 10
       FieldName = 'TotalQtyM'
-      OnGetText = ClientDataSet1QtyCutGetText
     end
-    object ClientDataSet1TotalPiece: TIntegerField
+    object ClientDataSet1TotalPiece: TspIntegerField
       DisplayLabel = #24635#20214#25968
       DisplayWidth = 10
       FieldName = 'TotalPiece'

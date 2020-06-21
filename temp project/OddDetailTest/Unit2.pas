@@ -34,18 +34,11 @@ type
   TForm2 = class(TForm)
     DataSource1: TDataSource;
     ClientDataSet1: TspClientDataSet;
-    ClientDataSet1str: TspStringField;
     cxGrid1Level1: TcxGridLevel;
     cxGrid1: TcxGrid;
     cxStyleRepository1: TcxStyleRepository;
     cxStyle1: TcxStyle;
-    ClientDataSet1Y: TspFloatField;
     cxGrid1spGridDBTableView1: TspGridDBTableView;
-    ClientDataSet1Unit: TStringField;
-    ClientDataSet1MOdd: TStringField;
-    ClientDataSet1SumOdd: TStringField;
-    ClientDataSet1Price: TFloatField;
-    ClientDataSet1Amount: TFloatField;
     cxGrid1spGridDBTableView1Unit: TspGridDBColumn;
     cxGrid1spGridDBTableView1Price: TspGridDBColumn;
     cxGrid1spGridDBTableView1Amount: TspGridDBColumn;
@@ -59,15 +52,6 @@ type
     cxGrid2Level1: TcxGridLevel;
     cxGrid2: TcxGrid;
     cxGrid2spGridDBBandedTableView1: TspGridDBBandedTableView;
-    ClientDataSet1SpecY: TFloatField;
-    ClientDataSet1SpecM: TFloatField;
-    ClientDataSet1SpecSale: TFloatField;
-    ClientDataSet1Piece: TIntegerField;
-    ClientDataSet1OddSale: TStringField;
-    ClientDataSet1SaleQty: TFloatField;
-    ClientDataSet1TotalPiece: TIntegerField;
-    ClientDataSet1SpecCut: TFloatField;
-    ClientDataSet1QtyCut: TFloatField;
     cxGrid1spGridDBTableView1SpecY: TspGridDBColumn;
     cxGrid1spGridDBTableView1SpecM: TspGridDBColumn;
     cxGrid1spGridDBTableView1SpecSale: TspGridDBColumn;
@@ -82,7 +66,6 @@ type
     cxGrid1spGridDBTableView1TotalQtyY: TspGridDBColumn;
     cxGrid1spGridDBTableView1TotalQtyM: TspGridDBColumn;
     cxGrid1spGridDBTableView1TotalPiece: TspGridDBColumn;
-    ClientDataSet1TotalDetail: TStringField;
     cxGrid1spGridDBTableView1TotalDetail: TspGridDBColumn;
     cxGrid2spGridDBBandedTableView1Unit: TspGridDBBandedColumn;
     cxGrid2spGridDBBandedTableView1SpecY: TspGridDBBandedColumn;
@@ -104,6 +87,28 @@ type
     cxGrid2spGridDBBandedTableView1TotalPiece: TspGridDBBandedColumn;
     cbRoundType: TcxComboBox;
     cxButton1: TcxButton;
+    ClientDataSet1Unit: TspStringField;
+    ClientDataSet1SpecY: TspFloatField;
+    ClientDataSet1SpecM: TspFloatField;
+    ClientDataSet1SpecSaleY: TspFloatField;
+    ClientDataSet1SpecSaleM: TspFloatField;
+    ClientDataSet1Piece: TspIntegerField;
+    ClientDataSet1OddY: TspStringField;
+    ClientDataSet1OddM: TspStringField;
+    ClientDataSet1OddTotal: TspStringField;
+    ClientDataSet1SpecCutY: TspFloatField;
+    ClientDataSet1SpecCutM: TspFloatField;
+    ClientDataSet1QtyCut: TspFloatField;
+    ClientDataSet1SaleDetail: TspStringField;
+    ClientDataSet1SaleQty: TspFloatField;
+    ClientDataSet1Price: TspFloatField;
+    ClientDataSet1Amount: TspFloatField;
+    ClientDataSet1TotalDetail: TspStringField;
+    ClientDataSet1TotalQtyY: TspFloatField;
+    ClientDataSet1TotalQtyM: TspFloatField;
+    ClientDataSet1TotalPiece: TspIntegerField;
+    cxGrid2spGridDBBandedTableView1SpecSaleM: TspGridDBBandedColumn;
+    cxGrid2spGridDBBandedTableView1SpecCutM: TspGridDBBandedColumn;
     procedure FormCreate(Sender: TObject);
     procedure cxGrid1DBTableView1EditKeyPress(Sender: TcxCustomGridTableView;
       AItem: TcxCustomGridTableItem; AEdit: TcxCustomEdit; var Key: Char);
@@ -130,6 +135,7 @@ type
     procedure cxGrid2spGridDBBandedTableView1EditKeyPress(
       Sender: TcxCustomGridTableView; AItem: TcxCustomGridTableItem;
       AEdit: TcxCustomEdit; var Key: Char);
+    procedure ClientDataSet1BeforeOpen(DataSet: TDataSet);
   private
     procedure EditValueChanging(const FieldName, EditValue: string);
   end;
@@ -158,7 +164,7 @@ begin
   ClientDataSet1.Append;
   ClientDataSet1['Unit'] := '码';
   ClientDataSet1['SpecY'] := 39.37;
-  ClientDataSet1['SpecSale'] := 40;
+  ClientDataSet1['SpecSaleY'] := 40;
   ClientDataSet1['Piece'] := 3;
   ClientDataSet1['OddY'] := '4*32.92+30';
   ClientDataSet1['OddM'] := '2*50+35';
@@ -207,14 +213,24 @@ var
 
 begin
   UpateSpecSale := procedure begin
-    if AUnit = ouMetre then
-      DataSet['SpecSale'] := DataSet['SpecM']
-    else
-      DataSet['SpecSale'] := DataSet['SpecY'];
+     DataSet['SpecSaleM'] := DataSet['SpecM'];
+     DataSet['SpecSaleY'] := DataSet['SpecY'];
   end;
   try
     AUnit := TOddUnit.Parse(DataSet.FieldByName('Unit').AsString);
-    if SameTextEx(Field.FieldName, ['Unit', 'SpecY', 'SpecM', 'SpecSale', 'Piece', 'OddY', 'OddM', 'QtyCut']) then begin
+    if SameTextEx(Field.FieldName, ['SpecCutY', 'SpecCutM']) then begin
+      if SameText(Field.FieldName, 'SpecCutY') then
+        PreventFieldChange(procedure
+        begin
+          DataSet['SpecCutM'] := RoundTo(ouYard.ConvertValueTo(ouMetre, Field.AsFloat), -2);
+        end);
+      if SameText(Field.FieldName, 'SpecCutM') then
+        PreventFieldChange(procedure
+        begin
+          DataSet['SpecCutY'] := RoundTo(ouMetre.ConvertValueTo(ouYard, Field.AsFloat), -2);
+        end);
+    end;
+    if SameTextEx(Field.FieldName, ['Unit', 'SpecY', 'SpecM', 'SpecSaleY', 'SpecSaleM', 'Piece', 'OddY', 'OddM', 'QtyCut']) then begin
       if SameText(Field.FieldName, 'Unit') then
         PreventFieldChange(procedure
         begin
@@ -223,6 +239,8 @@ begin
             DataSet['OddY'] := null;
             DataSet['OddM'] := null;
             DataSet['QtyCut'] := null;
+            DataSet['SpecCutY'] := null;
+            DataSet['SpecCutM'] := null;
           end;
         end);
       if SameText(Field.FieldName, 'SpecY') then
@@ -237,13 +255,26 @@ begin
           DataSet['SpecY'] := RoundTo(ouMetre.ConvertValueTo(ouYard, Field.AsFloat), -2);
           UpateSpecSale;
         end);
-      odRoll  := NewOD(AUnit).Add(DataSet.FieldByName('Piece').AsInteger, DataSet.FieldByName('SpecSale').AsFloat);
+      if SameText(Field.FieldName, 'SpecSaleM') then
+        PreventFieldChange(procedure
+        begin
+          DataSet['SpecSaleY'] := RoundTo(ouMetre.ConvertValueTo(ouYard, Field.AsFloat), -2);
+        end);
+      if SameText(Field.FieldName, 'SpecSaleY') then
+        PreventFieldChange(procedure
+        begin
+          DataSet['SpecSaleM'] := RoundTo(ouYard.ConvertValueTo(ouMetre, Field.AsFloat), -2);
+        end);
+      odRoll  := NewOD(AUnit);
+      if AUnit.ToLengthUnit = ouMetre then
+        odRoll.Add(DataSet.FieldByName('Piece').AsInteger, DataSet.FieldByName('SpecSaleM').AsFloat)
+      else
+        odRoll.Add(DataSet.FieldByName('Piece').AsInteger, DataSet.FieldByName('SpecSaleY').AsFloat);
       odOddY  := ParseOD(DataSet.FieldByName('OddY').AsString, ouYard);
       odOddM  := ParseOD(DataSet.FieldByName('OddM').AsString, ouMetre);
       odCut   := NewOD(AUnit).Add(1, DataSet.FieldByName('QtyCut').AsFloat);
-      odSale  := NewOD(AUnit).Append(odRoll).Append(odOddY).Append(odOddM).Append(odCut)
-        .Round(TRoundType(cbRoundType.ItemIndex));
-      if AUnit = ouMetre then
+      odSale  := NewOD(AUnit).Append(odRoll).Append(odOddY).Append(odOddM).Append(odCut).Round(TRoundType(cbRoundType.ItemIndex));
+      if AUnit.ToLengthUnit = ouMetre then
         odTotal := NewOD(AUnit).Add(DataSet.FieldByName('Piece').AsInteger, DataSet.FieldByName('SpecM').AsFloat)
       else
         odTotal := NewOD(AUnit).Add(DataSet.FieldByName('Piece').AsInteger, DataSet.FieldByName('SpecY').AsFloat);
@@ -296,7 +327,7 @@ procedure TForm2.cxGrid2spGridDBBandedTableView1EditKeyPress(
   AEdit: TcxCustomEdit; var Key: Char);
 begin
   if (TOddUnit.Parse(ClientDataSet1.FieldByName('Unit').AsString) = ouRoll) and
-    SameTextEx((AItem as TspGridDBBandedColumn).DataBinding.FieldName, ['OddY', 'OddM', 'QtyCut', 'SpecCut'])
+    SameTextEx((AItem as TspGridDBBandedColumn).DataBinding.FieldName, ['OddY', 'OddM', 'QtyCut', 'SpecCutY', 'SpecCutM'])
   then begin
     Key := #0;
     ShowGridTableItemHintMsg(AItem, '单位为支时，只能整支销售，不能输入零头或散剪', 4000);
@@ -327,8 +358,17 @@ begin
   if SameText(FieldName, 'SpecM') then
     ClientDataSet1['SpecM'] := StrToFloatVariant(EditValue) else
 
-  if SameText(FieldName, 'SpecSale') then
-    ClientDataSet1['SpecSale'] := StrToFloatVariant(EditValue) else
+  if SameText(FieldName, 'SpecSaleY') then
+    ClientDataSet1['SpecSaleY'] := StrToFloatVariant(EditValue) else
+
+  if SameText(FieldName, 'SpecSaleM') then
+    ClientDataSet1['SpecSaleM'] := StrToFloatVariant(EditValue) else
+
+  if SameText(FieldName, 'SpecCutY') then
+    ClientDataSet1['SpecCutY'] := StrToFloatVariant(EditValue) else
+
+  if SameText(FieldName, 'SpecCutM') then
+    ClientDataSet1['SpecCutM'] := StrToFloatVariant(EditValue) else
 
   if SameText(FieldName, 'Piece') then
     ClientDataSet1['Piece'] := StrToFloatVariant(EditValue) else
@@ -338,6 +378,31 @@ begin
 
   if SameText(FieldName, 'SaleDetail') then
     ClientDataSet1['SaleDetail'] := EditValue;
+end;
+
+procedure TForm2.ClientDataSet1BeforeOpen(DataSet: TDataSet);
+begin
+  ClientDataSet1.FieldByName('OddY').OnGetText := ClientDataSet1OddFieldGetText;
+  ClientDataSet1.FieldByName('OddM').OnGetText := ClientDataSet1OddFieldGetText;
+  ClientDataSet1.FieldByName('OddTotal').OnGetText := ClientDataSet1OddFieldGetText;
+  ClientDataSet1.FieldByName('SaleDetail').OnGetText := ClientDataSet1OddFieldGetText;
+  ClientDataSet1.FieldByName('TotalDetail').OnGetText := ClientDataSet1OddFieldGetText;
+
+  ClientDataSet1.FieldByName('Price').OnGetText := ClientDataSet1PriceGetText;
+
+  ClientDataSet1.FieldByName('SpecY').OnGetText := ClientDataSet1SpecYGetText;
+  ClientDataSet1.FieldByName('SpecM').OnGetText := ClientDataSet1SpecYGetText;
+  ClientDataSet1.FieldByName('SpecCutY').OnGetText := ClientDataSet1SpecYGetText;
+  ClientDataSet1.FieldByName('SpecCutM').OnGetText := ClientDataSet1SpecYGetText;
+  ClientDataSet1.FieldByName('SpecSaleY').OnGetText := ClientDataSet1SpecYGetText;
+  ClientDataSet1.FieldByName('SpecSaleM').OnGetText := ClientDataSet1SpecYGetText;
+
+  ClientDataSet1.FieldByName('TotalQtyY').OnGetText := ClientDataSet1QtyCutGetText;
+  ClientDataSet1.FieldByName('TotalQtyM').OnGetText := ClientDataSet1QtyCutGetText;
+  ClientDataSet1.FieldByName('QtyCut').OnGetText := ClientDataSet1QtyCutGetText;
+  ClientDataSet1.FieldByName('SaleQty').OnGetText := ClientDataSet1QtyCutGetText;
+
+
 end;
 
 procedure TForm2.ClientDataSet1OddFieldGetText(Sender: TField; var Text: string;
@@ -365,12 +430,10 @@ procedure TForm2.ClientDataSet1SpecYGetText(Sender: TField; var Text: string;
 var
   AUnit: TOddUnit;
 begin
-  if SameTextEx(Sender.FieldName, ['SpecY', 'SpecCut']) then
+  if SameTextEx(Sender.FieldName, ['SpecY', 'SpecSaleY', 'SpecCutY']) then
     AUnit := ouYard else
-  if SameTextEx(Sender.FieldName, ['SpecM']) then
-    AUnit := ouMetre else
-  if SameTextEx(Sender.FieldName, ['SpecSale']) then
-    AUnit := TOddUnit.Parse(Sender.DataSet.FieldByName('Unit').AsString);
+  if SameTextEx(Sender.FieldName, ['SpecM', 'SpecSaleM', 'SpecCutM']) then
+    AUnit := ouMetre;
   Text := GetSpecFieldTextWithUnit(Sender, DisplayText, AUnit);
 end;
 
