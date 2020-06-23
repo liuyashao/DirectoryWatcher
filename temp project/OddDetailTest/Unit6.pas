@@ -322,9 +322,9 @@ begin
   if SameTextEx(Sender.FieldName, ['QtyY']) then
     AUnit := ouYard else
   if SameTextEx(Sender.FieldName, ['QtyM']) then
-    AUnit := ouMetre else
-  if SameTextEx(Sender.FieldName, ['InDetail']) then
-    AUnit := TOddUnit.ParseDef(Sender.DataSet.FieldByName('Unit').AsString);
+    AUnit := ouMetre; //else
+  //if SameTextEx(Sender.FieldName, ['InDetail']) then
+    //AUnit := TOddUnit.ParseDef(Sender.DataSet.FieldByName('Unit').AsString);
   Text := GetQtyFieldTextWithUnit(Sender, DisplayText, AUnit);
 end;
 
