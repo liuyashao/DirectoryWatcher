@@ -3,7 +3,7 @@ object Form2: TForm2
   Top = 0
   Caption = 'Form2'
   ClientHeight = 536
-  ClientWidth = 1342
+  ClientWidth = 1469
   Color = clBtnFace
   Font.Charset = ANSI_CHARSET
   Font.Color = clWindowText
@@ -17,7 +17,7 @@ object Form2: TForm2
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 1342
+    Width = 1469
     Height = 35
     Align = alTop
     BevelOuter = bvNone
@@ -54,12 +54,10 @@ object Form2: TForm2
   object cxGrid2: TcxGrid
     Left = 0
     Top = 35
-    Width = 1342
+    Width = 1469
     Height = 501
     Align = alClient
     TabOrder = 1
-    ExplicitTop = 256
-    ExplicitHeight = 280
     object cxGrid2spGridDBBandedTableView1: TspGridDBBandedTableView
       Navigator.Buttons.CustomButtons = <>
       OnEditKeyPress = cxGrid2spGridDBBandedTableView1EditKeyPress
@@ -68,7 +66,6 @@ object Form2: TForm2
       DataController.Summary.FooterSummaryItems = <
         item
           Kind = skSum
-          Column = cxGrid2spGridDBBandedTableView1SaleQty
         end>
       DataController.Summary.SummaryGroups = <>
       OptionsView.GroupByBox = False
@@ -81,23 +78,15 @@ object Form2: TForm2
         end
         item
           Caption = #25972#25903
-          Width = 507
+          Width = 242
         end
         item
           Caption = #38646#22836
           Width = 346
         end
         item
-          Caption = #25955#21098
-          Width = 213
-        end
-        item
-          Caption = #23454#38469#38144#21806
-          Width = 346
-        end
-        item
-          Caption = #23454#38469#20986#24211
-          Width = 301
+          Caption = #23454#38469#20837#24211
+          Width = 477
         end
         item
           Caption = #20854#20182
@@ -126,38 +115,27 @@ object Form2: TForm2
         Position.RowIndex = 0
       end
       object cxGrid2spGridDBBandedTableView1SpecY: TspGridDBBandedColumn
-        Caption = #21253#35013'('#30721'/'#25903')'
         DataBinding.FieldName = 'SpecY'
         HeaderAlignmentHorz = taCenter
-        Width = 115
+        Width = 100
         Position.BandIndex = 1
         Position.ColIndex = 0
         Position.RowIndex = 0
       end
       object cxGrid2spGridDBBandedTableView1SpecM: TspGridDBBandedColumn
-        Caption = #21253#35013'('#31859'/'#25903')'
         DataBinding.FieldName = 'SpecM'
         HeaderAlignmentHorz = taCenter
-        Width = 103
+        Width = 100
         Position.BandIndex = 1
         Position.ColIndex = 1
-        Position.RowIndex = 0
-      end
-      object cxGrid2spGridDBBandedTableView1SpecSale: TspGridDBBandedColumn
-        Caption = #38144#21806'('#30721'/'#25903')'
-        DataBinding.FieldName = 'SpecSaleY'
-        HeaderAlignmentHorz = taCenter
-        Width = 96
-        Position.BandIndex = 1
-        Position.ColIndex = 2
         Position.RowIndex = 0
       end
       object cxGrid2spGridDBBandedTableView1Piece: TspGridDBBandedColumn
         DataBinding.FieldName = 'Piece'
         HeaderAlignmentHorz = taCenter
-        Width = 96
+        Width = 97
         Position.BandIndex = 1
-        Position.ColIndex = 4
+        Position.ColIndex = 2
         Position.RowIndex = 0
       end
       object cxGrid2spGridDBBandedTableView1OddY: TspGridDBBandedColumn
@@ -181,7 +159,7 @@ object Form2: TForm2
         Position.RowIndex = 0
       end
       object cxGrid2spGridDBBandedTableView1OddTotal: TspGridDBBandedColumn
-        Caption = #21512#35745#26126#32454
+        Caption = #38646#22836#21512#35745
         DataBinding.FieldName = 'OddTotal'
         PropertiesClassName = 'TcxOddTextEditProperties'
         Properties.ReadOnly = True
@@ -191,48 +169,42 @@ object Form2: TForm2
         Position.ColIndex = 2
         Position.RowIndex = 0
       end
-      object cxGrid2spGridDBBandedTableView1SpecCut: TspGridDBBandedColumn
-        Caption = #30721'/'#25903
-        DataBinding.FieldName = 'SpecCutY'
-        HeaderAlignmentHorz = taCenter
-        Width = 71
-        Position.BandIndex = 3
-        Position.ColIndex = 0
-        Position.RowIndex = 0
-      end
-      object cxGrid2spGridDBBandedTableView1QtyCut: TspGridDBBandedColumn
-        Caption = #25968#37327
-        DataBinding.FieldName = 'QtyCut'
-        HeaderAlignmentHorz = taCenter
-        Width = 73
-        Position.BandIndex = 3
-        Position.ColIndex = 2
-        Position.RowIndex = 0
-      end
-      object cxGrid2spGridDBBandedTableView1SaleDetail: TspGridDBBandedColumn
-        DataBinding.FieldName = 'SaleDetail'
+      object cxGrid2spGridDBBandedTableView1InDetail: TspGridDBBandedColumn
+        Caption = #20837#24211#26126#32454
+        DataBinding.FieldName = 'InDetail'
         PropertiesClassName = 'TcxOddTextEditProperties'
         HeaderAlignmentHorz = taCenter
         Width = 145
-        Position.BandIndex = 4
+        Position.BandIndex = 3
         Position.ColIndex = 0
         Position.RowIndex = 0
       end
-      object cxGrid2spGridDBBandedTableView1SaleQty: TspGridDBBandedColumn
-        Caption = #25968#37327
-        DataBinding.FieldName = 'SaleQty'
+      object cxGrid2spGridDBBandedTableView1QtyY: TspGridDBBandedColumn
+        DataBinding.FieldName = 'QtyY'
+        PropertiesClassName = 'TcxTextEditProperties'
+        Properties.ReadOnly = True
         HeaderAlignmentHorz = taCenter
-        Width = 82
-        Position.BandIndex = 4
+        Width = 66
+        Position.BandIndex = 3
         Position.ColIndex = 1
+        Position.RowIndex = 0
+      end
+      object cxGrid2spGridDBBandedTableView1QtyM: TspGridDBBandedColumn
+        DataBinding.FieldName = 'QtyM'
+        PropertiesClassName = 'TcxTextEditProperties'
+        Properties.ReadOnly = True
+        HeaderAlignmentHorz = taCenter
+        Width = 64
+        Position.BandIndex = 3
+        Position.ColIndex = 2
         Position.RowIndex = 0
       end
       object cxGrid2spGridDBBandedTableView1Price: TspGridDBBandedColumn
         DataBinding.FieldName = 'Price'
         HeaderAlignmentHorz = taCenter
         Width = 50
-        Position.BandIndex = 4
-        Position.ColIndex = 2
+        Position.BandIndex = 3
+        Position.ColIndex = 3
         Position.RowIndex = 0
       end
       object cxGrid2spGridDBBandedTableView1Amount: TspGridDBBandedColumn
@@ -241,38 +213,8 @@ object Form2: TForm2
         Properties.ReadOnly = True
         HeaderAlignmentHorz = taCenter
         Width = 52
-        Position.BandIndex = 4
-        Position.ColIndex = 3
-        Position.RowIndex = 0
-      end
-      object cxGrid2spGridDBBandedTableView1TotalDetail: TspGridDBBandedColumn
-        DataBinding.FieldName = 'TotalDetail'
-        PropertiesClassName = 'TcxOddTextEditProperties'
-        Properties.ReadOnly = True
-        HeaderAlignmentHorz = taCenter
-        Width = 87
-        Position.BandIndex = 5
-        Position.ColIndex = 0
-        Position.RowIndex = 0
-      end
-      object cxGrid2spGridDBBandedTableView1TotalQtyY: TspGridDBBandedColumn
-        DataBinding.FieldName = 'TotalQtyY'
-        PropertiesClassName = 'TcxTextEditProperties'
-        Properties.ReadOnly = True
-        HeaderAlignmentHorz = taCenter
-        Width = 66
-        Position.BandIndex = 5
-        Position.ColIndex = 1
-        Position.RowIndex = 0
-      end
-      object cxGrid2spGridDBBandedTableView1TotalQtyM: TspGridDBBandedColumn
-        DataBinding.FieldName = 'TotalQtyM'
-        PropertiesClassName = 'TcxTextEditProperties'
-        Properties.ReadOnly = True
-        HeaderAlignmentHorz = taCenter
-        Width = 64
-        Position.BandIndex = 5
-        Position.ColIndex = 2
+        Position.BandIndex = 3
+        Position.ColIndex = 4
         Position.RowIndex = 0
       end
       object cxGrid2spGridDBBandedTableView1TotalPiece: TspGridDBBandedColumn
@@ -281,26 +223,8 @@ object Form2: TForm2
         Properties.ReadOnly = True
         HeaderAlignmentHorz = taCenter
         Width = 64
-        Position.BandIndex = 5
-        Position.ColIndex = 3
-        Position.RowIndex = 0
-      end
-      object cxGrid2spGridDBBandedTableView1SpecSaleM: TspGridDBBandedColumn
-        Caption = #38144#21806'('#31859'/'#25903')'
-        DataBinding.FieldName = 'SpecSaleM'
-        HeaderAlignmentHorz = taCenter
-        Width = 105
-        Position.BandIndex = 1
-        Position.ColIndex = 3
-        Position.RowIndex = 0
-      end
-      object cxGrid2spGridDBBandedTableView1SpecCutM: TspGridDBBandedColumn
-        Caption = #31859'/'#25903
-        DataBinding.FieldName = 'SpecCutM'
-        HeaderAlignmentHorz = taCenter
-        Width = 68
         Position.BandIndex = 3
-        Position.ColIndex = 1
+        Position.ColIndex = 5
         Position.RowIndex = 0
       end
     end
@@ -397,6 +321,7 @@ object Form2: TForm2
         NumericScale = 0
         DisplayWidth = 10
         DisplayLabel = #21333#20301
+        GridViewOptions.CommonValidatations = []
         IsAutoGen = False
       end
       item
@@ -407,6 +332,7 @@ object Form2: TForm2
         Alignment = taRightJustify
         DisplayWidth = 10
         DisplayLabel = #30721'/'#25903
+        GridViewOptions.CommonValidatations = []
         IsAutoGen = False
       end
       item
@@ -417,6 +343,7 @@ object Form2: TForm2
         Alignment = taRightJustify
         DisplayWidth = 10
         DisplayLabel = #31859'/'#25903
+        GridViewOptions.CommonValidatations = []
         IsAutoGen = False
       end
       item
@@ -427,6 +354,7 @@ object Form2: TForm2
         Alignment = taRightJustify
         DisplayWidth = 10
         DisplayLabel = #25972#25903#25968
+        GridViewOptions.CommonValidatations = []
         IsAutoGen = False
       end
       item
@@ -437,6 +365,7 @@ object Form2: TForm2
         NumericScale = 0
         DisplayWidth = 100
         DisplayLabel = #38646#22836#30721#26126#32454
+        GridViewOptions.CommonValidatations = []
         IsAutoGen = False
       end
       item
@@ -447,6 +376,7 @@ object Form2: TForm2
         NumericScale = 0
         DisplayWidth = 200
         DisplayLabel = #38646#22836#31859#26126#32454
+        GridViewOptions.CommonValidatations = []
         IsAutoGen = False
       end
       item
@@ -457,6 +387,7 @@ object Form2: TForm2
         NumericScale = 0
         DisplayWidth = 200
         DisplayLabel = #38646#22836#21512#35745#26126#32454
+        GridViewOptions.CommonValidatations = []
         IsAutoGen = False
       end
       item
@@ -467,6 +398,7 @@ object Form2: TForm2
         NumericScale = 0
         DisplayWidth = 200
         DisplayLabel = #38144#21806#26126#32454
+        GridViewOptions.CommonValidatations = []
         IsAutoGen = False
       end
       item
@@ -477,6 +409,7 @@ object Form2: TForm2
         Alignment = taRightJustify
         DisplayWidth = 10
         DisplayLabel = #24635#30721#25968
+        GridViewOptions.CommonValidatations = []
         IsAutoGen = False
       end
       item
@@ -487,6 +420,7 @@ object Form2: TForm2
         Alignment = taRightJustify
         DisplayWidth = 10
         DisplayLabel = #24635#31859#25968
+        GridViewOptions.CommonValidatations = []
         IsAutoGen = False
       end
       item
@@ -497,6 +431,7 @@ object Form2: TForm2
         Alignment = taRightJustify
         DisplayWidth = 10
         DisplayLabel = #21333#20215
+        GridViewOptions.CommonValidatations = []
         IsAutoGen = False
       end
       item
@@ -507,6 +442,7 @@ object Form2: TForm2
         Alignment = taRightJustify
         DisplayWidth = 10
         DisplayLabel = #37329#39069
+        GridViewOptions.CommonValidatations = []
         IsAutoGen = False
       end
       item
@@ -517,6 +453,7 @@ object Form2: TForm2
         Alignment = taRightJustify
         DisplayWidth = 10
         DisplayLabel = #24635#20214#25968
+        GridViewOptions.CommonValidatations = []
         IsAutoGen = False
       end>
     LinkedComponents = <>

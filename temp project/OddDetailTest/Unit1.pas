@@ -55,38 +55,38 @@ begin
   end;
   Memo1.Lines.Clear;
   Memo1.Lines.Add(od.ToString);
-  Memo1.Lines.Add(od.ToString(ouMetre, 4));
+  Memo1.Lines.Add(od.ToString(Metre, 4));
 
   Memo1.Lines.Add(od.ToStringWithUnit);
-  Memo1.Lines.Add(od.ToStringWithUnit(ouMetre, 4));
+  Memo1.Lines.Add(od.ToStringWithUnit(Metre, 4));
 
   Memo1.Lines.Add(od.TotalPieces.ToString);
-  Memo1.Lines.Add(od.TotalQty[ouYard].ToString+'ย๋');
-  Memo1.Lines.Add(od.TotalQty[ouMetre].ToString+'รื');
+  Memo1.Lines.Add(od.TotalQty[Yard].ToString+'ย๋');
+  Memo1.Lines.Add(od.TotalQty[Metre].ToString+'รื');
 
   Memo1.Lines.Add('--Begin Append--');
-  od.Append(ParseOD('2*30', ouMetre));
+  od.Append(ParseOD('2*30', Metre));
   Memo1.Lines.Add(od.ToString);
   Memo1.Lines.Add('--End Append--');
 
-  od.ConvertTo(ouMetre);
+  od.ConvertTo(Metre);
 
   Memo1.Lines.Add(od.ToString);
-  Memo1.Lines.Add(od.ToString(ouYard));
+  Memo1.Lines.Add(od.ToString(Yard));
 
   Memo1.Lines.Add(od.ToStringWithUnit);
-  Memo1.Lines.Add(od.ToStringWithUnit(ouYard));
+  Memo1.Lines.Add(od.ToStringWithUnit(Yard));
 
   Memo1.Lines.Add(od.TotalPieces.ToString);
-  Memo1.Lines.Add(od.TotalQty[ouMetre].ToString+'รื');
-  Memo1.Lines.Add(od.TotalQty[ouYard].ToString+'ย๋');
+  Memo1.Lines.Add(od.TotalQty[Metre].ToString+'รื');
+  Memo1.Lines.Add(od.TotalQty[Yard].ToString+'ย๋');
 
 
-  od.Append(ParseOD('3*30', ouMetre)).Merge;
+  od.Append(ParseOD('3*30', Metre)).Merge;
   Memo1.Lines.Add('--Merge--');
   Memo1.Lines.Add(od.ToString);
-  Memo1.Lines.Add(od.ToString(ouYard));
-  Memo1.Lines.Add(od.TotalQty[ouYard].ToString+'ย๋');
+  Memo1.Lines.Add(od.ToString(Yard));
+  Memo1.Lines.Add(od.TotalQty[Yard].ToString+'ย๋');
 end;
 
 end.

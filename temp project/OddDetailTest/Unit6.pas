@@ -49,23 +49,16 @@ type
     cxGrid2spGridDBBandedTableView1Unit: TspGridDBBandedColumn;
     cxGrid2spGridDBBandedTableView1SpecY: TspGridDBBandedColumn;
     cxGrid2spGridDBBandedTableView1SpecM: TspGridDBBandedColumn;
-    cxGrid2spGridDBBandedTableView1SpecSale: TspGridDBBandedColumn;
     cxGrid2spGridDBBandedTableView1Piece: TspGridDBBandedColumn;
     cxGrid2spGridDBBandedTableView1OddY: TspGridDBBandedColumn;
     cxGrid2spGridDBBandedTableView1OddM: TspGridDBBandedColumn;
     cxGrid2spGridDBBandedTableView1OddTotal: TspGridDBBandedColumn;
-    cxGrid2spGridDBBandedTableView1SpecCut: TspGridDBBandedColumn;
-    cxGrid2spGridDBBandedTableView1QtyCut: TspGridDBBandedColumn;
-    cxGrid2spGridDBBandedTableView1SaleDetail: TspGridDBBandedColumn;
-    cxGrid2spGridDBBandedTableView1SaleQty: TspGridDBBandedColumn;
+    cxGrid2spGridDBBandedTableView1InDetail: TspGridDBBandedColumn;
     cxGrid2spGridDBBandedTableView1Price: TspGridDBBandedColumn;
     cxGrid2spGridDBBandedTableView1Amount: TspGridDBBandedColumn;
-    cxGrid2spGridDBBandedTableView1TotalDetail: TspGridDBBandedColumn;
-    cxGrid2spGridDBBandedTableView1TotalQtyY: TspGridDBBandedColumn;
-    cxGrid2spGridDBBandedTableView1TotalQtyM: TspGridDBBandedColumn;
+    cxGrid2spGridDBBandedTableView1QtyY: TspGridDBBandedColumn;
+    cxGrid2spGridDBBandedTableView1QtyM: TspGridDBBandedColumn;
     cxGrid2spGridDBBandedTableView1TotalPiece: TspGridDBBandedColumn;
-    cxGrid2spGridDBBandedTableView1SpecSaleM: TspGridDBBandedColumn;
-    cxGrid2spGridDBBandedTableView1SpecCutM: TspGridDBBandedColumn;
     ClientDataSet1Unit: TspStringField;
     ClientDataSet1SpecY: TspFloatField;
     ClientDataSet1SpecM: TspFloatField;
@@ -152,11 +145,12 @@ var
   odRoll: IOddDetail;//整支
   odOddY: IOddDetail;//零头码明细
   odOddM: IOddDetail;//零头米明细
-  odIn: IOddDetail;//入库明细
+  odOddTotal: IOddDetail;//零头合计明细
+  odInDetail: IOddDetail;//入库明细
 
   procedure CalcAmount;
   begin
-    case AUnit of
+    case AUnit.Value of
       ouRoll:  DataSet['Amount'] := RoundTo(DataSet.FieldByName('Piece').AsFloat  *DataSet.FieldByName('Price').AsFloat, -2);
       ouYard:  DataSet['Amount'] := RoundTo(DataSet.FieldByName('QtyY').AsFloat*DataSet.FieldByName('Price').AsFloat, -2);
       ouMetre: DataSet['Amount'] := RoundTo(DataSet.FieldByName('QtyM').AsFloat*DataSet.FieldByName('Price').AsFloat, -2);
@@ -181,7 +175,7 @@ begin
     if SameText(Field.FieldName, 'Unit') then
       PreventFieldChange(procedure
       begin
-        if AUnit = ouRoll then begin
+        if AUnit = Roll then begin
           DataSet['OddY'] := null;
           DataSet['OddM'] := null;
         end;
@@ -189,25 +183,27 @@ begin
     if SameText(Field.FieldName, 'SpecY') then
       PreventFieldChange(procedure
       begin
-        DataSet['SpecM'] := RoundTo(ouYard.ConvertValueTo(ouMetre, Field.AsFloat), -2);
+        DataSet['SpecM'] := RoundTo(Yard.ConvertValueTo(Metre, Field.AsFloat), -2);
       end);
     if SameText(Field.FieldName, 'SpecM') then
       PreventFieldChange(procedure
       begin
-        DataSet['SpecY'] := RoundTo(ouMetre.ConvertValueTo(ouYard, Field.AsFloat), -2);
+        DataSet['SpecY'] := RoundTo(Metre.ConvertValueTo(Yard, Field.AsFloat), -2);
       end);
     odRoll  := NewOD(AUnit);
-    if AUnit.ToLengthUnit = ouMetre then
+    if AUnit.ToLengthUnit = Metre then
       odRoll.Add(DataSet.FieldByName('Piece').AsInteger, DataSet.FieldByName('SpecM').AsFloat)
     else
       odRoll.Add(DataSet.FieldByName('Piece').AsInteger, DataSet.FieldByName('SpecY').AsFloat);
-    odOddY  := ParseOD(DataSet.FieldByName('OddY').AsString, ouYard);
-    odOddM  := ParseOD(DataSet.FieldByName('OddM').AsString, ouMetre);
-    odIn := NewOD(AUnit).Append(odRoll).Append(odOddY).Append(odOddM);
-    DataSet['InDetail'] := odIn.ToString;
-    DataSet['QtyY']   := RoundTo(odIn.TotalQty[ouYard], -2);
-    DataSet['QtyM']   := RoundTo(odIn.TotalQty[ouMetre], -2);
-    DataSet['TotalPiece']  := odIn.TotalPieces;
+    odOddY  := ParseOD(DataSet.FieldByName('OddY').AsString, Yard);
+    odOddM  := ParseOD(DataSet.FieldByName('OddM').AsString, Metre);
+    odOddTotal := NewOD(AUnit).Append(odOddY).Append(odOddM);
+    odInDetail := NewOD(AUnit).Append(odRoll).Append(odOddTotal);
+    DataSet['OddTotal'] := odOddTotal.ToString;
+    DataSet['InDetail'] := odInDetail.ToString;
+    DataSet['QtyY']   := RoundTo(odInDetail.TotalQty[Yard], -2);
+    DataSet['QtyM']   := RoundTo(odInDetail.TotalQty[Metre], -2);
+    DataSet['TotalPiece']  := odInDetail.TotalPieces;
     CalcAmount;
   end;
 
@@ -231,7 +227,7 @@ procedure TForm2.cxGrid2spGridDBBandedTableView1EditKeyPress(
   Sender: TcxCustomGridTableView; AItem: TcxCustomGridTableItem;
   AEdit: TcxCustomEdit; var Key: Char);
 begin
-  if (TOddUnit.ParseDef(ClientDataSet1.FieldByName('Unit').AsString) = ouRoll) and
+  if (TOddUnit.ParseDef(ClientDataSet1.FieldByName('Unit').AsString) = Roll) and
     SameTextEx((AItem as TspGridDBBandedColumn).DataBinding.FieldName, ['OddY', 'OddM', 'QtyCut', 'SpecCutY', 'SpecCutM'])
   then begin
     Key := #0;
@@ -271,6 +267,7 @@ procedure TForm2.ClientDataSet1BeforeOpen(DataSet: TDataSet);
 begin
   ClientDataSet1.FieldByName('OddY').OnGetText := ClientDataSet1OddFieldGetText;
   ClientDataSet1.FieldByName('OddM').OnGetText := ClientDataSet1OddFieldGetText;
+  ClientDataSet1.FieldByName('OddTotal').OnGetText := ClientDataSet1OddFieldGetText;
   ClientDataSet1.FieldByName('InDetail').OnGetText := ClientDataSet1OddFieldGetText;
 
   ClientDataSet1.FieldByName('Price').OnGetText := ClientDataSet1PriceGetText;
@@ -288,10 +285,10 @@ var
   AUnit: TOddUnit;
 begin
   if SameTextEx(Sender.FieldName, ['OddY']) then
-    AUnit := ouYard else
+    AUnit := Yard else
   if SameTextEx(Sender.FieldName, ['OddM']) then
-    AUnit := ouMetre else
-  if SameTextEx(Sender.FieldName, ['InDetail']) then
+    AUnit := Metre else
+  if SameTextEx(Sender.FieldName, ['InDetail', 'OddTotal']) then
     AUnit := TOddUnit.ParseDef(Sender.DataSet.FieldByName('Unit').AsString);
   Text := GetOddFieldTextWithUnit(Sender, DisplayText, AUnit);
 end;
@@ -308,9 +305,9 @@ var
   AUnit: TOddUnit;
 begin
   if SameTextEx(Sender.FieldName, ['SpecY']) then
-    AUnit := ouYard else
+    AUnit := Yard else
   if SameTextEx(Sender.FieldName, ['SpecM']) then
-    AUnit := ouMetre;
+    AUnit := Metre;
   Text := GetSpecFieldTextWithUnit(Sender, DisplayText, AUnit);
 end;
 
@@ -320,9 +317,9 @@ var
   AUnit: TOddUnit;
 begin
   if SameTextEx(Sender.FieldName, ['QtyY']) then
-    AUnit := ouYard else
+    AUnit := Yard else
   if SameTextEx(Sender.FieldName, ['QtyM']) then
-    AUnit := ouMetre; //else
+    AUnit := Metre; //else
   //if SameTextEx(Sender.FieldName, ['InDetail']) then
     //AUnit := TOddUnit.ParseDef(Sender.DataSet.FieldByName('Unit').AsString);
   Text := GetQtyFieldTextWithUnit(Sender, DisplayText, AUnit);
