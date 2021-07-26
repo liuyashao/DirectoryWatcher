@@ -21,7 +21,6 @@ type
 
   TDirectoryWatcherThreadWindows = class(TThread)
   private
-    FhFile : DWORD;
     FDirectory : String;
     FAction : DWORD;
     FileEvent : THandle;
@@ -74,15 +73,9 @@ end;
 
 destructor TDirectoryWatcherThreadWindows.Destroy;
 begin
-  try  
-    if FhFile <> INVALID_HANDLE_VALUE then 
-      CloseHandle(FhFile);
-
-    CloseHandle(FileEvent);
-    TermEvent.Free;
-    SuspEvent.Free;
-  except
-  end;
+  CloseHandle(FileEvent);
+  TermEvent.Free;
+  SuspEvent.Free;
   FEventTriggerThread.Free;
   inherited;
 end;
@@ -101,66 +94,71 @@ var
   FileName : String;
   HandleAsString: String;
   FilePath: String;
+  hFile : THandle;
 begin
   FEventTriggerThread.Start;
 
-  FhFile := CreateFile(PChar(FDirectory),
+  hFile := CreateFile(PChar(FDirectory),
                       FILE_LIST_DIRECTORY or GENERIC_READ,
                       FILE_SHARE_READ or FILE_SHARE_WRITE or FILE_SHARE_DELETE,
                       Nil,
                       OPEN_EXISTING,FILE_FLAG_BACKUP_SEMANTICS or FILE_FLAG_OVERLAPPED,
                       0);
 
-  if (FhFile = INVALID_HANDLE_VALUE) or (FhFile = 0) then 
+  if (hFile = INVALID_HANDLE_VALUE) or (hFile = 0) then
     Exit;
 
-  FileEvent := CreateEvent(Nil, False, False, Nil);
-  Overlap.hEvent := FileEvent;
-
-  HandleAsString := IntToStr(Handle);
-  TermEvent := TEvent.Create(Nil, False, False, HandleAsString + 'N');
-  SuspEvent := TEvent.Create(Nil, False, False, HandleAsString + 'W');
-
-  EventArray[0] := FileEvent;
-  EventArray[1] := TermEvent.Handle;
-  EventArray[2] := SuspEvent.Handle;
-
-  dwBufLen := 65535;
-  pBuffer := AllocMem(dwBufLen);
   try
-    while not Terminated do 
-    begin
-      dwRead:=0;
-      if ReadDirectoryChangesW(FhFile, pBuffer, dwBufLen, FWatchSubtree,
-                               FFilter, @dwRead, @Overlap, Nil) then
-      begin
-        WaitResult := WaitForMultipleObjects(Length(EventArray), @EventArray, False, INFINITE);
-        
-        case WaitResult of
-          WaitDir: 
-          begin
-            PInfo := pBuffer;
-            repeat
-              dwNextOfs := PInfo.dwNextEntryOffset;
-              fAction := PInfo.dwAction;
-              dwFnLen := PInfo.dwFileNameLength;
-              FileName := String(WideCharLenToString(@PInfo.dwFileName, dwFnLen div 2));
-              FilePath := FDirectory + FileName; 
-              if not DirectoryExists(FilePath) then
-                FEventTriggerThread.EnqueueEvent(FilePath, ActionIDToEventType(FAction));
+    FileEvent := CreateEvent(Nil, False, False, Nil);
+    Overlap.hEvent := FileEvent;
 
-              PChar(PInfo) := PChar(PInfo) + dwNextOfs;
-            until dwNextOfs = 0;
+    HandleAsString := IntToStr(Handle);
+    TermEvent := TEvent.Create(Nil, False, False, HandleAsString + 'N');
+    SuspEvent := TEvent.Create(Nil, False, False, HandleAsString + 'W');
+
+    EventArray[0] := FileEvent;
+    EventArray[1] := TermEvent.Handle;
+    EventArray[2] := SuspEvent.Handle;
+
+    dwBufLen := 65535;
+    pBuffer := AllocMem(dwBufLen);
+    try
+      while not Terminated do
+      begin
+        dwRead:=0;
+        if ReadDirectoryChangesW(hFile, pBuffer, dwBufLen, FWatchSubtree,
+                                 FFilter, @dwRead, @Overlap, Nil) then
+        begin
+          WaitResult := WaitForMultipleObjects(Length(EventArray), @EventArray, False, INFINITE);
+        
+          case WaitResult of
+            WaitDir:
+            begin
+              PInfo := pBuffer;
+              repeat
+                dwNextOfs := PInfo.dwNextEntryOffset;
+                fAction := PInfo.dwAction;
+                dwFnLen := PInfo.dwFileNameLength;
+                FileName := String(WideCharLenToString(@PInfo.dwFileName, dwFnLen div 2));
+                FilePath := FDirectory + FileName;
+                if not DirectoryExists(FilePath) then
+                  FEventTriggerThread.EnqueueEvent(FilePath, ActionIDToEventType(FAction));
+
+                PChar(PInfo) := PChar(PInfo) + dwNextOfs;
+              until dwNextOfs = 0;
+            end;
+            WaitTerm: Terminate;
+            WaitSusp: Terminate;
+            else
+              Break;
           end;
-          WaitTerm: Terminate;
-          WaitSusp: Terminate;
-          else 
-            Break;
         end;
       end;
+    finally
+      FreeMem(pBuffer, dwBufLen);
     end;
   finally
-    FreeMem(pBuffer, dwBufLen);
+    CloseHandle(hFile);
   end;
 end;
 
